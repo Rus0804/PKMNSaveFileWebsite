@@ -1,0 +1,119 @@
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request, Form
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from typing import Dict
+from parser import parse_save_file
+from encounter import load_encounter_data
+from login_auth import get_user_db, login, LoginRequest, update_save, signup
+
+app = FastAPI()
+
+# Enable CORS for frontend connection
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.post("/signup")
+async def set_signup(request: LoginRequest):
+    return signup(request)
+
+@app.post("/login")
+def set_login(request: LoginRequest):
+    return login(request)
+
+@app.get("/saves")
+def get_user_saves(request: Request):
+    token = request.headers.get("authorization")
+    if not token or not token.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid token")
+    token = token[7:]
+    user_db = get_user_db(token)
+
+    try:
+        response = user_db.from_("Saves").select("id, filename, save_data, updated_at").execute()
+        return response.data
+    except Exception as e:
+        print("Error fetching saves:", e)
+        raise HTTPException(status_code=500, detail="Supabase error")
+
+@app.post("/saves/new")
+def create_new_save(request: Request):
+    token = request.headers.get("authorization")
+    if not token or not token.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid token")
+    token = token[7:]
+    user_db = get_user_db(token)
+
+    try:
+        response = user_db.from_("Saves").insert({
+            "filename": "Untitled Save"
+        }).execute()
+
+        new_save = response.data[0]
+        return {"id": new_save["id"], "filename": new_save["filename"]}
+    except Exception as e:
+        print("Exception:", e)
+        raise HTTPException(status_code=500, detail=f"Failed to create save: {str(e)}")
+
+class RenameRequest(BaseModel):
+    filename: str
+
+@app.patch("/saves/{save_id}")
+def rename_save(save_id: int, data: RenameRequest, request: Request):
+    col = 'filename'
+    value = data.filename
+    return update_save(save_id, col, value, request)
+    
+@app.delete("/saves/{save_id}")
+def delete_save(save_id: int, request: Request):
+    token = request.headers.get("authorization")
+    if not token or not token.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid token")
+    token = token[7:]
+    user_db = get_user_db(token)
+
+    try:
+        response = user_db.from_("Saves").delete().eq("id", save_id).execute()
+        print("Delete response:", response.data)
+        return {"status": "success"}
+    except Exception as e:
+        print("Deletion error:", e)
+        raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
+    
+
+# Encounter and Upload remain unchanged
+encounter_data: Dict[str, Dict[str, Dict[str, list]]] = {}
+
+@app.on_event('startup')
+def startup_event():
+    global encounter_data
+    encounter_data = load_encounter_data(encounter_data)
+
+@app.get("/encounters")
+def get_encounters():
+    global encounter_data
+    return encounter_data
+
+@app.post("/upload")
+async def upload_file(request: Request, save_id: int = Form(...), file: UploadFile = File(...)):
+    contents = await file.read()
+    col = 'save_data'
+    
+    result = parse_save_file(contents)
+    if result == "SaveFileError":
+        result = {"detail": "SaveFileError"}
+
+    try:
+        update_save(save_id, col, result, request)
+    except Exception as e:
+        print("error: ",e)
+        raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
+    
+    print('updated')
+    return JSONResponse(content=result)
