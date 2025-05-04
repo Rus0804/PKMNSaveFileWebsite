@@ -6,7 +6,7 @@ function HomePage({ token, onSelectSave }) {
   const [error, setError] = useState("");
 
   const fetchSaves = () => {
-    fetch("http://localhost:8000/saves", {
+    fetch("https://pkmnsavefilewebsite.onrender.com/saves", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -27,7 +27,7 @@ function HomePage({ token, onSelectSave }) {
   });
 
   const handleCreateNew = () => {
-    fetch("http://localhost:8000/saves/new", {
+    fetch("https://pkmnsavefilewebsite.onrender.com/saves/new", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ function HomePage({ token, onSelectSave }) {
 
   const handleDelete = (id) => {
     if (!window.confirm("Are you sure you want to delete this save?")) return;
-    fetch(`http://localhost:8000/saves/${id}`, {
+    fetch(`https://pkmnsavefilewebsite.onrender.com/saves/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ function HomePage({ token, onSelectSave }) {
   const handleRename = (id) => {
     const newName = window.prompt("Enter new filename:");
     if (!newName) return;
-    fetch(`http://localhost:8000/saves/${id}`, {
+    fetch(`https://pkmnsavefilewebsite.onrender.com/saves/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,

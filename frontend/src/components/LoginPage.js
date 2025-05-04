@@ -13,7 +13,7 @@ function LoginPage({ onLogin }) {
 
     const endpoint = isSignup ? 'signup' : 'login';
 
-    const response = await fetch(`http://localhost:8000/${endpoint}`, {
+    const response = await fetch(`https://pkmnsavefilewebsite.onrender.com/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

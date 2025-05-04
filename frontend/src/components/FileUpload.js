@@ -13,7 +13,7 @@ function FileUpload({ saveId, token, onUpload }) {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/upload/', {
+      const response = await fetch('https://pkmnsavefilewebsite.onrender.com/upload/', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

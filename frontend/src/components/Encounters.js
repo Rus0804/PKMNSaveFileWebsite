@@ -23,7 +23,7 @@ const EncounterViewer = ({ game, party, pc }) => {
   useEffect(() => {
     const fetchEncounters = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/encounters`);
+        const response = await axios.get(`https://pkmnsavefilewebsite.onrender.com/encounters`);
         setEncounters(response.data);
       } catch (error) {
         console.error("Failed to fetch encounters:", error);
