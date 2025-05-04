@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from supabase import create_client, Client, ClientOptions
 import os
 
-url = os.environment.get("SUPABASE_URL")
-key = os.environment.get("SUPABASE_KEY")
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
 db: Client = create_client(url, key)  # Global root client (admin)
 
 class LoginRequest(BaseModel):
