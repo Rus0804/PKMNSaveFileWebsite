@@ -4,3 +4,4 @@ pandas
 pydantic
 supabase
 python-multipart
+openpyxl
