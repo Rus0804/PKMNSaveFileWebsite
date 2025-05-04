@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './PCBoxes.css'; // Make sure to create this stylesheet
+import React from 'react';
+import './PCBoxes.css';
 
 function PCBoxes({ boxes, onCardClick}) {
   

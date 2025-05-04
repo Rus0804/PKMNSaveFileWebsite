@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Sidebar.css';
 import {move_data} from './move_data.js';
 
@@ -61,7 +61,7 @@ const Sidebar = ({ pokemon, closeSidebar }) => {
           
           {Object.values(pokemon.moves).map((move_id, i) => {
             var move_name;
-            if (move_id!=0){
+            if (move_id!==0){
               move_name = move_data[move_id]["name"]
             }
             else{

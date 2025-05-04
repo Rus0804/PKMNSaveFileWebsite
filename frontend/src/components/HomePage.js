@@ -24,7 +24,7 @@ function HomePage({ token, onSelectSave }) {
 
   useEffect(() => {
     fetchSaves();
-  }, [token]);
+  });
 
   const handleCreateNew = () => {
     fetch("http://localhost:8000/saves/new", {
