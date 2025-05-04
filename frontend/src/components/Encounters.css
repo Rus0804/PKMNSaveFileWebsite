@@ -1,0 +1,114 @@
+.encounter-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: sans-serif;
+  }
+  
+  .game-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #2d6a4f;
+    margin-bottom: 30px;
+  }
+  
+  .method-card {
+    background: #f0f8f5;
+    border: 1px solid #b7e4c7;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .method-title {
+    font-size: 1.5rem;
+    color: #1b4332;
+    margin-bottom: 15px;
+  }
+  
+  .area-block {
+    margin-bottom: 20px;
+  }
+  
+  .area-title {
+    font-size: 1.2rem;
+    color: #40916c;
+    margin-bottom: 10px;
+  }
+  
+  .encounter-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  
+  .encounter-table th,
+  .encounter-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  .even-row {
+    background-color: #ffffff;
+  }
+  
+  .odd-row {
+    background-color: #f6f6f6;
+  }
+  
+  /* CSS for encounter table rows */
+.encounter-table tr {
+  transition: background-color 0.3s ease;
+}
+
+.encounter-table .even-row {
+  background-color: #f9f9f9;
+}
+
+.encounter-table .odd-row {
+  background-color: #f1f1f1;
+}
+
+.encounter-table tr:hover {
+  background-color: #ddd; /* optional hover effect */
+}
+
+
+.search-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.search-input,
+.filter-dropdown {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+
+
+.loading,
+.error {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.encounter-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.encounter-filters input,
+.encounter-filters select {
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+}

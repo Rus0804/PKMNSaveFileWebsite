@@ -1,0 +1,51 @@
+/* Party List grid styling */
+.party-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.pokemon-card {
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  text-align: center;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.pokemon-card:hover {
+  transform: scale(1.05); /* Hover effect */
+}
+
+.party-sprite {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+.empty-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-color: #ddd;
+  border-radius: 0.5rem;
+}
+
+
+h3 {
+  margin-top: 1rem;
+}
+
+.pokemon-card h3 {
+  margin: 4px 0;
+  font-size: 16px;
+}
+
+.pokemon-card p {
+  margin: 2px 0; /* Reduce vertical spacing between lines */
+}

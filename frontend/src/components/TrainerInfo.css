@@ -1,0 +1,67 @@
+.trainer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.trainer-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.trainer-sprite {
+  width: 160px;
+  height: 160px;
+  image-rendering: pixelated;
+  border: 3px solid #ccc;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.trainer-details {
+  text-align: center;
+}
+
+.trainer-details p {
+  margin: 0.4rem 0;
+  font-size: 1.1rem;
+}
+
+h2, h3 {
+  margin: 0.5rem 0;
+}
+
+.badges-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.badge-icon {
+  width: 40px;
+  height: 40px;
+  opacity: 0.3;
+  transition: opacity 0.2s ease-in-out, transform 0.2s;
+  cursor: pointer;
+}
+
+.badge-icon.earned {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.badge-icon:hover {
+  transform: scale(1.15);
+}

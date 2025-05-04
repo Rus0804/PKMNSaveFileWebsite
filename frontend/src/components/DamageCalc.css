@@ -1,0 +1,31 @@
+.damage-calc-container {
+    padding: 20px;
+  }
+  
+  .panels-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .panel {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .calculate-section {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .result {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  

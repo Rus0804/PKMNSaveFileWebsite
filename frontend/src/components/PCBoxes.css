@@ -1,0 +1,60 @@
+.pc-box {
+  margin-bottom: 2rem;
+}
+
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+}
+
+.pc-card {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out; /* Smooth transition for expansion */
+  cursor: pointer; /* Indicate the card is clickable */
+  line-height: 1.2; /* tighter line spacing */
+}
+
+.pc-card:hover {
+  transform: scale(1.05); /* Expand the card slightly on hover */
+  z-index: 10; /* Bring the card to the front */
+}
+
+.pc-sprite {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  margin-bottom: 0.25rem;
+}
+
+.pc-box {
+  margin-bottom: 2rem;
+}
+
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+}
+
+.pc-card p {
+  margin: 2px 0; /* reduce vertical spacing between lines */
+}
+
+.pc-card h3 {
+  margin: 4px 0;
+  font-size: 0.95rem;
+}
+
+.pc-card h4 {
+  font-size: 1.25rem;
+  margin: 4px 0;
+}

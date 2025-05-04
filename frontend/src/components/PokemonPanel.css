@@ -1,0 +1,85 @@
+.pokemon-panel {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .pokemon-panel h2 {
+    margin-bottom: 10px;
+  }
+  
+  .pokemon-panel label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .pokemon-panel select,
+  .pokemon-panel input[type="number"] {
+    margin-top: 5px;
+    padding: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+  }
+  
+  .level-nature {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .stats-table {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  .stats-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+  }
+  
+  .stats-table th,
+  .stats-table td {
+    padding: 6px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  
+  .move-selectors {
+    margin-top: 20px;
+  }
+  
+  .move-selectors select {
+    margin-bottom: 10px;
+  }
+  
+  .sprite-container {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .sprite-container img {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+  }
+
+  .move-slot {
+    margin-bottom: 10px;
+  }
+  
+  .move-info {
+    margin-left: 10px;
+    font-size: 0.9em;
+    color: #333;
+  }
+  
+  
