@@ -1,4 +1,8 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
 [[redirects]]
   from = "/*"
-  to = "frontend/src/index.js"
+  to = "/index.html"
   status = 200
