@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./HomePage.css";
 
 function HomePage({ token, onSelectSave }) {
   const [saves, setSaves] = useState([]);
   const [error, setError] = useState("");
-  const fetchSaves = () => {
-    fetch(process.env.REACT_APP_PROD+"/saves", {
+  const fetchSaves = useCallback(() => {
+    fetch(`${process.env.REACT_APP_PROD}/saves`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -19,11 +19,11 @@ function HomePage({ token, onSelectSave }) {
       })
       .then((data) => setSaves(data))
       .catch((err) => setError(err.message));
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchSaves();
-  }, []);
+  }, [fetchSaves]);
 
   const handleCreateNew = () => {
     fetch(process.env.REACT_APP_PROD+"/saves/new", {
