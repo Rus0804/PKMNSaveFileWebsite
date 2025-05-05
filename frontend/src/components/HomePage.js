@@ -4,9 +4,8 @@ import "./HomePage.css";
 function HomePage({ token, onSelectSave }) {
   const [saves, setSaves] = useState([]);
   const [error, setError] = useState("");
-
   const fetchSaves = () => {
-    fetch("https://pkmnsavefilewebsite.onrender.com/saves", {
+    fetch(process.env.REACT_APP_PROD+"/saves", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -24,10 +23,10 @@ function HomePage({ token, onSelectSave }) {
 
   useEffect(() => {
     fetchSaves();
-  });
+  }, []);
 
   const handleCreateNew = () => {
-    fetch("https://pkmnsavefilewebsite.onrender.com/saves/new", {
+    fetch(process.env.REACT_APP_PROD+"/saves/new", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -43,7 +42,7 @@ function HomePage({ token, onSelectSave }) {
 
   const handleDelete = (id) => {
     if (!window.confirm("Are you sure you want to delete this save?")) return;
-    fetch(`https://pkmnsavefilewebsite.onrender.com/saves/${id}`, {
+    fetch(`${process.env.REACT_APP_PROD}/saves/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,7 +58,7 @@ function HomePage({ token, onSelectSave }) {
   const handleRename = (id) => {
     const newName = window.prompt("Enter new filename:");
     if (!newName) return;
-    fetch(`https://pkmnsavefilewebsite.onrender.com/saves/${id}`, {
+    fetch(`${process.env.REACT_APP_PROD}/saves/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -71,7 +70,7 @@ function HomePage({ token, onSelectSave }) {
         if (!res.ok) throw new Error("Failed to rename save");
         return res.json();
       })
-      .then(() => fetchSaves()) // Refresh after renaming
+      .then(() => fetchSaves()) 
       .catch((err) => setError(err.message));
   };
 
@@ -83,16 +82,6 @@ function HomePage({ token, onSelectSave }) {
     <div className="home-container">
       <div className="home-header">
         <h2>Your Save Files</h2>
-        <button
-          className="logout-button"
-          onClick={() => {
-            localStorage.removeItem("user");
-            localStorage.removeItem("access_token");
-            window.location.reload();
-          }}
-        >
-          Log out
-        </button>
       </div>
 
       {error && <p className="error-message">{error}</p>}

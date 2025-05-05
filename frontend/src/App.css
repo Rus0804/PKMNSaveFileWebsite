@@ -82,3 +82,104 @@ p {
     margin-bottom: 0.5rem;
   }
 }
+
+/* App.module.css */
+
+container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+title {
+  text-align: center;
+  color: #c62828;
+  margin-bottom: 2rem;
+}
+
+button {
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0d47a1;
+}
+
+.versionSelect {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.versionSelect label {
+  font-weight: 600;
+}
+
+.versionSelect select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #f4f4f4;
+  transition: border 0.2s;
+}
+
+.versionSelect select:focus {
+  border-color: #c62828;
+  outline: none;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #1565c0;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.nav a:hover {
+  background-color: #e3f2fd;
+}
+
+.message {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #777;
+  margin-top: 2rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav a {
+    margin-bottom: 0.5rem;
+  }
+}

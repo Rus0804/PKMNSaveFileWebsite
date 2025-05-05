@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Request, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from typing import Dict
+from typing import Dict, Optional
 from parser import parse_save_file
 from encounter import load_encounter_data
 from login_auth import get_user_db, login, LoginRequest, update_save, signup
@@ -101,19 +101,19 @@ def get_encounters():
     return encounter_data
 
 @app.post("/upload")
-async def upload_file(request: Request, save_id: int = Form(...), file: UploadFile = File(...)):
+async def upload_file(request: Request, save_id: Optional[int] = Form(None) , file: UploadFile = File(...)):
     contents = await file.read()
-    col = 'save_data'
     
     result = parse_save_file(contents)
     if result == "SaveFileError":
         result = {"detail": "SaveFileError"}
 
-    try:
-        update_save(save_id, col, result, request)
-    except Exception as e:
-        print("error: ",e)
-        raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
-    
-    print('updated')
+    if save_id:
+        try:   
+            col = 'save_data'
+            update_save(save_id, col, result, request)
+        except Exception as e:
+            print("error: ",e)
+            raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
+        
     return JSONResponse(content=result)

@@ -2,6 +2,12 @@ from fastapi import Header, Request, HTTPException
 from pydantic import BaseModel
 from supabase import create_client, Client, ClientOptions
 import os
+# import dotenv
+
+# dotenv.load_dotenv()
+
+# url = os.getenv("SUPABASE_URL")
+# key = os.getenv("SUPABASE_KEY")
 
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
