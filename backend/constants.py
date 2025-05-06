@@ -57,6 +57,102 @@ NATURE_MODIFIERS = {
 ENCOUNTER_TYPES = ["Land", "Water", "Old Rod", "Good Rod", "Super Rod", "RockSmash"]
 ENCOUNTER_NUMS = {"Land":12, "Water":5, "Old Rod":2, "Good Rod":3, "Super Rod":5, "RockSmash":5}
 ENCOUNTER_DIR = "data/Encounters"
+AREA_ORDER = {
+                "firered":{
+                    "Land":[
+                        
+                    ], 
+                    "Water":[
+
+                    ], 
+                    "Old Rod":[
+
+                    ], 
+                    "Good Rod":[
+
+                    ], 
+                    "Super Rod":[
+
+                    ], 
+                    "RockSmash":[
+                        "Rock Tunnel", "Kindle Road","Mt. Ember Exterior", "Mt. Ember Ruby Path 1F", "Mt. Ember Ruby Path B1F", "Mt. Ember Ruby Path B2F", "Mt. Ember Ruby Path B3F", "Mt. Ember Summit Path 2F","Cerulean Cave 1F","Cerulean Cave 2F","Cerulean Cave B1F"
+                    ]
+                }, 
+                "leafgreen":{
+                    "Land":[
+
+                    ], 
+                    "Water":[
+
+                    ], 
+                    "Old Rod":[
+
+                    ], 
+                    "Good Rod":[
+
+                    ], 
+                    "Super Rod":[
+
+                    ], 
+                    "RockSmash":[
+                        "Rock Tunnel", "Kindle Road","Mt. Ember Exterior", "Mt. Ember Ruby Path 1F", "Mt. Ember Ruby Path B1F", "Mt. Ember Ruby Path B2F", "Mt. Ember Ruby Path B3F", "Mt. Ember Summit Path 2F","Cerulean Cave 1F","Cerulean Cave 2F","Cerulean Cave B1F"
+                    ]
+                }, 
+                "emerald":{
+                    "Land":[
+
+                    ], 
+                    "Water":[
+
+                    ], 
+                    "Old Rod":[
+
+                    ], 
+                    "Good Rod":[
+
+                    ], 
+                    "Super Rod":[
+
+                    ], 
+                    "RockSmash":[
+                        "GRANITE CAVE", "ROUTE 111", "ROUTE 114", "SAFARI ZONE", "SAFARI ZONE", "VICTORY ROAD"
+                    ]
+                }, 
+                "ruby":{
+                    "Land":[
+
+                    ], 
+                    "Water":[
+
+                    ], 
+                    "Old Rod":[
+
+                    ], 
+                    "Good Rod":[
+
+                    ], 
+                    "Super Rod":[
+
+                    ]
+                }, 
+                "sapphire":{
+                    "Land":[
+
+                    ], 
+                    "Water":[
+
+                    ], 
+                    "Old Rod":[
+
+                    ], 
+                    "Good Rod":[
+
+                    ], 
+                    "Super Rod":[
+
+                    ]
+                }
+            }
 
 #for converting to text
 GBA_CHAR_MAP = {i: chr(i) for i in range(256)}
