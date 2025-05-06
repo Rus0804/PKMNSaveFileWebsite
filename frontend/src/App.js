@@ -41,9 +41,11 @@ function App() {
       <h1>Pokémon GBA Save Viewer</h1>
 
       {!user ? (
+        <div className="loginButtonWrapper">
         <button onClick={() => navigate('/login')}>
           Login
         </button>
+      </div>
       ) : (
         <p>
           Logged in as {user}
@@ -93,13 +95,16 @@ function App() {
           path="/*"
           element={
             <>
-              <FileUpload
-                saveId={selectedSave?.id || null}
-                token={token}
-                onUpload={(parsed) => {
-                  setSelectedSave({ id: null, save_data: parsed });
-                }}
-              />
+              <div className='fileUploadwrapper'>
+                <FileUpload
+                  saveId={selectedSave?.id || null}
+                  token={token}
+                  onUpload={(parsed) => {
+                    setSelectedSave({ id: null, save_data: parsed });
+                  }}
+                />
+              </div>
+              
 
               {data && (
                 <>

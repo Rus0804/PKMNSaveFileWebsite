@@ -112,10 +112,20 @@ button {
   transition: background-color 0.2s;
 }
 
+.loginButtonWrapper {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+
 button:hover {
   background-color: #0d47a1;
 }
 
+.fileUploadwrapper{
+  display: flex;
+  justify-content: center; /* horizontal */
+}
 .versionSelect {
   display: flex;
   align-items: center;
