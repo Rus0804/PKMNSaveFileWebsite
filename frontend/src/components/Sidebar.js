@@ -1,6 +1,7 @@
 import React from 'react';
 import './Sidebar.css';
 import {move_data} from './move_data.js';
+import { item_data } from './item_data.js';
 
 const Sidebar = ({ pokemon, closeSidebar }) => {
   // Handle closing the sidebar
@@ -30,7 +31,7 @@ const Sidebar = ({ pokemon, closeSidebar }) => {
           <p><strong>Level:</strong> {pokemon.level}</p>
           <p><strong>Nature:</strong> {pokemon.nature}</p>
           <p><strong>Ability:</strong> {pokemon.ability}</p>
-          <p><strong>Held Item:</strong> {pokemon.held_item === 0 ? 'None' : pokemon.held_item}</p>
+          <p><strong>Held Item:</strong> {pokemon.held_item === 0 ? 'None' : item_data.find(item => item.id === pokemon.held_item).name}</p>
         </div>
 
         {/* Stats Table */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { item_data } from './item_data';
 import './PCBoxes.css';
 
 function PCBoxes({ boxes, onCardClick}) {
@@ -29,7 +30,7 @@ function PCBoxes({ boxes, onCardClick}) {
                 <h4>{mon.nickname || mon.species}</h4>
                 <p><strong>Lv:</strong> {mon.level}</p>
                 <p><strong>Nature:</strong> {mon.nature}</p>
-                <p><strong>Held Item:</strong> {mon.held_item === 0 ? 'None' : mon.held_item}</p>
+                <p><strong>Held Item:</strong> {mon.held_item === 0 ? 'None' : item_data.find(item => item.id === mon.held_item).name}</p>
               </div>
             ))}
           </div>
