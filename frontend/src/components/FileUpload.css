@@ -1,0 +1,23 @@
+.uploadWrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+    width: fit-content;
+    text-align: center;
+  }
+  
+  .fileInput {
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .errorMessage {
+    color: red;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
