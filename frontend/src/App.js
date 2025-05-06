@@ -82,7 +82,6 @@ function App() {
             token={token}
             onSelectSave={(saveRow) => {
               setSelectedSave(saveRow);
-              console.log(saveRow)
               setData(null); 
               navigate('/')
             }}

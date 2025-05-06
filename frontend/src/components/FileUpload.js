@@ -13,10 +13,7 @@ function FileUpload({ saveId, token, onUpload }) {
       formData.append('save_id', saveId);
     }
     formData.append('file', file);
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-    
+        
     try {
       const response = await fetch(process.env.REACT_APP_PROD+'/upload/', {
         method: 'POST',

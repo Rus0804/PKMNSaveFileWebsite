@@ -50,7 +50,6 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, onCalc }) => {
       }));
       setPokeList(anyList);
     } else if (source === 'Party') {
-      console.log(party.map(p => ({ ...p, source: 'Party' })))
       setPokeList(party.map(p => ({ ...p, source: 'Party' })));
     } else if (source === 'Box') {
       // Flatten the PC boxes to get all Pokémon in one list
