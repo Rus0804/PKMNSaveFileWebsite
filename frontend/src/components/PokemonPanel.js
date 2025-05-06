@@ -35,7 +35,7 @@ const calculateStats = (stat, base, iv, ev, level, modifier = 1) => {
   return Math.floor(((((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + 5) * modifier);
 };
 
-const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, onCalc }) => {
+const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
   const [source, setSource] = useState('Any');
   const [pokeList, setPokeList] = useState([]);
   const [selectedPokeId, setSelectedPokeId] = useState(null);
@@ -163,7 +163,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, onCalc }) => {
         <>
           <div className="sprite-container">
             <img
-                src={`/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
+                src={`/Sprites/Pokemon/BW/${pokemon.pokedex_num?pokemon.pokedex_num:0}.png`}
                 alt={pokemon.name}
             />
           </div>    
@@ -247,10 +247,6 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, onCalc }) => {
               <div className="move-info">
                 <strong>{move.name}</strong> — {move.type} | {move.category} | {move.power ?? '—'} Power
               </div>
-            )}
-
-            {onCalc && move && (
-              <button onClick={() => onCalc(slot)}>Calc</button>
             )}
             </div>
               );

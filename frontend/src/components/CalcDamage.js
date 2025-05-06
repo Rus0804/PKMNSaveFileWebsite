@@ -1,6 +1,5 @@
-import { type_chart } from './type_chart.js'; // assumes a { [attackingType]: { [defendingType]: multiplier } } object
+import { type_chart } from './type_chart.js';
 
-// Physical types in Gen III
 const physicalTypes = ["Normal", "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel"];
 
 export function calculateDamage(attacker, defender, move) {
@@ -20,7 +19,7 @@ export function calculateDamage(attacker, defender, move) {
 
   const type1 = defender.type1 || "normal";
   const type2 = defender.type2 || null;
-  
+
   const effectiveness = (type_chart[move.type.toLowerCase()][type1] || 1) * (type2 ? (type_chart[move.type.toLowerCase()][type2] || 1) : 1);
 
   const finalDamage = baseDamage * stab * effectiveness;

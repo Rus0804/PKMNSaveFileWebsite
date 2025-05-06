@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PokemonPanel from './PokemonPanel.js';
 import { calculateDamage } from './CalcDamage.js';
-import { move_data } from './move_data.js';
+import MovePanel from './MovePanel.js';
+import './DamageCalc.css';
 
 const blankPokemon = {
   name: "Custom",
@@ -23,55 +24,54 @@ const DamageCalc = ({ party, pc }) => {
   const [defender, setDefender] = useState(blankPokemon);
   const [result, setResult] = useState(null);
 
-  const handleCalc = (slot, source) => {
-    const user = source === "attacker" ? attacker : defender;
-    const target = source === "attacker" ? defender : attacker;
-  
-    const moveId = user.moves[slot];
-    const move = move_data[moveId];
-  
-    if (!move || !move.power) {
-      setResult({ message: "Invalid move or no power" });
-      return;
-    }
-  
-    const dmg = calculateDamage(user, target, move);
+  const handleMoveUse = (slot, move) => {
+    const dmg = calculateDamage(attacker, defender, move);
     setResult({
+      slot,
       move: move.name,
       min: dmg.min,
       max: dmg.max,
       effectiveness: dmg.effectiveness,
       stab: dmg.stab,
-      userName: user.name,
-      targetName: target.name
+      userName: attacker.name,
+      targetName: defender.name
     });
   };
-  
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', gap: '100px', marginTop: '20px'}}>
-      <PokemonPanel
-        pokemon={attacker}
-        setPokemon={setAttacker}
-        party={party}
-        pcBoxes={pc}
-        onCalc={(slot) => handleCalc(slot, "attacker")}
-      />
-      <PokemonPanel
-        pokemon={defender}
-        setPokemon={setDefender}
-        party={party}
-        pcBoxes={pc}
-        onCalc={(slot) => handleCalc(slot, "defender")}
-      />
+    <div className="container">
+      <div className='panels'>
+        <MovePanel attacker={attacker} defender={defender} onUseMove={handleMoveUse} />
+        <MovePanel attacker={defender} defender={attacker} onUseMove={handleMoveUse} />
+      </div>
+      
+
       {result && (
-        <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
-          <h3>Result</h3>
-          <p>{result.userName} used <b>{result.move}</b> on {result.targetName}!</p>
-          <p>Damage: {result.min}–{result.max}</p>
-          <p>STAB: ×{result.stab}, Effectiveness: ×{result.effectiveness}</p>
+        <div className="resultLine">
+          <p>
+            <strong>{result.userName}</strong> used <strong>{result.move}</strong> on <strong>{result.targetName}</strong>!
+            <br />
+            Damage: {result.min}–{result.max} <br />
+            STAB: ×{result.stab}, Effectiveness: ×{result.effectiveness}
+          </p>
         </div>
       )}
+
+
+      <div className="panels">
+        <PokemonPanel
+          pokemon={attacker}
+          setPokemon={setAttacker}
+          party={party}
+          pcBoxes={pc}
+        />
+        <PokemonPanel
+          pokemon={defender}
+          setPokemon={setDefender}
+          party={party}
+          pcBoxes={pc}
+        />
+      </div>
     </div>
   );
 };
