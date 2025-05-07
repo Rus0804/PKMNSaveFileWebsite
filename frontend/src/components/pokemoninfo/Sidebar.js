@@ -1,7 +1,7 @@
 import React from 'react';
 import './Sidebar.css';
-import {move_data} from './move_data.js';
-import { item_data } from './item_data.js';
+import { move_data } from '../../data/move_data.js';
+import { item_data } from '../../data/item_data.js';
 
 const Sidebar = ({ pokemon, closeSidebar }) => {
   // Handle closing the sidebar

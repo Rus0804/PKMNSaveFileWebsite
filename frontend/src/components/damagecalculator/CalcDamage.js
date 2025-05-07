@@ -1,4 +1,4 @@
-import { type_chart } from './type_chart.js';
+import { type_chart } from '../../data/type_chart.js';
 
 const physicalTypes = ["Normal", "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel"];
 

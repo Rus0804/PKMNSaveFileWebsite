@@ -1,6 +1,6 @@
 import React from 'react';
 import './PartyList.css';
-import { item_data } from './item_data.js';
+import { item_data } from '../../data/item_data.js';
 
 function PartyList({ party, onCardClick }) {
   // Ensure exactly 6 slots in the party

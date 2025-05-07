@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 import FileUpload from './components/FileUpload.js';
-import TrainerInfo from './components/TrainerInfo.js';
-import PartyList from './components/PartyList.js';
-import PCBoxes from './components/PCBoxes.js';
-import EncounterViewer from './components/Encounters.js';
-import Sidebar from './components/Sidebar.js';
-import DamageCalcPanel from './components/DamageCalc.js';
+import TrainerInfo from './components/trainerinfo/TrainerInfo.js';
+import PartyList from './components/pokemoninfo/PartyList.js';
+import PCBoxes from './components/pokemoninfo/PCBoxes.js';
+import EncounterViewer from './components/encountertable/Encounters.js';
+import Sidebar from './components/pokemoninfo/Sidebar.js';
+import DamageCalcPanel from './components/damagecalculator/DamageCalc.js';
 import LoginPage from './components/LoginPage.js';
 import HomePage from './components/HomePage.js'
 

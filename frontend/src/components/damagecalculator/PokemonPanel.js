@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { pokemon_data } from './pokemon_data.js';
-import { move_data } from './move_data.js';
+import { pokemon_data } from '../../data/pokemon_data.js';
+import { move_data } from '../../data/move_data.js';
 import './PokemonPanel.css';
 
 const statNames = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];

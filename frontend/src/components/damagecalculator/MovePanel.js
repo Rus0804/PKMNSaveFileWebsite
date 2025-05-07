@@ -1,6 +1,6 @@
 import React from 'react';
 import './MovePanel.css';
-import { move_data } from './move_data.js';
+import { move_data } from '../../data/move_data.js';
 
 const MovePanel = ({ attacker, defender, onUseMove }) => {
   const handleClick = (slot) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { speciesMap } from "./species_map.js"; // Import speciesMap
+import { speciesMap } from "../../data/species_map.js"; // Import speciesMap
 import "./Encounters.css";
 
 const EncounterViewer = ({ game, party, pc }) => {

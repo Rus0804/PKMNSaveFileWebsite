@@ -1,5 +1,5 @@
 import React from 'react';
-import { item_data } from './item_data';
+import { item_data } from '../../data/item_data';
 import './PCBoxes.css';
 
 function PCBoxes({ boxes, onCardClick}) {
