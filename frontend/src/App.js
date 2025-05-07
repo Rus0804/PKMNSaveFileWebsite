@@ -85,7 +85,7 @@ function App() {
             onSelectSave={(saveRow) => {
               setSelectedSave(saveRow);
               setData(null); 
-              navigate('/')
+              navigate('/pokemon')
             }}
           />}
         />
@@ -108,6 +108,13 @@ function App() {
 
               {data && (
                 <>
+                  <nav>
+                    <Link to="/trainer">Trainer Info</Link>
+                    <Link to="/pokemon">Pokémon Info</Link>
+                    <Link to="/damage">Damage Calc</Link>
+                    <Link to="/encounters">Encounters</Link>
+                  </nav>
+
                   <div className="versionSelect">
                     <label htmlFor="version-select">Game Version:</label>
                     <select
@@ -129,13 +136,6 @@ function App() {
                       )}
                     </select>
                   </div>
-
-                  <nav>
-                    <Link to="/trainer">Trainer Info</Link>
-                    <Link to="/pokemon">Pokémon Info</Link>
-                    <Link to="/damage">Damage Calc</Link>
-                    <Link to="/encounters">Encounters</Link>
-                  </nav>
                 </>
               )}
 
