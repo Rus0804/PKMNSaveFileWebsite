@@ -24,7 +24,8 @@ const DamageCalc = ({ party, pc }) => {
   const [defender, setDefender] = useState(blankPokemon);
   const [result, setResult] = useState(null);
 
-  const handleMoveUse = (slot, move) => {
+  const handleMoveUse = (slot, attacker, defender, move) => {
+    console.log(slot, attacker, defender, move)
     const dmg = calculateDamage(attacker, defender, move);
     setResult({
       slot,

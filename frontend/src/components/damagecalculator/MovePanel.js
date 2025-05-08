@@ -7,7 +7,7 @@ const MovePanel = ({ attacker, defender, onUseMove }) => {
     const moveId = attacker.moves[slot];
     const move = move_data[moveId];
     if (move && move.power) {
-      onUseMove(slot, move);
+      onUseMove(slot, attacker, defender, move);
     }
   };
 
