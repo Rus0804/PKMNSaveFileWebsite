@@ -4,9 +4,9 @@ import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
 
 const Sidebar = ({ pokemon, closeSidebar }) => {
-  // Handle closing the sidebar
+  
   const handleClose = () => {
-    closeSidebar(); // Close the sidebar
+    closeSidebar();
   };
 
   if (!pokemon) return null;

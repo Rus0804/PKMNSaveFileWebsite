@@ -3,18 +3,18 @@
     top: 0;
     right: 0;
     width: 320px;
-    height: 100vh; /* Full height of the viewport */
+    height: 100vh;
     background-color: #fff;
     border-left: 2px solid #ccc;
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     z-index: 1000;
     transition: transform 0.3s ease-in-out;
-    overflow-y: auto; /* Allow scrolling */
+    overflow-y: auto; 
   }
   
   .scrollable-content {
-    max-height: calc(100vh - 200px); /* Keep content inside the sidebar scrollable */
+    max-height: calc(100vh - 200px);
     overflow-y: auto;
   }
   
@@ -22,7 +22,7 @@
     position: absolute;
     top: 0.5rem;
     right: 1rem;
-    background: none;
+    background: rgb(134, 134, 134);
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
