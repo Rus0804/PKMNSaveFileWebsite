@@ -9,10 +9,15 @@ from login_auth import get_user_db, login, LoginRequest, update_save, signup
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",  # Development frontend
+    "https://your-frontend-domain.com"  # Production frontend if needed
+]
+
 # Enable CORS for frontend connection
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
