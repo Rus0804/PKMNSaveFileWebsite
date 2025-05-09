@@ -87,7 +87,6 @@ def delete_save(save_id: int, request: Request):
         raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
     
 
-# Encounter and Upload remain unchanged
 encounter_data: Dict[str, Dict[str, Dict[str, list]]] = {}
 
 @app.on_event('startup')
@@ -103,7 +102,6 @@ def get_encounters():
 @app.post("/upload")
 async def upload_file(request: Request, save_id: Optional[int] = Form(None) , file: UploadFile = File(...)):
     contents = await file.read()
-    
     result = parse_save_file(contents)
     if result == "SaveFileError":
         result = {"detail": "SaveFileError"}
