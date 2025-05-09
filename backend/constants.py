@@ -1,3 +1,4 @@
+from text_Decode import d_map
 
 #for reading the sav file
 NUM_BLOCKS = 14
@@ -155,13 +156,13 @@ AREA_ORDER = {
             }
 
 #for converting to text
-GBA_CHAR_MAP = {i: chr(i) for i in range(256)}
-for i, c in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"):
-    GBA_CHAR_MAP[0xBB + i] = c
-GBA_CHAR_MAP[0xFF] = ''
 
-def decode_gba_string(data):
-    return ''.join(GBA_CHAR_MAP.get(b, '?') for b in data).split('\x00')[0]
+def decode_gba_string(data):  
+    decoded_string = ''.join(d_map.get(b, '?') for b in data).split('\x00')[0]
+    if '$' in decoded_string:
+        return decoded_string[:decoded_string.find('$')]
+    else:   
+        return decoded_string
 
 def read_section(data, base_offset, section_id):
     current_section_id = -1
