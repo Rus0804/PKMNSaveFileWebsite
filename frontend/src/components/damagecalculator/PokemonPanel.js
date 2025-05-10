@@ -27,18 +27,27 @@ const getNatureModifier = (nature, stat) => {
   return 1.0;
 };
 
-const calculateStats = (stat, base, iv, ev, level, modifier = 1) => {
+const calculateStats = (stat, base, iv, ev, level, natureMod = 1, boostStage = 0) => {
   if (base === undefined) return 0;
   if (stat === 'hp') {
-    return Math.floor(((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + level + 10
+    return Math.floor(((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + level + 10;
   }
-  return Math.floor(((((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + 5) * modifier);
+  const unboosted = Math.floor(((((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + 5) * natureMod);
+  return Math.floor(unboosted * getBoostMultiplier(boostStage));
 };
 
-const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
+// Gen III stat boost multipliers
+const getBoostMultiplier = (stage) => {
+  if (stage === 0) return 1.0;
+  if (stage > 0) return (2 + stage) / 2;
+  return 2 / (2 - stage);
+};
+
+const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
   const [source, setSource] = useState('Any');
   const [pokeList, setPokeList] = useState([]);
   const [selectedPokeId, setSelectedPokeId] = useState(null);
+  const [boosts, setBoosts] = useState(Object.fromEntries(statNames.map(stat => [stat, 0])));
 
   useEffect(() => {
     if (source === 'Any') {
@@ -52,23 +61,19 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
     } else if (source === 'Party') {
       setPokeList(party.map(p => ({ ...p, source: 'Party' })));
     } else if (source === 'Box') {
-      // Flatten the PC boxes to get all Pokémon in one list
-      const flatBox = Object.values(pcBoxes).reduce((acc, box) => {
-        return acc.concat(Object.values(box)); // Flatten each box and merge them
-      }, []);
+      const flatBox = Object.values(pcBoxes).reduce((acc, box) => acc.concat(Object.values(box)), []);
       setPokeList(flatBox.map(p => ({ ...p, source: 'Box' })));
     }
   }, [source, party, pcBoxes]);
 
-  const updateStats = (updated) => {
+  const updateStats = (updated, boosts={'hp':0,'atk':0,'def':0,'spa':0,'spd':0,'spe':0}) => {
     const baseStats = pokemon_data[updated.pokedex_num];
     const newStats = {};
-
     statNames.forEach(stat => {
       const modifier = getNatureModifier(updated.nature, stat);
-      newStats[stat] = calculateStats(stat, baseStats[stat], updated.ivs[stat], updated.evs[stat], updated.level, modifier);
+      const boostStage = boosts[stat] || 0;
+      newStats[stat] = calculateStats(stat, baseStats[stat], updated.ivs[stat], updated.evs[stat], updated.level, modifier, boostStage);
     });
-
     updated.stats = newStats;
     setPokemon(updated);
   };
@@ -80,8 +85,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
 
     if (source === 'Any') {
       const blankIVs = Object.fromEntries(statNames.map(stat => [stat, 31]));
-      const blankEVs = Object.fromEntries(statNames.map(stat => [stat, 0])) ;
-
+      const blankEVs = Object.fromEntries(statNames.map(stat => [stat, 0]));
       const level = 50;
       const nature = 'Hardy';
       const baseStats = selected.base_stats;
@@ -90,6 +94,8 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
       statNames.forEach(stat => {
         newStats[stat] = calculateStats(stat, baseStats[stat], blankIVs[stat], blankEVs[stat], level);
       });
+
+      setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
       setPokemon({
         name: selected.name,
         nickname: 'Custom',
@@ -106,8 +112,9 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
         moves: { 0: 0, 1: 0, 2: 0, 3: 0 }
       });
     } else {
-        updateStats(selected);
-        setPokemon(selected);
+      setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
+      updateStats(selected);
+      setPokemon(selected);
     }
   };
 
@@ -127,6 +134,12 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
     updateStats(updated);
   };
 
+  const handleBoostChange = (stat, stage) => {
+    const newBoosts = { ...boosts, [stat]: parseInt(stage) };
+    setBoosts(newBoosts);
+    updateStats({ ...pokemon }, newBoosts);
+  };
+
   const handleMoveChange = (slot, moveId) => {
     const updated = { ...pokemon };
     updated.moves[slot] = parseInt(moveId);
@@ -135,8 +148,6 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
 
   return (
     <div className="pokemon-panel">
-      <h2>Pokemon</h2>
-
       <label>
         Source:
         <select value={source} onChange={(e) => setSource(e.target.value)}>
@@ -150,33 +161,20 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
         Select Pokémon:
         <select onChange={handleSelection} value={selectedPokeId || ''}>
           <option value="">--Select--</option>
-          {pokeList.map((p, i) => {
-            return(
+          {pokeList.map((p, i) => (
             <option key={i} value={i}>
               {p.nickname || p.name}
             </option>
-          )})}
+          ))}
         </select>
       </label>
 
       {pokemon.name && (
         <>
-          <div className="sprite-container">
-            <img
-                src={`/Sprites/Pokemon/BW/${pokemon.pokedex_num?pokemon.pokedex_num:0}.png`}
-                alt={pokemon.name}
-            />
-          </div>    
           <div className="level-nature">
             <label>
               Level:
-              <input
-                type="number"
-                min="1"
-                max="100"
-                value={pokemon.level}
-                onChange={handleLevelChange}
-              />
+              <input type="number" min="1" max="100" value={pokemon.level} onChange={handleLevelChange} />
             </label>
 
             <label>
@@ -196,6 +194,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
                   <th>Stat</th>
                   <th>IV</th>
                   <th>EV</th>
+                  <th>Boost</th>
                   <th>Final</th>
                 </tr>
               </thead>
@@ -204,22 +203,19 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
                   <tr key={stat}>
                     <td>{stat.toUpperCase()}</td>
                     <td>
-                      <input
-                        type="number"
-                        min="0"
-                        max="31"
-                        value={pokemon.ivs[stat]}
-                        onChange={(e) => handleIVEVChange('ivs', stat, e.target.value)}
-                      />
+                      <input type="number" min="0" max="31" value={pokemon.ivs[stat]} onChange={(e) => handleIVEVChange('ivs', stat, e.target.value)} />
                     </td>
                     <td>
-                      <input
-                        type="number"
-                        min="0"
-                        max="252"
-                        value={pokemon.evs[stat]}
-                        onChange={(e) => handleIVEVChange('evs', stat, e.target.value)}
-                      />
+                      <input type="number" min="0" max="252" value={pokemon.evs[stat]} onChange={(e) => handleIVEVChange('evs', stat, e.target.value)} />
+                    </td>
+                    <td>
+                      <select value={boosts[stat]} onChange={(e) => handleBoostChange(stat, e.target.value)}>
+                        {Array.from({ length: 13 }, (_, i) => i - 6).map(stage => (
+                          <option key={stage} value={stage}>
+                            {stage >= 0 ? `+${stage}` : `${stage}`}
+                          </option>
+                        ))}
+                      </select>
                     </td>
                     <td>{pokemon.stats[stat]}</td>
                   </tr>
@@ -229,30 +225,27 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes}) => {
           </div>
 
           <div className="move-selectors">
-          <h4>Moves</h4>
-      {[0, 1, 2, 3].map(slot => {
-        const moveId = pokemon.moves[slot];
-        const move = move_data[moveId];
-
-        return (
-          <div key={slot} className="move-slot">
-            <select value={moveId} onChange={(e) => handleMoveChange(slot, e.target.value)}>
-              <option value="0">None</option>
-              {Object.entries(move_data).map(([id, move]) => (
-                <option key={id} value={id}>{move.name}</option>
-              ))}
-            </select>
-
-            {move && (
-              <div className="move-info">
-                <strong>{move.name}</strong> — {move.type} | {move.category} | {move.power ?? '—'} Power
-              </div>
-            )}
-            </div>
+            <h4>Moves</h4>
+            {[0, 1, 2, 3].map(slot => {
+              const moveId = pokemon.moves[slot];
+              const move = move_data[moveId];
+              return (
+                <div key={slot} className="move-slot">
+                  <select value={moveId} onChange={(e) => handleMoveChange(slot, e.target.value)}>
+                    <option value="0">None</option>
+                    {Object.entries(move_data).map(([id, move]) => (
+                      <option key={id} value={id}>{move.name}</option>
+                    ))}
+                  </select>
+                  {move && (
+                    <div className="move-info">
+                      <strong>{move.name}</strong> — {move.type} | {move.category} | {move.power ?? '—'} Power
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
-
         </>
       )}
     </div>
