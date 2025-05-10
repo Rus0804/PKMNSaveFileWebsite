@@ -1,6 +1,7 @@
 .panel {
     text-align: center;
     margin-bottom: 16px;
+    display: flex;
   }
   
   .moves {

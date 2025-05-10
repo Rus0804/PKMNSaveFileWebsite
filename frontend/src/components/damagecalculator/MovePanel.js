@@ -13,7 +13,12 @@ const MovePanel = ({ attacker, defender, onUseMove }) => {
 
   return (
     <div className="panel">
-      <h3>{attacker.name}'s Moves</h3>
+      <div className="sprite-container">
+            <img
+                src={`/Sprites/Pokemon/BW/${attacker.pokedex_num?attacker.pokedex_num:0}.png`}
+                alt={attacker.name}
+            />
+      </div>
       <div className="moves">
         {[0, 1, 2, 3].map((slot) => {
           const moveId = attacker.moves[slot];
