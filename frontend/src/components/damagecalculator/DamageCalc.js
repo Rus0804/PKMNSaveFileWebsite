@@ -105,7 +105,7 @@ const DamageCalc = ({ party, pc }) => {
           <input
             type="checkbox"
             checked={modifiers.isFlashFire}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isHelpingHand: e.target.checked }))}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isFlashFire: e.target.checked }))}
           />
           FlashFire
         </label>
@@ -113,9 +113,17 @@ const DamageCalc = ({ party, pc }) => {
           <input
             type="checkbox"
             checked={modifiers.isCharge}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isHelpingHand: e.target.checked }))}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isCharge: e.target.checked }))}
           />
           Charge
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={modifiers.isDoubleBattle}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isDoubleBattle: e.target.checked }))}
+          />
+          Double Battle
         </label>
       </div>
 

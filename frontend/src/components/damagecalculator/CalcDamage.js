@@ -18,8 +18,8 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   const type1 = defender.type1 || "normal";
   const type2 = defender.type2 || null;
 
-  const effectiveness = (type_chart[move.type.toLowerCase()][type1] || 1) * (type2 ? (type_chart[move.type.toLowerCase()][type2] || 1) : 1);
-
+  const effectiveness = (type_chart[move.type.toLowerCase()][type1]) * (type2 ? (type_chart[move.type.toLowerCase()][type2]) : 1);
+  
   var flashfire = 1;
   if(modifiers.isFlashFire && move.type.toLowerCase()==='fire'){
     flashfire = 1.5;
@@ -28,14 +28,6 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   var charge = 1;
   if(modifiers.isCharge && move.type.toLowerCase()==='electric'){
     charge = 1.5;
-  }
-
-  var screen = 1
-  if(atkStat==='atk' && modifiers.isReflect){
-    screen = 0.5;
-  }
-  else if(atkStat==='spa' && modifiers.isLightScreen){
-    screen = 0.5;
   }
 
   var weather = 1;
@@ -67,8 +59,32 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   }
 
   var stockpile = 1;
-  var targets = 1;
   var doubledmg = 1;
+
+  var targets = 1;
+  if(modifiers.isDoubleBattle){
+    if (move.target==='multiple'){
+      targets = 0.5;
+    }
+  }
+
+  var screen = 1
+  if(atkStat==='atk' && modifiers.isReflect){
+    if(modifiers.isDoubleBattle){
+      screen = 2/3;
+    }
+    else{
+      screen = 0.5;
+    }   
+  }
+  else if(atkStat==='spa' && modifiers.isLightScreen){
+    if(modifiers.isDoubleBattle){
+      screen = 2/3;
+    }
+    else{
+      screen = 0.5;
+    }
+  }
 
   const baseDamage = Math.floor(Math.floor(Math.floor((2 * level / 5 + 2) * power * attack / defense) / 50) * flashfire * screen * targets + 2);
 
