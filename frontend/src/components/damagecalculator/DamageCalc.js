@@ -23,10 +23,16 @@ const DamageCalc = ({ party, pc }) => {
   const [attacker, setAttacker] = useState(blankPokemon);
   const [defender, setDefender] = useState(blankPokemon);
   const [result, setResult] = useState(null);
+  const [modifiers, setModifiers] = useState({
+    weather: 'None',
+    isReflect: false,
+    isLightScreen: false,
+    isCritical: false,
+    isBurned: false,
+  });
 
   const handleMoveUse = (slot, attacker, defender, move) => {
-    console.log(slot, attacker, defender, move)
-    const dmg = calculateDamage(attacker, defender, move);
+    const dmg = calculateDamage(attacker, defender, move, modifiers);
     setResult({
       slot,
       move: move.name,
@@ -45,7 +51,55 @@ const DamageCalc = ({ party, pc }) => {
         <MovePanel attacker={attacker} defender={defender} onUseMove={handleMoveUse} />
         <MovePanel attacker={defender} defender={attacker} onUseMove={handleMoveUse} />
       </div>
-      
+
+      <div className="modifiers">
+        <h3>Battle Modifiers</h3>
+        <label>
+          Weather:
+          <select
+            value={modifiers.weather}
+            onChange={(e) => setModifiers(prev => ({ ...prev, weather: e.target.value }))}
+          >
+            <option value="None">None</option>
+            <option value="Rain">Rain</option>
+            <option value="Sun">Sun</option>
+            <option value="Sandstorm">Sandstorm</option>
+            <option value="Hail">Hail</option>
+          </select>
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={modifiers.isReflect}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isReflect: e.target.checked }))}
+          />
+          Reflect (defender side)
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={modifiers.isLightScreen}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isLightScreen: e.target.checked }))}
+          />
+          Light Screen (defender side)
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={modifiers.isCritical}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isCritical: e.target.checked }))}
+          />
+          Critical Hit
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={modifiers.isBurned}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isBurned: e.target.checked }))}
+          />
+          Attacker is Burned
+        </label>
+      </div>
 
       {result && (
         <div className="resultLine">
@@ -57,7 +111,6 @@ const DamageCalc = ({ party, pc }) => {
           </p>
         </div>
       )}
-
 
       <div className="panels">
         <PokemonPanel
