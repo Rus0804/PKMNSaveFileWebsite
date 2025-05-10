@@ -28,7 +28,9 @@ const DamageCalc = ({ party, pc }) => {
     isReflect: false,
     isLightScreen: false,
     isCritical: false,
-    isBurned: false,
+    isHelpingHand: false,
+    isFlashFire: false,
+    isCharge: false
   });
 
   const handleMoveUse = (slot, attacker, defender, move) => {
@@ -73,7 +75,7 @@ const DamageCalc = ({ party, pc }) => {
             checked={modifiers.isReflect}
             onChange={(e) => setModifiers(prev => ({ ...prev, isReflect: e.target.checked }))}
           />
-          Reflect (defender side)
+          Reflect
         </label>
         <label>
           <input
@@ -81,7 +83,7 @@ const DamageCalc = ({ party, pc }) => {
             checked={modifiers.isLightScreen}
             onChange={(e) => setModifiers(prev => ({ ...prev, isLightScreen: e.target.checked }))}
           />
-          Light Screen (defender side)
+          Light Screen
         </label>
         <label>
           <input
@@ -94,10 +96,26 @@ const DamageCalc = ({ party, pc }) => {
         <label>
           <input
             type="checkbox"
-            checked={modifiers.isBurned}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isBurned: e.target.checked }))}
+            checked={modifiers.isHelpingHand}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isHelpingHand: e.target.checked }))}
           />
-          Attacker is Burned
+          Helping Hand
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={modifiers.isFlashFire}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isHelpingHand: e.target.checked }))}
+          />
+          FlashFire
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={modifiers.isCharge}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isHelpingHand: e.target.checked }))}
+          />
+          Charge
         </label>
       </div>
 
