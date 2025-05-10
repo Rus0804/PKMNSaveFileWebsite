@@ -10,7 +10,7 @@ export function calculateDamage(attacker, defender, move) {
   const atkStat = isPhysical ? 'atk' : 'spa';
   const defStat = isPhysical ? 'def' : 'spd';
 
-  const attack = attacker.stats[atkStat];
+  const attack = (atkStat==='atk' && attacker.status==='Burned')?attacker.stats[atkStat]/2:attacker.stats[atkStat];
   const defense = defender.stats[defStat];
 
   const baseDamage = Math.floor(Math.floor(Math.floor((2 * level / 5 + 2) * power * attack / defense) / 50) + 2);

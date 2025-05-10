@@ -48,6 +48,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
   const [pokeList, setPokeList] = useState([]);
   const [selectedPokeId, setSelectedPokeId] = useState(null);
   const [boosts, setBoosts] = useState(Object.fromEntries(statNames.map(stat => [stat, 0])));
+  const [specialCondition, setSpecialCondition] = useState('None');
 
   useEffect(() => {
     if (source === 'Any') {
@@ -109,7 +110,8 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
         nature,
         ability: 'None',
         held_item: 0,
-        moves: { 0: 0, 1: 0, 2: 0, 3: 0 }
+        moves: { 0: 0, 1: 0, 2: 0, 3: 0 },
+        status: 'None'
       });
     } else {
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
@@ -143,6 +145,13 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
   const handleMoveChange = (slot, moveId) => {
     const updated = { ...pokemon };
     updated.moves[slot] = parseInt(moveId);
+    setPokemon(updated);
+  };
+
+  const handleConditionChange = (e) => {
+    setSpecialCondition(e.target.value);
+    const updated = { ...pokemon };
+    updated.status = e.target.value;
     setPokemon(updated);
   };
 
@@ -222,6 +231,19 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="special-condition">
+            <label>
+              Special Condition:
+              <select value={specialCondition} onChange={handleConditionChange}>
+                <option value="None">None</option>
+                <option value="Poisoned">Poisoned</option>
+                <option value="Burned">Burned</option>
+                <option value="Paralyzed">Paralyzed</option>
+                <option value="Sleeping">Sleeping</option>
+              </select>
+            </label>
           </div>
 
           <div className="move-selectors">
