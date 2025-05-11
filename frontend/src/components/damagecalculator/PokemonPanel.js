@@ -53,10 +53,18 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
 
   const itemOptions = useMemo(() => {
     return Object.entries(item_data).map(([id, item]) => (
-      <option key={item.id} value={item.id}>
-        {item.name}
-      </option>
-    ));
+        <option key={item.id} value={item.id}>
+          {item.name}
+        </option>
+      ));
+    },[]);
+
+  const moveOptions = useMemo(() => { 
+    return Object.entries(move_data).map(([id, move]) => (
+        <option key={id} value={id}>
+          {move.name}
+        </option>
+      ));
     },[]);
 
   useEffect(() => {
@@ -281,9 +289,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                 <div key={slot} className="move-slot">
                   <select value={moveId} onChange={(e) => handleMoveChange(slot, e.target.value)}>
                     <option value="0">None</option>
-                    {Object.entries(move_data).map(([id, move]) => (
-                      <option key={id} value={id}>{move.name}</option>
-                    ))}
+                    {moveOptions}
                   </select>
                   {move && (
                     <div className="move-info">
