@@ -20,7 +20,7 @@ const Sidebar = ({ pokemon, closeSidebar }) => {
       <div className="sidebar-header">
         <h2>{pokemon.nickname || pokemon.name}</h2>
         <img
-          src={`/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
+          src={pokemon.shiny?`/Sprites/Pokemon/BW/shiny/${pokemon.pokedex_num}s.png`:`/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
           alt={pokemon.nickname || pokemon.name}
           className="sidebar-sprite"
         />

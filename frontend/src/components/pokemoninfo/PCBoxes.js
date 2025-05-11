@@ -23,7 +23,7 @@ function PCBoxes({ boxes, onCardClick}) {
                 style={{ cursor: mon ? 'pointer' : 'default' }}
               >
                 <img
-                  src={`/Sprites/Pokemon/BW/${mon.pokedex_num}.png`}
+                  src={mon.shiny?`/Sprites/Pokemon/BW/shiny/${mon.pokedex_num}s.png`:`/Sprites/Pokemon/BW/${mon.pokedex_num}.png`}
                   alt={mon.nickname || mon.name}
                   className="pc-sprite"
                 />
