@@ -3,23 +3,96 @@ import { type_chart } from '../../data/type_chart.js';
 const physicalTypes = ["Normal", "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel"];
 
 export function calculateDamage(attacker, defender, move, modifiers) {
+  if(move.category === 'Status'){
+    return {
+      min: 0,
+      max: 0,
+      effectiveness: 0,
+      stab: 0,
+      raw: 0
+    };
+  }
   const level = attacker.level;
-  const power = move.power || 0;
+  var power = move.power || 0;
 
   const isPhysical = physicalTypes.includes(move.type);
   const atkStat = isPhysical ? 'atk' : 'spa';
   const defStat = isPhysical ? 'def' : 'spd';
 
-  const attack = (atkStat==='atk' && attacker.status==='Burned')?attacker.stats[atkStat]/2:attacker.stats[atkStat];
-  const defense = defender.stats[defStat];
+  var attack = (atkStat==='atk' && attacker.status==='Burned')?attacker.stats[atkStat]/2:attacker.stats[atkStat];
+  var defense = defender.stats[defStat];
 
   const stab = (attacker.type1.toLowerCase() === move.type.toLowerCase() || attacker.type2.toLowerCase() === move.type.toLowerCase()) ? 1.5 : 1;
 
   const type1 = defender.type1 || "normal";
-  const type2 = defender.type2 || null;
+  const type2 = defender.type2;
 
-  const effectiveness = (type_chart[move.type.toLowerCase()][type1]) * (type2 ? (type_chart[move.type.toLowerCase()][type2]) : 1);
+  const effectiveness = (type_chart[move.type.toLowerCase()][type1]) * (type2!=='none' ? (type_chart[move.type.toLowerCase()][type2]) : 1);
   
+  const held_items = [186, 188, 191, 192, 193, 199, 202, 217, 215, 209, 205, 208, 212, 207, 211, 203, 210, 214, 204, 213, 216, 206, 223, 224, 220];
+  
+  if(held_items.includes(attacker.held_item) || held_items.includes(defender.held_item)){
+    const type_booster_items = { 
+    "normal": 217, "fire": 215, "water": 209, "grass": 205, "electric": 208, "ice": 212, 
+    "fighting": 207, "poison": 211, "ground": 203, "flying": 210, "psychic": 214, "bug": 188, 
+    "rock": 204, "ghost": 213, "dragon": 216, "dark": 206, "steel": 199 
+  }
+
+  if (atkStat==='spa') {
+    // soul dew for latios/latias
+    if(attacker.pokedex_num === 381 || attacker.pokedex_num === 380){
+      if(attacker.held_item===191){
+        attack *= 1.5;
+      }
+    }
+    // deep sea whatever for clamperl
+    else if(attacker.pokedex_num === 366 || attacker.pokedex_num === 366){
+      if(attacker.held_item===192){
+        attack *= 1.5;
+      }
+    }
+    // soul dew for latios/latias
+    if(defender.pokedex_num === 381 || defender.pokedex_num === 380){
+      if(defender.held_item===191){
+        defense *= 1.5;
+      }
+    }
+    // deep sea whatever for clamperl
+    else if(defender.pokedex_num === 366 || defender.pokedex_num === 366){
+      if(defender.held_item===193){
+        defense *= 1.5;
+      }
+    }
+  }
+  // cubone marowak thick club
+  else if(attacker.pokedex_num === 104 && attacker.pokedex_num === 105){
+    if(attacker.held_item === 224){
+      attack *= 2;
+    }
+  }
+  // lightball for pikachu
+  if (attacker.pokedex_num===25 && attacker.held_item === 202){
+    attack *= 1.5;
+  }
+  // metal powder for ditto
+  if(defender.pokedex_num===120 && defender.held_item === 223){
+    defense *= 1.5
+  }
+
+  if(attacker.held_item === type_booster_items[move.type.toLowerCase()]){
+    power *= 1.1;
+  }
+
+  // choice band is 186
+  if(attacker.held_item === 186){
+    attack *= 3/2;
+  }
+
+  // sea incense for some reason
+  if(attacker.held_item === 220 && move.type.toLowerCase() === 'water'){
+    power *= 1.05;
+  }}
+
   var flashfire = 1;
   if(modifiers.isFlashFire && move.type.toLowerCase()==='fire'){
     flashfire = 1.5;

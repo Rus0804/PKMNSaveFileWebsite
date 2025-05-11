@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { pokemon_data } from '../../data/pokemon_data.js';
 import { move_data } from '../../data/move_data.js';
+import { item_data } from '../../data/item_data.js';
 import './PokemonPanel.css';
 
 const statNames = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
@@ -155,6 +156,12 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
     setPokemon(updated);
   };
 
+  const handleItemChange = (e) => {
+    const updated = { ...pokemon };
+    updated.held_item = parseInt(e.target.value);
+    setPokemon(updated);
+  };
+
   return (
     <div className="pokemon-panel">
       <label>
@@ -244,6 +251,19 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                 <option value="Sleeping">Sleeping</option>
               </select>
             </label>
+          </div>
+
+          <div className="held-item">
+            <label>
+              Held Item
+              <select value={pokemon.held_item} onChange={handleItemChange}>
+                <option value="0">None</option>
+                {Object.entries(item_data).map(([id, item]) => {
+                  return (<option key={item.id} value={item.id}>{item.name}</option>)
+                })}
+              </select>
+            </label>
+            
           </div>
 
           <div className="move-selectors">
