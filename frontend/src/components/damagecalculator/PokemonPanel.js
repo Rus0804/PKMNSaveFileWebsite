@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { pokemon_data } from '../../data/pokemon_data.js';
 import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
+import { ability_data } from '../../data/ability_data.js';
 import './PokemonPanel.css';
 
 const statNames = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
@@ -67,6 +68,14 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
       ));
     },[]);
 
+    const abilityOptions = useMemo(() => { 
+    return Object.entries(ability_data).map(([id, ability]) => (
+        <option key={id} value={ability.name}>
+          {ability.name}
+        </option>
+      ));
+    },[]);
+
   useEffect(() => {
     if (source === 'Any') {
       const anyList = Object.entries(pokemon_data).map(([id, data]) => ({
@@ -118,6 +127,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
         name: selected.name,
         nickname: 'Custom',
         pokedex_num: selected.pokedex_num,
+        currentHP: newStats.hp,
         stats: newStats,
         ivs: blankIVs,
         evs: blankEVs,
@@ -178,6 +188,18 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
     setPokemon(updated);
   };
 
+  const handleAbilityChange = (e) => {
+    const updated = { ...pokemon };
+    updated.ability = e.target.value;
+    setPokemon(updated);
+  };
+
+  const handleHPChange = (e) => {
+    const updated = {...pokemon};
+    updated.currentHP = parseInt(e.target.value)>updated.stats.hp?updated.stats.hp:parseInt(e.target.value);
+    setPokemon(updated);
+  }
+
   return (
     <div className="pokemon-panel">
       <label>
@@ -208,7 +230,10 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
               Level:
               <input type="number" min="1" max="100" value={pokemon.level} onChange={handleLevelChange} />
             </label>
-
+            <label>
+              HP:
+              <input type="number" min="0" max="{pokemon.stats.hp}" value={pokemon.currentHP} onChange={handleHPChange} />
+            </label>
             <label>
               Nature:
               <select value={pokemon.nature} onChange={handleNatureChange}>
@@ -277,7 +302,15 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                 {itemOptions}
               </select>
             </label>
-            
+          </div>
+          <div className="abilities">
+            <label>
+              Ability
+              <select value={pokemon.ability} onChange={handleAbilityChange}>
+                <option value="0">None</option>
+                {abilityOptions}
+              </select>
+            </label>
           </div>
 
           <div className="move-selectors">
