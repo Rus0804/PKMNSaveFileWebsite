@@ -11,6 +11,7 @@ const blankPokemon = {
   nature: "Hardy",
   ability: "None",
   held_item: 0,
+  currentHP: 100,
   stats: { hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100 },
   ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 },
   evs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
@@ -38,10 +39,9 @@ const DamageCalc = ({ party, pc }) => {
     setResult({
       slot,
       move: move.name,
-      min: dmg.min,
-      max: dmg.max,
       effectiveness: dmg.effectiveness,
       stab: dmg.stab,
+      range: dmg.range,
       userName: attacker.name,
       targetName: defender.name
     });
@@ -59,8 +59,10 @@ const DamageCalc = ({ party, pc }) => {
           <p>
             <strong>{result.userName}</strong> used <strong>{result.move}</strong> on <strong>{result.targetName}</strong>!
             <br />
-            Damage: {result.min}–{result.max} <br />
-            STAB: ×{result.stab}, Effectiveness: ×{result.effectiveness}
+            STAB: ×{result.stab}, Effectiveness: ×{result.effectiveness} <br />
+            Range: {result.range?.map((dmg, i) => 
+                  (<span key={i}>{dmg}{i < result.range.length - 1 ? ', ' : ''}</span>)
+                )}
           </p>
         </div>
       )}

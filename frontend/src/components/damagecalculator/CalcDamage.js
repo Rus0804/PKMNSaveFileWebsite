@@ -11,7 +11,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
       max: 0,
       effectiveness: 0,
       stab: 0,
-      raw: 0
+      range: [0]
     };
   }
 
@@ -92,7 +92,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
       max: 0,
       effectiveness: 0,
       stab: stab,
-      raw: 0
+      range: [0]
     };
   }
 
@@ -243,11 +243,14 @@ export function calculateDamage(attacker, defender, move, modifiers) {
 
   const finalDamage = baseDamage * stab * effectiveness * weather * hh * charge * doubledmg * stockpile * crit;
 
+  var damageRange = []
+  for(var i = 0.85; i <= 1; i+=0.01){
+    damageRange.push(Math.floor(finalDamage*i))
+  }
+
   return {
-    min: Math.floor(finalDamage * 0.85),
-    max: Math.floor(finalDamage),
     effectiveness,
     stab,
-    raw: finalDamage
+    range: damageRange
   };
 }
