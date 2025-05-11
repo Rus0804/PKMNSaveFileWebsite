@@ -23,7 +23,7 @@ function PartyList({ party, onCardClick }) {
             {pokemon ? (
               <>
                 <img
-                  src={`/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
+                  src={pokemon.shiny?`/Sprites/Pokemon/BW/shiny/${pokemon.pokedex_num}.png`:`/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
                   alt={pokemon.nickname || pokemon.species}
                   className="party-sprite"
                   onError={(e) => {

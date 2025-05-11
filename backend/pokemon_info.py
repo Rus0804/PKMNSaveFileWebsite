@@ -14,6 +14,10 @@ def decrypt_pokemon(pkmn_data, pc = False):
     ot_id = struct.unpack('<I', pkmn_data[0x04:0x08])[0]
     key = personality ^ ot_id
 
+    p1, p2 = struct.unpack('<HH', pkmn_data[0x00:0x04])[0]
+    t_id, s_id = struct.unpack('<HH', pkmn_data[0x04:0x08])[0]
+    isShiny = (p1 ^ p2 ^ t_id ^ s_id) < 8
+
     encrypted = pkmn_data[0x20:0x20+48]
     decrypted = bytearray()
     for i in range(0, 48, 4):
@@ -87,7 +91,8 @@ def decrypt_pokemon(pkmn_data, pc = False):
             "evs" : evs,
             "ivs": ivs,
             "stats": stats,
-            "ability": ability
+            "ability": ability,
+            "shiny": isShiny
         }
     return pokemon_data
 
@@ -118,7 +123,8 @@ def parse_party_pokemon(section, version):
             "evs": decrypted['evs'],
             "ivs": decrypted['ivs'],
             "ability": decrypted['ability'],
-            "stats": decrypted['stats']
+            "stats": decrypted['stats'],
+            "shiny": decrypted['shiny']
         })
     return pokemon_data
 
@@ -159,7 +165,8 @@ def parse_pc_pokemon(buffer):
             "evs": decrypted['evs'],
             "ivs": decrypted['ivs'],
             "ability": decrypted['ability'],
-            "stats": decrypted['stats']
+            "stats": decrypted['stats'],
+            "shiny": decrypted['shiny']
         })
 
     return boxes
