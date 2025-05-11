@@ -54,6 +54,17 @@ const DamageCalc = ({ party, pc }) => {
         <MovePanel attacker={defender} defender={attacker} onUseMove={handleMoveUse} />
       </div>
 
+      {result && (
+        <div className="resultLine">
+          <p>
+            <strong>{result.userName}</strong> used <strong>{result.move}</strong> on <strong>{result.targetName}</strong>!
+            <br />
+            Damage: {result.min}–{result.max} <br />
+            STAB: ×{result.stab}, Effectiveness: ×{result.effectiveness}
+          </p>
+        </div>
+      )}
+
       <div className="modifiers">
         <h3>Battle Modifiers</h3>
         <label>
@@ -126,17 +137,6 @@ const DamageCalc = ({ party, pc }) => {
           Double Battle
         </label>
       </div>
-
-      {result && (
-        <div className="resultLine">
-          <p>
-            <strong>{result.userName}</strong> used <strong>{result.move}</strong> on <strong>{result.targetName}</strong>!
-            <br />
-            Damage: {result.min}–{result.max} <br />
-            STAB: ×{result.stab}, Effectiveness: ×{result.effectiveness}
-          </p>
-        </div>
-      )}
 
       <div className="panels">
         <PokemonPanel
