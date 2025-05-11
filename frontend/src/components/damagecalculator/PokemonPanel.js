@@ -102,6 +102,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
       newStats[stat] = calculateStats(stat, baseStats[stat], updated.ivs[stat], updated.evs[stat], updated.level, modifier, boostStage);
     });
     updated.stats = newStats;
+    updated.currentHP = newStats.hp;
     setPokemon(updated);
   };
 
@@ -229,15 +230,15 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
           <div className="level-nature">
             <label>
               Level:
-              <input type="number" min="1" max="100" value={pokemon.level} onChange={handleLevelChange} />
+              <input type="number" min="1" max="100" value={pokemon.level} onChange={handleLevelChange} disabled={!selectedPokeId} />
             </label>
             <label>
               HP:
-              <input type="number" min="0" max="{pokemon.stats.hp}" value={pokemon.currentHP} onChange={handleHPChange} />
+              <input type="number" min="0" max="{pokemon.stats.hp}" value={pokemon.currentHP} onChange={handleHPChange} disabled={!selectedPokeId} />
             </label>
             <label>
               Nature:
-              <select value={pokemon.nature} onChange={handleNatureChange}>
+              <select value={pokemon.nature} onChange={handleNatureChange} disabled={!selectedPokeId}>
                 {natures.map((nature, i) => (
                   <option key={i} value={nature}>{nature}</option>
                 ))}
@@ -261,13 +262,13 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                   <tr key={stat}>
                     <td>{stat.toUpperCase()}</td>
                     <td>
-                      <input type="number" min="0" max="31" value={pokemon.ivs[stat]} onChange={(e) => handleIVEVChange('ivs', stat, e.target.value)} />
+                      <input type="number" min="0" max="31" value={pokemon.ivs[stat]} onChange={(e) => handleIVEVChange('ivs', stat, e.target.value)} disabled={!selectedPokeId}/>
                     </td>
                     <td>
-                      <input type="number" min="0" max="252" value={pokemon.evs[stat]} onChange={(e) => handleIVEVChange('evs', stat, e.target.value)} />
+                      <input type="number" min="0" max="252" value={pokemon.evs[stat]} onChange={(e) => handleIVEVChange('evs', stat, e.target.value)} disabled={!selectedPokeId}/>
                     </td>
                     <td>
-                      <select value={boosts[stat]} onChange={(e) => handleBoostChange(stat, e.target.value)}>
+                      <select value={boosts[stat]} onChange={(e) => handleBoostChange(stat, e.target.value)} disabled={!selectedPokeId}>
                         {Array.from({ length: 13 }, (_, i) => i - 6).map(stage => (
                           <option key={stage} value={stage}>
                             {stage >= 0 ? `+${stage}` : `${stage}`}
@@ -285,7 +286,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
           <div className="special-condition">
             <label>
               Special Condition:
-              <select value={specialCondition} onChange={handleConditionChange}>
+              <select value={specialCondition} onChange={handleConditionChange} disabled={!selectedPokeId}>
                 <option value="None">None</option>
                 <option value="Poisoned">Poisoned</option>
                 <option value="Burned">Burned</option>
@@ -298,7 +299,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
           <div className="held-item">
             <label>
               Held Item
-              <select value={pokemon.held_item} onChange={handleItemChange}>
+              <select value={pokemon.held_item} onChange={handleItemChange} disabled={!selectedPokeId}>
                 <option value="0">None</option>
                 {itemOptions}
               </select>
@@ -307,7 +308,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
           <div className="abilities">
             <label>
               Ability
-              <select value={pokemon.ability} onChange={handleAbilityChange}>
+              <select value={pokemon.ability} onChange={handleAbilityChange} disabled={!selectedPokeId}>
                 <option value="0">None</option>
                 {abilityOptions}
               </select>
@@ -321,7 +322,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
               const move = move_data[moveId];
               return (
                 <div key={slot} className="move-slot">
-                  <select value={moveId} onChange={(e) => handleMoveChange(slot, e.target.value)}>
+                  <select value={moveId} onChange={(e) => handleMoveChange(slot, e.target.value)} disabled={!selectedPokeId}>
                     <option value="0">None</option>
                     {moveOptions}
                   </select>
