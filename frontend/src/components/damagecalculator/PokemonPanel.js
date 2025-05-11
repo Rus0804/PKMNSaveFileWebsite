@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { pokemon_data } from '../../data/pokemon_data.js';
 import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
@@ -50,6 +50,14 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
   const [selectedPokeId, setSelectedPokeId] = useState(null);
   const [boosts, setBoosts] = useState(Object.fromEntries(statNames.map(stat => [stat, 0])));
   const [specialCondition, setSpecialCondition] = useState('None');
+
+  const itemOptions = useMemo(() => {
+    return Object.entries(item_data).map(([id, item]) => (
+      <option key={item.id} value={item.id}>
+        {item.name}
+      </option>
+    ));
+    },[]);
 
   useEffect(() => {
     if (source === 'Any') {
@@ -258,9 +266,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
               Held Item
               <select value={pokemon.held_item} onChange={handleItemChange}>
                 <option value="0">None</option>
-                {Object.entries(item_data).map(([id, item]) => {
-                  return (<option key={item.id} value={item.id}>{item.name}</option>)
-                })}
+                {itemOptions}
               </select>
             </label>
             

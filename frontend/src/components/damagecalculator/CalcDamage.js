@@ -24,13 +24,13 @@ export function calculateDamage(attacker, defender, move, modifiers) {
 
   const stab = (attacker.type1.toLowerCase() === move.type.toLowerCase() || attacker.type2.toLowerCase() === move.type.toLowerCase()) ? 1.5 : 1;
 
-  const type1 = defender.type1 || "normal";
+  const type1 = defender.type1.toLowerCase() || "normal";
   const type2 = defender.type2;
 
   const effectiveness = (type_chart[move.type.toLowerCase()][type1]) * (type2!=='none' ? (type_chart[move.type.toLowerCase()][type2]) : 1);
-  
+
   const held_items = [186, 188, 191, 192, 193, 199, 202, 217, 215, 209, 205, 208, 212, 207, 211, 203, 210, 214, 204, 213, 216, 206, 223, 224, 220];
-  
+
   if(held_items.includes(attacker.held_item) || held_items.includes(defender.held_item)){
     const type_booster_items = { 
     "normal": 217, "fire": 215, "water": 209, "grass": 205, "electric": 208, "ice": 212, 
