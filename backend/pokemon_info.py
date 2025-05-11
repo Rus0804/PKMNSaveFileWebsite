@@ -16,7 +16,7 @@ def decrypt_pokemon(pkmn_data, pc = False):
 
     p1 = personality//65536
     p2 = personality%65536
-    t_id, s_id = struct.unpack('<HH', pkmn_data[0x04:0x08])[0]
+    t_id, s_id = struct.unpack('<HH', pkmn_data[0x04:0x08])
     isShiny = (p1 ^ p2 ^ t_id ^ s_id) < 8
 
     encrypted = pkmn_data[0x20:0x20+48]
