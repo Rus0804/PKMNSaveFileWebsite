@@ -143,6 +143,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
     } else {
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
       updateStats(selected);
+      selected.currentHP = selected.stats.hp;
       setPokemon(selected);
     }
   };
