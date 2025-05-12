@@ -6,16 +6,16 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 
 ## ⭐️ Features
 
-- 📥 **Reads save files directly** — no hassle with extracting `.pkm` or Pokémon Showdown sets
-- 🧑‍🎓 Displays key **trainer info** for that added spice
-- 🌿 **Encounter table viewer** for the entire region
-- ♻️ **Auto-tracks dupes clause** when checking encounters
-- 📦 Beautiful, sortable view of your Pokémon with **EVs, IVs, nature, moves**, and more
-- 🏅 Assign **badges** to the team that beat a boss
-- 🪦 **Tribute page** for fallen Nuzlocke Pokémon
-- 🧮 Built-in **Gen 3 damage calculator**, with trainer data baked in
-- 🗂️ All data is stored securely when logged in — view it anytime without re-uploading
-- 💾 Supports **multiple save files** per user
+-  **Reads save files directly** — no hassle with extracting `.pkm` or Pokémon Showdown sets
+- Displays key **trainer info** for that added spice
+-  **Encounter table viewer** for the entire region
+-  **Auto-tracks dupes clause** when checking encounters
+-  Beautiful, sortable view of your Pokémon with **EVs, IVs, nature, moves**, and more
+-  Assign **badges** to the team that beat a boss
+-  **Tribute page** for fallen Nuzlocke Pokémon
+-  Built-in **Gen 3 damage calculator**, with trainer data baked in
+-  All data is stored securely when logged in — view it anytime without re-uploading
+-  Supports **multiple save files** per user
 
 ---
 
@@ -31,7 +31,7 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 
 ## 🚧 Remaining Tasks
 
-- [ ] "Remember me" login functionality
+- [.] "Remember me" login functionality
 - [ ] Save file cap (max 5 per user)
 - [ ] Tribute page
 - [ ] Badge assignment support for trainers and Pokémon
@@ -44,7 +44,7 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 
 ## 🔗 Useful Links
 
-- [🧮 Damage Calculator Progress](https://www.notion.so/Damage-Calculator-1f1a8e985f438017a62ffa730e4e8803?pvs=21)
+- [Website Progress Progress]([https://www.notion.so/Damage-Calculator-1f1a8e985f438017a62ffa730e4e8803?pvs=21](https://ethereal-galliform-902.notion.site/GBA-save-file-website-1f1a8e985f4380d8bce7c44c68154b12?pvs=4))
 
 ---
 
