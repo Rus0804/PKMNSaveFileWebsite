@@ -54,7 +54,7 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 - PokéAPI (via `pokebase`) for move/item/ability data: https://pokeapi.co/
 - Pokémon stats/moves dataset: https://www.kaggle.com/datasets/thiagoamancio/full-pokemons-and-moves-datasets?select=metadata_pokemon_moves.csv
 - Trainer data: https://www.speedrun.com/pkmnfrlg/resources
-- **Bulbapedia** (for reversing Gen VIII changes to Gen III specs):
+- **Bulbapedia** for various things including Save data structure and downgrading from the later gen updated datasets down to Gen III:
   - Abilities: https://bulbapedia.bulbagarden.net/wiki/Category:Abilities_introduced_in_Generation_III
   - Move updates: https://bulbapedia.bulbagarden.net/wiki/List_of_modified_moves
   - EXP formula: https://bulbapedia.bulbagarden.net/wiki/Experience#Gain_formula
