@@ -44,7 +44,7 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 
 ## 🔗 Useful Links
 
-- [Website Progress Progress]([https://www.notion.so/Damage-Calculator-1f1a8e985f438017a62ffa730e4e8803?pvs=21](https://ethereal-galliform-902.notion.site/GBA-save-file-website-1f1a8e985f4380d8bce7c44c68154b12?pvs=4))
+- [Website Progress Progress](https://ethereal-galliform-902.notion.site/GBA-save-file-website-1f1a8e985f4380d8bce7c44c68154b12?pvs=4)
 
 ---
 
