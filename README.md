@@ -31,7 +31,7 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 
 ## 🚧 Remaining Tasks
 
-- [.] "Remember me" login functionality
+- [ ] "Remember me" login functionality
 - [ ] Save file cap (max 5 per user)
 - [ ] Tribute page
 - [ ] Badge assignment support for trainers and Pokémon
