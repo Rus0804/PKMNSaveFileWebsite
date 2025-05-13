@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PokemonPanel from './PokemonPanel.js';
 import { calculateDamage } from './CalcDamage.js';
+import ModifierSelector from './ModifierSelector.js';
 import MovePanel from './MovePanel.js';
 import './DamageCalc.css';
 
@@ -26,12 +27,22 @@ const DamageCalc = ({ party, pc }) => {
   const [result, setResult] = useState(null);
   const [modifiers, setModifiers] = useState({
     weather: 'None',
+    stockpile: 0,
     isReflect: false,
     isLightScreen: false,
     isCritical: false,
     isHelpingHand: false,
     isFlashFire: false,
-    isCharge: false
+    isCharge: false,
+    isForesight: false,
+    isPlusMinus: false,
+    isSwitching: false,
+    isDoubleBattle: false,
+    isMudSport: false,
+    isWaterSport: false,
+    inAir: false,
+    inGround: false,
+    inWater: false,
   });
 
   const handleMoveUse = (slot, attacker, defender, move) => {
@@ -42,6 +53,8 @@ const DamageCalc = ({ party, pc }) => {
       effectiveness: dmg.effectiveness,
       stab: dmg.stab,
       range: dmg.range,
+      recoil: dmg.recoil,
+      heal: dmg.heal,
       userName: attacker.name,
       targetName: defender.name
     });
@@ -63,81 +76,31 @@ const DamageCalc = ({ party, pc }) => {
             Range: {result.range?.map((dmg, i) => 
                   (<span key={i}>{dmg}{i < result.range.length - 1 ? ', ' : ''}</span>)
                 )}
+            {(result.recoil.length > 0) && (
+            <>
+            <br></br>
+            {(['High Jump Kick', 'Jump Kick'].includes(result.move)) && (<>Potential Crash </>)}Recoil: {result.recoil?.map((dmg, i) => 
+                  (<span key={i}>{dmg}{i < result.recoil.length - 1 ? ', ' : ''}</span>)
+                )}
+            </>
+            )
+            }
+            {(result.heal.length > 0) && (
+            <>
+            <br></br>
+            Heal: {result.heal?.map((dmg, i) => 
+                  (<span key={i}>{dmg}{i < result.heal.length - 1 ? ', ' : ''}</span>)
+                )}
+            </>
+            )
+            }
+            
           </p>
         </div>
       )}
 
-      <div className="modifiers">
-        <h3>Battle Modifiers</h3>
-        <label>
-          Weather:
-          <select
-            value={modifiers.weather}
-            onChange={(e) => setModifiers(prev => ({ ...prev, weather: e.target.value }))}
-          >
-            <option value="None">None</option>
-            <option value="Rain">Rain</option>
-            <option value="Sun">Sun</option>
-            <option value="Sandstorm">Sandstorm</option>
-            <option value="Hail">Hail</option>
-          </select>
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={modifiers.isReflect}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isReflect: e.target.checked }))}
-          />
-          Reflect
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={modifiers.isLightScreen}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isLightScreen: e.target.checked }))}
-          />
-          Light Screen
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={modifiers.isCritical}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isCritical: e.target.checked }))}
-          />
-          Critical Hit
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={modifiers.isHelpingHand}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isHelpingHand: e.target.checked }))}
-          />
-          Helping Hand
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={modifiers.isFlashFire}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isFlashFire: e.target.checked }))}
-          />
-          FlashFire
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={modifiers.isCharge}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isCharge: e.target.checked }))}
-          />
-          Charge
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={modifiers.isDoubleBattle}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isDoubleBattle: e.target.checked }))}
-          />
-          Double Battle
-        </label>
+      <div className='modifiers'>
+        <ModifierSelector modifiers={modifiers} setModifiers={setModifiers} pokemon1={attacker} pokemon2={defender}></ModifierSelector>
       </div>
 
       <div className="panels">

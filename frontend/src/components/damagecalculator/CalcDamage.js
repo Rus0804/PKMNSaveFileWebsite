@@ -7,17 +7,62 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   // Status moves shouldn't go further 
   if(move.category === 'Status'){
     return {
-      min: 0,
-      max: 0,
       effectiveness: 0,
       stab: 0,
-      range: [0]
+      range: [0],
+      recoil: [],
+      heal: []
     };
   }
 
   const level = attacker.level;
   var power = move.power || 0;
 
+  // Moves based on Hp
+  if(['Eruption', 'Water Spout'].includes(move.name)){
+    power = Math.floor((150 * attacker.currentHP)/attacker.stats.hp) || 1;
+  }
+  else if(['Reversal', 'Flail'].includes(move.name)){
+    var check = attacker.currentHP/attacker.stats.hp
+    if(check>=0.688){
+      power = 20;
+    }
+    else if(check>=0.354){
+      power = 40;
+    }
+    else if(check>=0.208){
+      power = 80;
+    }
+    else if(check>=0.104){
+      power = 100;
+    }
+    else if(check>=0.042){
+      power = 150;
+    }
+    else{
+      power = 250;
+    }
+  }
+  else if(['Earthquake', 'Magnitude'].includes(move.name) && modifiers.inGround){
+    power *= 2;
+  }
+  else if(['Surf', 'Whirlpool'].includes(move.name) && modifiers.inWater){
+    power *= 2;
+  }
+  else if(['Gust', 'Twister'].includes(move.name) && modifiers.inAir){
+    power *= 2;
+  }
+  else if(move.name === 'Facade' && attacker.status !== 'None'){
+    power *= 2
+  }
+
+  if(modifiers.isMudSport && move.type ==='Electric'){
+    power /= 2
+  }
+  else if(modifiers.isWaterSport && move.type ==='Fire'){
+    power /= 2
+  }
+  
   const isPhysical = physicalTypes.includes(move.type);
 
   // check which stats to use
@@ -46,6 +91,12 @@ export function calculateDamage(attacker, defender, move, modifiers) {
     // marvel scale boost
     if(defender.ability === 'Marvel Scale' && defender.status !== 'None'){
       defense *= 1.5;
+    }
+  }
+  else{
+    // Plus Minus spA boost
+    if(modifiers.isPlusMinus){
+      attack *= 1.5;
     }
   }
 
@@ -80,19 +131,98 @@ export function calculateDamage(attacker, defender, move, modifiers) {
     effectiveness = 0;
   }
 
+  // Foresight and OdorSleuth remove immunity for ghost
+  if([type1.toLowerCase(), type2.toLowerCase()].includes('ghost') && modifiers.isForesight){
+    if(['normal', 'fighting'].includes(move.type.toLowerCase())){
+      const new_type_chart = {
+        normal:    { normal: 1, fire: 1, water: 1, grass: 1, electric: 1, ice: 1, fighting: 1, poison: 1, ground: 1, flying: 1, psychic: 1, bug: 1, rock: 0.5, ghost: 1, dragon: 1, dark: 1, steel: 0.5 },
+        fighting:  { normal: 2, fire: 1, water: 1, grass: 1, electric: 1, ice: 2, fighting: 1, poison: 0.5, ground: 1, flying: 0.5, psychic: 0.5, bug: 0.5, rock: 2, ghost: 1, dragon: 1, dark: 2, steel: 2 },
+      }
+      effectiveness = (new_type_chart[move.type.toLowerCase()][type1]) * (type2!=='none' ? (new_type_chart[move.type.toLowerCase()][type2]) : 1);
+    }
+  }
+
   // Wonder guard ig
   if(defender.ability === 'Wonder Guard' && effectiveness < 2){
     effectiveness = 0;
   }
 
+  // Damp stops boom
+  if(['Explosion', 'Self Destruct'].includes(move.name) && defender.ability === 'Damp'){
+    effectiveness = 0;
+  }
+  // OHKO moves fully done 
+  else if(['Guillotine', 'Fissure', 'Sheer Cold', 'Horn Drill'].includes(move.name) && effectiveness > 0){
+    if(defender.ability === 'Sturdy' || defender.level >= attacker.level){
+      effectiveness = 0;
+    }
+    else{
+      return {
+        effectiveness: effectiveness,
+        stab: stab,
+        range: [defender.stats.hp],
+        recoil: [],
+        heal: []
+      };
+    }
+  }
+
   // if this is 0, we don't need anything else
   if(effectiveness === 0){
     return {
-      min: 0,
-      max: 0,
       effectiveness: 0,
       stab: stab,
-      range: [0]
+      range: [0],
+      recoil: [],
+      heal: []
+    };
+  }
+
+  if(move.name === 'Dream Eater' && defender.status !== 'Sleeping'){
+    return {
+      effectiveness,
+      stab: stab,
+      range: [0],
+      recoil: [],
+      heal: []
+    };
+  }
+  else if(move.name === 'Snore' && attacker.status !== 'Sleeping'){
+    return {
+      effectiveness,
+      stab,
+      range: [0],
+      recoil: [],
+      heal: []
+    };
+  }
+  // Moves that do set damage
+  else if(['Sonic Boom', 'Dragon Rage'].includes(move.name)){
+    return {
+      effectiveness,
+      stab,
+      range: move.name === 'Sonic Boom'? [20]: [40],
+      recoil: [],
+      heal: []
+    };
+  }
+  else if(['Seismic Toss', 'Night Shade'].includes(move.name)){
+    return {
+      effectiveness,
+      stab,
+      range: [attacker.level],
+      recoil: [],
+      heal: []
+    };
+  }
+  // Super fang
+  else if(move.name === 'Super Fang'){
+    return {
+      effectiveness,
+      stab,
+      range: [parseInt(defender.currentHP/2)],
+      recoil: [],
+      heal: []
     };
   }
 
@@ -183,21 +313,31 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   }
 
   var weather = 1;
-  if(modifiers.weather === 'Rain'){
-    if(move.type.toLowerCase()==='water'){
-      weather = 1.5;
+  // Abilities that negate weather conditions
+  if (!(['Air Lock', 'Cloud Nine'].includes(attacker.ability) || ['Air Lock', 'Cloud Nine'].includes(defender.ability))) {
+    if(modifiers.weather === 'Rain'){
+      if(move.type.toLowerCase()==='water'){
+        weather = 1.5;
+      }
+      else if(move.type.toLowerCase()==='fire'){
+        weather = 0.5;
+      }
+      else if(move.name === 'Weather Ball'){
+        weather = 1.5;
+      }
     }
-    else if(move.type.toLowerCase()==='fire'){
-      weather = 0.5;
+    else if(modifiers.weather === 'Sun'){
+      if(move.type.toLowerCase()==='fire'){
+        weather = 1.5;
+      }
+      else if(move.type.toLowerCase()==='water'){
+        weather = 0.5;
+      }
+      else if(move.name === 'Weather Ball'){
+        weather = 1.5;
+      }
     }
-  }
-  else if(modifiers.weather === 'Sun'){
-    if(move.type.toLowerCase()==='fire'){
-      weather = 1.5;
-    }
-    else if(move.type.toLowerCase()==='water'){
-      weather = 0.5;
-    }
+
   }
 
   var hh = 1;
@@ -206,14 +346,30 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   }
 
   var crit = 1;
-  if(modifiers.isCritical){
+  // these abilities stop crits
+  if(modifiers.isCritical && !['Battle Armor', 'Shell Armor'].includes(defender.ability)){
     crit = 2;
   }
 
-  // not implemented yet
-  var stockpile = 1;
   var doubledmg = 1;
 
+  // Weather ball
+  if(move.name === 'Weather Ball' && weather !== 1){
+    var temp_type = modifiers.weather === 'Rain'? 'water':'fire';
+    effectiveness = (type_chart[temp_type][type1]) * (type2!=='none' ? (type_chart[temp_type][type2]) : 1);
+    doubledmg = 2;
+  }
+  // Smelling Salts
+  else if(move.name === 'Smelling Salts' && defender.status === 'Paralyzed'){
+    doubledmg = 2;
+  }
+
+  // Pursuit
+  else if(move.name === 'Pursuit' && modifiers.isSwitching){
+    doubledmg = 2;
+  }
+
+  // more abilities : [Rough Skin]
   var targets = 1;
   if(modifiers.isDoubleBattle){
     if (move.target==='multiple'){
@@ -239,18 +395,77 @@ export function calculateDamage(attacker, defender, move, modifiers) {
     }
   }
 
+  var stockpile = 1;
+  if(move.name === 'Spit Up' && modifiers.stockpile){
+    stockpile = modifiers.stockpile
+    power = 100
+    crit = 1
+  }
+
   const baseDamage = Math.floor(Math.floor(Math.floor((2 * level / 5 + 2) * power * attack / defense) / 50) * flashfire * screen * targets + 2);
 
   const finalDamage = baseDamage * stab * effectiveness * weather * hh * charge * doubledmg * stockpile * crit;
+
+  if(move.name === 'Spit Up' && modifiers.stockpile){
+    return {
+      effectiveness,
+      stab,
+      range: [finalDamage],
+      recoil: [],
+      heal: []
+    };
+  }
+
 
   var damageRange = []
   for(var i = 0.85; i <= 1; i+=0.01){
     damageRange.push(Math.floor(finalDamage*i))
   }
 
+  var recoil = []
+  var heal = []
+  if(['Submission', 'Take Down', 'Struggle', 'Volt Tackle', 'Double Edge'].includes(move.name) && attacker.ability!=='Rock Head'){
+    const recoilFactor = ['Volt Tackle', 'Double Edge'].includes(move.name)? 1/3 : 1/4
+    for(i = 0.85; i <= 1; i+=0.01){
+      recoil.push(Math.floor(finalDamage*i*recoilFactor))
+    }
+  }  
+  else if(['Absorb', 'Mega Drain', 'Giga Drain', 'Leech Life', 'Dream Eater'].includes(move.name)){
+    const healFactor = 1/2  
+    if(defender.ability==='Liquid Ooze'){
+      for(i = 0.85; i <= 1; i+=0.01){
+        recoil.push(Math.floor(finalDamage*i*healFactor))
+      }
+    }
+    else{
+      for(i = 0.85; i <= 1; i+=0.01){
+        heal.push(Math.floor(finalDamage*i*healFactor))
+      }
+    } 
+  }
+  else if(['Jump Kick', 'High Jump Kick'].includes(move.name)){
+    const recoilFactor = 1/2
+    for(i = 0.85; i <= 1; i+=0.01){
+      recoil.push(Math.floor(finalDamage*i*recoilFactor))
+    }
+  }
+
+  if((defender.ability === 'Rough Skin') && (move.contact)){
+    if(recoil.length > 0){
+      for(i = 0; i < recoil.length; i++){
+        recoil[i] += Math.floor(attacker.currentHP/16)
+      }
+    }
+    else{
+      recoil = [Math.floor(attacker.currentHP/16)]
+    }
+  }
+
   return {
     effectiveness,
     stab,
-    range: damageRange
+    range: damageRange,
+    recoil: recoil,
+    heal: heal
   };
 }
