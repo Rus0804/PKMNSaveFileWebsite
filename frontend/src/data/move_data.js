@@ -5,7 +5,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "2": {
     "name": "Karate Chop",
@@ -13,7 +14,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "3": {
     "name": "Double Slap",
@@ -21,7 +23,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "4": {
     "name": "Comet Punch",
@@ -29,7 +32,8 @@ export const move_data = {
     "power": 18,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "5": {
     "name": "Mega Punch",
@@ -37,7 +41,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "6": {
     "name": "Pay Day",
@@ -45,7 +50,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "7": {
     "name": "Fire Punch",
@@ -53,7 +59,8 @@ export const move_data = {
     "power": 75,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "8": {
     "name": "Ice Punch",
@@ -61,7 +68,8 @@ export const move_data = {
     "power": 75,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "9": {
     "name": "Thunder Punch",
@@ -69,7 +77,8 @@ export const move_data = {
     "power": 75,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "10": {
     "name": "Scratch",
@@ -77,7 +86,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "11": {
     "name": "Vice Grip",
@@ -85,7 +95,8 @@ export const move_data = {
     "power": 55,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "12": {
     "name": "Guillotine",
@@ -93,7 +104,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 30,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "13": {
     "name": "Razor Wind",
@@ -101,7 +113,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "14": {
     "name": "Swords Dance",
@@ -117,7 +130,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "16": {
     "name": "Gust",
@@ -133,7 +147,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "18": {
     "name": "Whirlwind",
@@ -149,7 +164,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "20": {
     "name": "Bind",
@@ -157,7 +173,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 75,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "21": {
     "name": "Slam",
@@ -165,7 +182,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 75,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "22": {
     "name": "Vine Whip",
@@ -173,7 +191,8 @@ export const move_data = {
     "power": 35,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "23": {
     "name": "Stomp",
@@ -181,7 +200,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "24": {
     "name": "Double Kick",
@@ -189,7 +209,8 @@ export const move_data = {
     "power": 30,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "25": {
     "name": "Mega Kick",
@@ -197,7 +218,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 75,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "26": {
     "name": "Jump Kick",
@@ -205,7 +227,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "27": {
     "name": "Rolling Kick",
@@ -213,7 +236,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "28": {
     "name": "Sand Attack",
@@ -229,7 +253,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "30": {
     "name": "Horn Attack",
@@ -237,7 +262,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "31": {
     "name": "Fury Attack",
@@ -245,7 +271,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "32": {
     "name": "Horn Drill",
@@ -253,7 +280,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 30,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "33": {
     "name": "Tackle",
@@ -261,7 +289,8 @@ export const move_data = {
     "power": 35,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "34": {
     "name": "Body Slam",
@@ -269,7 +298,8 @@ export const move_data = {
     "power": 85,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "35": {
     "name": "Wrap",
@@ -277,7 +307,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "36": {
     "name": "Take Down",
@@ -285,7 +316,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "37": {
     "name": "Thrash",
@@ -293,7 +325,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "38": {
     "name": "Double Edge",
@@ -301,7 +334,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "39": {
     "name": "Tail Whip",
@@ -317,7 +351,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "41": {
     "name": "Twineedle",
@@ -325,7 +360,8 @@ export const move_data = {
     "power": 25,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "42": {
     "name": "Pin Missile",
@@ -333,7 +369,8 @@ export const move_data = {
     "power": 14,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "43": {
     "name": "Leer",
@@ -349,7 +386,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "45": {
     "name": "Growl",
@@ -389,7 +427,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "50": {
     "name": "Disable",
@@ -405,7 +444,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "52": {
     "name": "Ember",
@@ -413,7 +453,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "53": {
     "name": "Flamethrower",
@@ -421,7 +462,8 @@ export const move_data = {
     "power": 95,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "54": {
     "name": "Mist",
@@ -437,7 +479,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "56": {
     "name": "Hydro Pump",
@@ -445,7 +488,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 80,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "57": {
     "name": "Surf",
@@ -453,7 +497,8 @@ export const move_data = {
     "power": 95,
     "accuracy": 100,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "58": {
     "name": "Ice Beam",
@@ -461,7 +506,8 @@ export const move_data = {
     "power": 95,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "59": {
     "name": "Blizzard",
@@ -469,7 +515,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 70,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "60": {
     "name": "Psybeam",
@@ -477,7 +524,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "61": {
     "name": "Bubble Beam",
@@ -485,7 +533,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "62": {
     "name": "Aurora Beam",
@@ -493,7 +542,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "63": {
     "name": "Hyper Beam",
@@ -501,7 +551,8 @@ export const move_data = {
     "power": 150,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "64": {
     "name": "Peck",
@@ -509,7 +560,8 @@ export const move_data = {
     "power": 35,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "65": {
     "name": "Drill Peck",
@@ -517,7 +569,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "66": {
     "name": "Submission",
@@ -525,7 +578,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 80,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "67": {
     "name": "Low Kick",
@@ -533,7 +587,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "68": {
     "name": "Counter",
@@ -541,7 +596,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "69": {
     "name": "Seismic Toss",
@@ -549,7 +605,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "70": {
     "name": "Strength",
@@ -557,7 +614,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "71": {
     "name": "Absorb",
@@ -565,7 +623,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "72": {
     "name": "Mega Drain",
@@ -573,14 +632,15 @@ export const move_data = {
     "power": 75,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "73": {
     "name": "Leech Seed",
     "type": "Grass",
     "power": " ",
     "accuracy": 90,
-    "category": "Special",
+    "category": "Status",
     "target": "single"
   },
   "74": {
@@ -597,7 +657,8 @@ export const move_data = {
     "power": 55,
     "accuracy": 95,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "76": {
     "name": "Solar Beam",
@@ -605,7 +666,8 @@ export const move_data = {
     "power": 200,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "77": {
     "name": "Poison Powder",
@@ -637,7 +699,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "81": {
     "name": "String Shot",
@@ -653,7 +716,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "83": {
     "name": "Fire Spin",
@@ -661,7 +725,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 70,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "84": {
     "name": "Thunder Shock",
@@ -669,7 +734,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "85": {
     "name": "Thunderbolt",
@@ -677,7 +743,8 @@ export const move_data = {
     "power": 95,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "86": {
     "name": "Thunder Wave",
@@ -693,7 +760,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 70,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "88": {
     "name": "Rock Throw",
@@ -701,7 +769,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "89": {
     "name": "Earthquake",
@@ -709,7 +778,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 100,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "90": {
     "name": "Fissure",
@@ -717,7 +787,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 30,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "91": {
     "name": "Dig",
@@ -725,7 +796,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "92": {
     "name": "Toxic",
@@ -741,7 +813,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "94": {
     "name": "Psychic",
@@ -749,7 +822,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "95": {
     "name": "Hypnosis",
@@ -781,7 +855,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "99": {
     "name": "Rage",
@@ -789,7 +864,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "100": {
     "name": "Teleport",
@@ -805,7 +881,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "102": {
     "name": "Mimic",
@@ -933,7 +1010,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "118": {
     "name": "Metronome",
@@ -957,7 +1035,8 @@ export const move_data = {
     "power": 200,
     "accuracy": 100,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "121": {
     "name": "Egg Bomb",
@@ -965,7 +1044,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 75,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "122": {
     "name": "Lick",
@@ -973,7 +1053,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "123": {
     "name": "Smog",
@@ -981,7 +1062,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 70,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "124": {
     "name": "Sludge",
@@ -989,7 +1071,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "125": {
     "name": "Bone Club",
@@ -997,7 +1080,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "126": {
     "name": "Fire Blast",
@@ -1005,7 +1089,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 85,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "127": {
     "name": "Waterfall",
@@ -1013,7 +1098,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "128": {
     "name": "Clamp",
@@ -1021,7 +1107,8 @@ export const move_data = {
     "power": 35,
     "accuracy": 75,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "129": {
     "name": "Swift",
@@ -1029,7 +1116,8 @@ export const move_data = {
     "power": 60,
     "accuracy": " ",
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "130": {
     "name": "Skull Bash",
@@ -1037,7 +1125,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "131": {
     "name": "Spike Cannon",
@@ -1045,7 +1134,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "132": {
     "name": "Constrict",
@@ -1053,7 +1143,8 @@ export const move_data = {
     "power": 10,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "133": {
     "name": "Amnesia",
@@ -1085,7 +1176,8 @@ export const move_data = {
     "power": 85,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "137": {
     "name": "Glare",
@@ -1101,7 +1193,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "139": {
     "name": "Poison Gas",
@@ -1117,7 +1210,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "141": {
     "name": "Leech Life",
@@ -1125,7 +1219,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "142": {
     "name": "Lovely Kiss",
@@ -1141,7 +1236,8 @@ export const move_data = {
     "power": 200,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "144": {
     "name": "Transform",
@@ -1157,7 +1253,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "146": {
     "name": "Dizzy Punch",
@@ -1165,7 +1262,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "147": {
     "name": "Spore",
@@ -1189,7 +1287,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 80,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "150": {
     "name": "Splash",
@@ -1213,7 +1312,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 85,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "153": {
     "name": "Explosion",
@@ -1221,7 +1321,8 @@ export const move_data = {
     "power": 250,
     "accuracy": 100,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "154": {
     "name": "Fury Swipes",
@@ -1229,7 +1330,8 @@ export const move_data = {
     "power": 18,
     "accuracy": 80,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "155": {
     "name": "Bonemerang",
@@ -1237,7 +1339,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "156": {
     "name": "Rest",
@@ -1253,7 +1356,8 @@ export const move_data = {
     "power": 75,
     "accuracy": 90,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "158": {
     "name": "Hyper Fang",
@@ -1261,7 +1365,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "159": {
     "name": "Sharpen",
@@ -1285,7 +1390,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "162": {
     "name": "Super Fang",
@@ -1293,7 +1399,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "163": {
     "name": "Slash",
@@ -1301,7 +1408,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "164": {
     "name": "Substitute",
@@ -1317,7 +1425,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "166": {
     "name": "Sketch",
@@ -1333,7 +1442,8 @@ export const move_data = {
     "power": 10,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "168": {
     "name": "Thief",
@@ -1341,7 +1451,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "169": {
     "name": "Spider Web",
@@ -1373,7 +1484,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "173": {
     "name": "Snore",
@@ -1381,7 +1493,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "174": {
     "name": "Curse",
@@ -1397,7 +1510,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "176": {
     "name": "Conversion 2",
@@ -1413,7 +1527,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "178": {
     "name": "Cotton Spore",
@@ -1429,7 +1544,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "180": {
     "name": "Spite",
@@ -1445,7 +1561,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "182": {
     "name": "Protect",
@@ -1461,7 +1578,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "184": {
     "name": "Scary Face",
@@ -1477,7 +1595,8 @@ export const move_data = {
     "power": 60,
     "accuracy": " ",
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "186": {
     "name": "Sweet Kiss",
@@ -1501,7 +1620,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "189": {
     "name": "Mud Slap",
@@ -1509,7 +1629,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "190": {
     "name": "Octazooka",
@@ -1517,7 +1638,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 85,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "191": {
     "name": "Spikes",
@@ -1533,7 +1655,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 50,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "193": {
     "name": "Foresight",
@@ -1565,7 +1688,8 @@ export const move_data = {
     "power": 55,
     "accuracy": 95,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "197": {
     "name": "Detect",
@@ -1581,7 +1705,8 @@ export const move_data = {
     "power": 25,
     "accuracy": 80,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "199": {
     "name": "Lock On",
@@ -1597,7 +1722,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "201": {
     "name": "Sandstorm",
@@ -1613,7 +1739,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "203": {
     "name": "Endure",
@@ -1637,7 +1764,8 @@ export const move_data = {
     "power": 30,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "206": {
     "name": "False Swipe",
@@ -1645,7 +1773,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "207": {
     "name": "Swagger",
@@ -1669,7 +1798,8 @@ export const move_data = {
     "power": 65,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "210": {
     "name": "Fury Cutter",
@@ -1677,7 +1807,8 @@ export const move_data = {
     "power": 10,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "211": {
     "name": "Steel Wing",
@@ -1685,7 +1816,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "212": {
     "name": "Mean Look",
@@ -1725,7 +1857,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "217": {
     "name": "Present",
@@ -1733,7 +1866,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "218": {
     "name": "Frustration",
@@ -1741,7 +1875,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "219": {
     "name": "Safeguard",
@@ -1765,7 +1900,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 95,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "222": {
     "name": "Magnitude",
@@ -1773,7 +1909,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "223": {
     "name": "Dynamic Punch",
@@ -1781,7 +1918,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 50,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "224": {
     "name": "Megahorn",
@@ -1789,7 +1927,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "225": {
     "name": "Dragon Breath",
@@ -1797,7 +1936,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "226": {
     "name": "Baton Pass",
@@ -1821,7 +1961,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "229": {
     "name": "Rapid Spin",
@@ -1829,7 +1970,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "230": {
     "name": "Sweet Scent",
@@ -1845,7 +1987,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 75,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "232": {
     "name": "Metal Claw",
@@ -1853,7 +1996,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "233": {
     "name": "Vital Throw",
@@ -1861,7 +2005,8 @@ export const move_data = {
     "power": 70,
     "accuracy": " ",
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "234": {
     "name": "Morning Sun",
@@ -1893,7 +2038,8 @@ export const move_data = {
     "power": 30,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "238": {
     "name": "Cross Chop",
@@ -1901,7 +2047,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 80,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "239": {
     "name": "Twister",
@@ -1909,7 +2056,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "240": {
     "name": "Rain Dance",
@@ -1933,7 +2081,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "243": {
     "name": "Mirror Coat",
@@ -1941,7 +2090,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "244": {
     "name": "Psych Up",
@@ -1957,7 +2107,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "246": {
     "name": "Ancient Power",
@@ -1965,7 +2116,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "247": {
     "name": "Shadow Ball",
@@ -1973,7 +2125,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "248": {
     "name": "Future Sight",
@@ -1981,7 +2134,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "249": {
     "name": "Rock Smash",
@@ -1989,7 +2143,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "250": {
     "name": "Whirlpool",
@@ -1997,7 +2152,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 70,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "251": {
     "name": "Beat Up",
@@ -2005,7 +2161,8 @@ export const move_data = {
     "power": 10,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "252": {
     "name": "Fake Out",
@@ -2013,7 +2170,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "253": {
     "name": "Uproar",
@@ -2021,7 +2179,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "254": {
     "name": "Stockpile",
@@ -2037,7 +2196,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "256": {
     "name": "Swallow",
@@ -2053,7 +2213,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 90,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "258": {
     "name": "Hail",
@@ -2101,7 +2262,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "264": {
     "name": "Focus Punch",
@@ -2109,7 +2271,8 @@ export const move_data = {
     "power": 150,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "265": {
     "name": "Smelling Salts",
@@ -2117,7 +2280,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "266": {
     "name": "Follow Me",
@@ -2205,7 +2369,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "277": {
     "name": "Magic Coat",
@@ -2213,7 +2378,8 @@ export const move_data = {
     "power": " ",
     "accuracy": " ",
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "278": {
     "name": "Recycle",
@@ -2229,7 +2395,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "280": {
     "name": "Brick Break",
@@ -2237,7 +2404,8 @@ export const move_data = {
     "power": 75,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "281": {
     "name": "Yawn",
@@ -2253,7 +2421,8 @@ export const move_data = {
     "power": 20,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "283": {
     "name": "Endeavor",
@@ -2261,7 +2430,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "284": {
     "name": "Eruption",
@@ -2269,7 +2439,8 @@ export const move_data = {
     "power": 150,
     "accuracy": 100,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "285": {
     "name": "Skill Swap",
@@ -2317,7 +2488,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "291": {
     "name": "Dive",
@@ -2325,7 +2497,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "292": {
     "name": "Arm Thrust",
@@ -2333,7 +2506,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "293": {
     "name": "Camouflage",
@@ -2365,7 +2539,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "297": {
     "name": "Feather Dance",
@@ -2389,7 +2564,8 @@ export const move_data = {
     "power": 85,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "300": {
     "name": "Mud Sport",
@@ -2405,7 +2581,8 @@ export const move_data = {
     "power": 30,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "302": {
     "name": "Needle Arm",
@@ -2413,7 +2590,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "303": {
     "name": "Slack Off",
@@ -2429,7 +2607,8 @@ export const move_data = {
     "power": 90,
     "accuracy": 100,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "305": {
     "name": "Poison Fang",
@@ -2437,7 +2616,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "306": {
     "name": "Crush Claw",
@@ -2445,7 +2625,8 @@ export const move_data = {
     "power": 75,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "307": {
     "name": "Blast Burn",
@@ -2453,7 +2634,8 @@ export const move_data = {
     "power": 150,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "308": {
     "name": "Hydro Cannon",
@@ -2461,7 +2643,8 @@ export const move_data = {
     "power": 150,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "309": {
     "name": "Meteor Mash",
@@ -2469,7 +2652,8 @@ export const move_data = {
     "power": 100,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "310": {
     "name": "Astonish",
@@ -2477,7 +2661,8 @@ export const move_data = {
     "power": 30,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "311": {
     "name": "Weather Ball",
@@ -2485,7 +2670,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "312": {
     "name": "Aromatherapy",
@@ -2509,7 +2695,8 @@ export const move_data = {
     "power": 55,
     "accuracy": 95,
     "category": "Physical",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "315": {
     "name": "Overheat",
@@ -2517,7 +2704,8 @@ export const move_data = {
     "power": 140,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "316": {
     "name": "Odor Sleuth",
@@ -2533,7 +2721,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 80,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "318": {
     "name": "Silver Wind",
@@ -2541,7 +2730,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "319": {
     "name": "Metal Sound",
@@ -2581,7 +2771,8 @@ export const move_data = {
     "power": 150,
     "accuracy": 100,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "324": {
     "name": "Signal Beam",
@@ -2589,7 +2780,8 @@ export const move_data = {
     "power": 75,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "325": {
     "name": "Shadow Punch",
@@ -2597,7 +2789,8 @@ export const move_data = {
     "power": 60,
     "accuracy": " ",
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "326": {
     "name": "Extrasensory",
@@ -2605,7 +2798,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "327": {
     "name": "Sky Uppercut",
@@ -2613,7 +2807,8 @@ export const move_data = {
     "power": 85,
     "accuracy": 90,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "328": {
     "name": "Sand Tomb",
@@ -2621,7 +2816,8 @@ export const move_data = {
     "power": 15,
     "accuracy": 70,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "329": {
     "name": "Sheer Cold",
@@ -2629,7 +2825,8 @@ export const move_data = {
     "power": " ",
     "accuracy": 30,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "330": {
     "name": "Muddy Water",
@@ -2637,7 +2834,8 @@ export const move_data = {
     "power": 95,
     "accuracy": 85,
     "category": "Special",
-    "target": "multiple"
+    "target": "multiple",
+    "contact": false
   },
   "331": {
     "name": "Bullet Seed",
@@ -2645,7 +2843,8 @@ export const move_data = {
     "power": 10,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "332": {
     "name": "Aerial Ace",
@@ -2653,7 +2852,8 @@ export const move_data = {
     "power": 60,
     "accuracy": " ",
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "333": {
     "name": "Icicle Spear",
@@ -2661,7 +2861,8 @@ export const move_data = {
     "power": 10,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "334": {
     "name": "Iron Defense",
@@ -2693,7 +2894,8 @@ export const move_data = {
     "power": 80,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "338": {
     "name": "Frenzy Plant",
@@ -2701,7 +2903,8 @@ export const move_data = {
     "power": 150,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "339": {
     "name": "Bulk Up",
@@ -2717,7 +2920,8 @@ export const move_data = {
     "power": 85,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "341": {
     "name": "Mud Shot",
@@ -2725,7 +2929,8 @@ export const move_data = {
     "power": 55,
     "accuracy": 95,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "342": {
     "name": "Poison Tail",
@@ -2733,7 +2938,8 @@ export const move_data = {
     "power": 50,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "343": {
     "name": "Covet",
@@ -2741,7 +2947,8 @@ export const move_data = {
     "power": 40,
     "accuracy": 100,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "344": {
     "name": "Volt Tackle",
@@ -2749,7 +2956,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "345": {
     "name": "Magical Leaf",
@@ -2757,7 +2965,8 @@ export const move_data = {
     "power": 60,
     "accuracy": " ",
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "346": {
     "name": "Water Sport",
@@ -2781,7 +2990,8 @@ export const move_data = {
     "power": 70,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": true
   },
   "349": {
     "name": "Dragon Dance",
@@ -2797,7 +3007,8 @@ export const move_data = {
     "power": 25,
     "accuracy": 80,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "351": {
     "name": "Shock Wave",
@@ -2805,7 +3016,8 @@ export const move_data = {
     "power": 60,
     "accuracy": " ",
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "352": {
     "name": "Water Pulse",
@@ -2813,7 +3025,8 @@ export const move_data = {
     "power": 60,
     "accuracy": 100,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "353": {
     "name": "Doom Desire",
@@ -2821,7 +3034,8 @@ export const move_data = {
     "power": 120,
     "accuracy": 85,
     "category": "Physical",
-    "target": "single"
+    "target": "single",
+    "contact": false
   },
   "354": {
     "name": "Psycho Boost",
@@ -2829,6 +3043,7 @@ export const move_data = {
     "power": 140,
     "accuracy": 90,
     "category": "Special",
-    "target": "single"
+    "target": "single",
+    "contact": false
   }
 }
