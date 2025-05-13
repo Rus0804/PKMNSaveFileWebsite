@@ -28,13 +28,19 @@
     border: 1px solid #aaa;
   }
   
-  .level-nature {
+  .level-nature-hp {
     display: flex;
     justify-content: space-between;
     gap: 10px;
     margin-top: 15px;
   }
-  
+
+  .types {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
   .stats-table {
     margin-top: 20px;
     overflow-x: auto;

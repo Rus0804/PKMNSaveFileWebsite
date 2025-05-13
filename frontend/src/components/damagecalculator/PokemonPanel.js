@@ -6,6 +6,13 @@ import { ability_data } from '../../data/ability_data.js';
 import './PokemonPanel.css';
 
 const statNames = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+const types = [
+  'None',
+  'Normal', 'Fire', 'Water', 'Grass', 'Electric', 
+  'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 
+  'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 
+  'Steel'
+]
 const natures = [
   'Hardy', 'Lonely', 'Brave', 'Adamant', 'Naughty',
   'Bold', 'Docile', 'Relaxed', 'Impish', 'Lax',
@@ -72,6 +79,22 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
     return Object.entries(ability_data).map(([id, ability]) => (
         <option key={id} value={ability.name}>
           {ability.name}
+        </option>
+      ));
+    },[]);
+
+    const natureOptions = useMemo(() => { 
+    return Object.entries(natures).map(([i, nature]) => (
+        <option key={i} value={nature}>
+          {nature}
+        </option>
+      ));
+    },[]);
+
+    const typeOptions = useMemo(() => { 
+    return Object.entries(types).map(([i, type]) => (
+        <option key={i} value={type.toLowerCase()}>
+          {type}
         </option>
       ));
     },[]);
@@ -202,6 +225,17 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
     setPokemon(updated);
   }
 
+  const handleTypeChange = (slot, e) => {
+    const updated = {...pokemon};
+    if(slot === 1){
+      updated.type1 = e.target.value.toLowerCase();
+    }
+    else{
+      updated.type2 = e.target.value.toLowerCase();
+    }
+    setPokemon(updated);
+  }
+
   return (
     <div className="pokemon-panel">
       <label>
@@ -227,21 +261,32 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
 
       {pokemon.name && (
         <>
-          <div className="level-nature">
+          <div className="level-nature-hp">
             <label>
               Level:
               <input type="number" min="1" max="100" value={pokemon.level} onChange={handleLevelChange} disabled={!selectedPokeId} />
             </label>
             <label>
               HP:
-              <input type="number" min="0" max="{pokemon.stats.hp}" value={pokemon.currentHP} onChange={handleHPChange} disabled={!selectedPokeId} />
+                <input type="number" min="0" max="{pokemon.stats.hp}" value={pokemon.currentHP} onChange={handleHPChange} disabled={!selectedPokeId} />
             </label>
             <label>
               Nature:
               <select value={pokemon.nature} onChange={handleNatureChange} disabled={!selectedPokeId}>
-                {natures.map((nature, i) => (
-                  <option key={i} value={nature}>{nature}</option>
-                ))}
+                {natureOptions}
+              </select>
+            </label>
+          </div>
+          <div className='types'>
+            <h4>Types:</h4>
+            <label>
+              <select value={pokemon.type1} onChange={(e) => handleTypeChange(1, e)} disabled={!selectedPokeId}>
+                {typeOptions}
+              </select>
+            </label>
+            <label>
+              <select value={pokemon.type2} onChange={(e) => handleTypeChange(2, e)} disabled={!selectedPokeId}>
+                {typeOptions}
               </select>
             </label>
           </div>
