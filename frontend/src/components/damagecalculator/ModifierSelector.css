@@ -1,0 +1,41 @@
+.modifiersCard {
+    display: flex;
+    direction: row;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.modifiersCard h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.fieldCheck {
+  display: flex;
+  direction: row;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  align-content: center;
+  justify-content: center;
+}
+
+.weather-stockpile-select{
+  display: inline-flexbox;
+  direction: column;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-content: center;
+  justify-content: center;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.modifiersCard select {
+  size: 0px;
+  padding: 4px;
+}
