@@ -2,7 +2,7 @@ import React from 'react';
 import './MovePanel.css';
 import { move_data } from '../../data/move_data.js';
 
-const MovePanel = ({ attacker, defender, onUseMove }) => {
+const MovePanel = ({ attacker, defender, onUseMove, setHits, modifers }) => {
   const handleClick = (slot) => {
     const moveId = attacker.moves[slot];
     const move = move_data[moveId];
@@ -24,14 +24,22 @@ const MovePanel = ({ attacker, defender, onUseMove }) => {
           const moveId = attacker.moves[slot];
           const move = move_data[moveId];
           return (
-            <button
-              key={slot}
-              className="moveButton"
-              onClick={() => handleClick(slot)}
-              disabled={!move || !move.name}
-            >
-              {move?.name || "—"}
-            </button>
+            <div className='move'>
+              <button
+                key={slot}
+                className="moveButton"
+                onClick={() => handleClick(slot)}
+                disabled={!move || !move.name}
+              >
+                {move?.name || "—"}
+              </button>
+              {(move?.multiple) && (
+                <>
+                  <input className='multihit-select' type='number' value = {modifers.numHits} min={move.minHits} max={move.maxHits} onChange={(e) => setHits(prev => ({ ...prev, numHits: e.target.value }))}></input>
+                  Hits
+                </> 
+                )}
+            </div>
           );
         })}
       </div>

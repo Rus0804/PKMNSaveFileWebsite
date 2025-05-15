@@ -118,6 +118,17 @@ const ModifierSelector = ({ modifiers, setModifiers, pokemon1, pokemon2}) => {
           in Air
         </label>)
         }
+        {((Object.values(pokemon1.moves).includes(205)) || (Object.values(pokemon2.moves).includes(205)) || (Object.values(pokemon1.moves).includes(301)) || (Object.values(pokemon2.moves).includes(301))) && ((Object.values(pokemon1.moves).includes(111)) || (Object.values(pokemon2.moves).includes(111))) && 
+        (<label className="fieldCheck">
+          <input
+            type="checkbox"
+            checked={modifiers.isDefenceCurl}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isDefenceCurl: e.target.checked }))}
+          />
+          Defence Curl+Rollout/Ice Ball
+        </label>)
+        }
+        
         {((Object.values(pokemon1.moves).includes(255)) || (Object.values(pokemon2.moves).includes(255))) &&
         (<label className="weather-stockpile-select">
           Stockpile
@@ -132,6 +143,16 @@ const ModifierSelector = ({ modifiers, setModifiers, pokemon1, pokemon2}) => {
             onChange={(e) => setModifiers(prev => ({ ...prev, isSwitching: e.target.checked }))}
           />
           Switching
+        </label>)
+        }
+        {(Object.values(pokemon1.moves).includes(107) || Object.values(pokemon2.moves).includes(107)) &&
+        (<label className="fieldCheck">
+          <input
+            type="checkbox"
+            checked={modifiers.isMini}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isMini: e.target.checked }))}
+          />
+          Minimize
         </label>)
         }
         <label className="fieldCheck">

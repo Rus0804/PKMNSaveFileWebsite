@@ -55,6 +55,18 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   else if(move.name === 'Facade' && attacker.status !== 'None'){
     power *= 2
   }
+  else if (['Fury Cutter', 'Rollout', 'Ice Ball'].includes(move.name)){
+    if(modifiers.isDefenceCurl){
+      power *= 2
+    }
+    power *= 2**modifiers.numHits
+  }
+  else if(move.multiple){
+    power *= modifiers.numHits
+  }
+  // else if(move.name === 'Hidden Power'){
+  //   const check = attacker.hiddenPower
+  // }
 
   if(modifiers.isMudSport && move.type ==='Electric'){
     power /= 2
@@ -62,7 +74,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   else if(modifiers.isWaterSport && move.type ==='Fire'){
     power /= 2
   }
-  
+
   const isPhysical = physicalTypes.includes(move.type);
 
   // check which stats to use
@@ -367,6 +379,10 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   // Pursuit
   else if(move.name === 'Pursuit' && modifiers.isSwitching){
     doubledmg = 2;
+  }
+  // minimize
+  else if(modifiers.isMini && ['Stomp', 'Extrasensory', 'Astonish', 'Needle Arm'].includes(move.name)){
+    doubledmg = 2
   }
 
   // more abilities : [Rough Skin]
