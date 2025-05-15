@@ -2,6 +2,7 @@ import struct
 from constants import *
 from maps import *
 from get_stats import *
+import math
 
 def get_substructure_order(personality):
     return SUBSTRUCTURE_ORDERS[personality % 24]
@@ -43,6 +44,7 @@ def decrypt_pokemon(pkmn_data, pc = False):
     
     held_item = struct.unpack('<H', growth[0x02:0x04])[0]
 
+    friendship = growth[0x09]
     
     nature = Natures[personality%25]
     nickname = decode_gba_string(pkmn_data[0x08:0x08+10])
@@ -55,6 +57,15 @@ def decrypt_pokemon(pkmn_data, pc = False):
              2:struct.unpack('<H', attacks[0x04:0x06])[0],
              3:struct.unpack('<H', attacks[0x06:0x08])[0]
              }
+
+    check = 0
+    stats = ['hp', 'atk', 'def', 'spe', 'spa', 'spd']
+    for i in range(len(stats)):
+        check += ivs[stats[i]]%2 * (2**i)
+        type_check = check * 15/63
+        type_check = int(type_check)
+        hidden_power_type = ['Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'][type_check] 
+        hidden_power_power = int(check * 40/63 + 30)
 
     if pc:
         exp_grps = list(experience_group.keys())
@@ -84,7 +95,7 @@ def decrypt_pokemon(pkmn_data, pc = False):
             "name": speciesMap[pokedex_num]['Name'],
             "nickname":nickname,
             "type1": types[0],
-            "type2": types[1], #190101001334
+            "type2": types[1],
             "nature": nature,
             "held_item": held_item,
             "level": level,
@@ -93,7 +104,9 @@ def decrypt_pokemon(pkmn_data, pc = False):
             "ivs": ivs,
             "stats": stats,
             "ability": ability,
-            "shiny": isShiny
+            "shiny": isShiny,
+            "friendship": friendship,
+            "hidden_power": [hidden_power_type, hidden_power_power]
         }
     return pokemon_data
 
@@ -125,7 +138,9 @@ def parse_party_pokemon(section, version):
             "ivs": decrypted['ivs'],
             "ability": decrypted['ability'],
             "stats": decrypted['stats'],
-            "shiny": decrypted['shiny']
+            "shiny": decrypted['shiny'],
+            "friendship": decrypted['friendship'],
+            "hidden_power": decrypted['hidden_power']            
         })
     return pokemon_data
 
@@ -167,7 +182,8 @@ def parse_pc_pokemon(buffer):
             "ivs": decrypted['ivs'],
             "ability": decrypted['ability'],
             "stats": decrypted['stats'],
-            "shiny": decrypted['shiny']
+            "shiny": decrypted['shiny'],
+            "friendship": decrypted['friendship'],
+            "hidden_power": decrypted['hidden_power']
         })
-
     return boxes

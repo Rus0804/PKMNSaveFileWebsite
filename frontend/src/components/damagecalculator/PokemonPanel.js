@@ -36,6 +36,26 @@ const getNatureModifier = (nature, stat) => {
   return 1.0;
 };
 
+const getHiddenPower = (ivs) => {
+  const stats = ['hp', 'atk', 'def', 'spe', 'spa', 'spd']
+  let check = 0;
+
+  for (let i = 0; i < stats.length; i++) {
+    check += (ivs[stats[i]] % 2) * (2 ** i);
+  }
+
+  const typeCheck = Math.floor((check * 15) / 63);
+  const hiddenPowerTypes = [
+    'Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug',
+    'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric',
+    'Psychic', 'Ice', 'Dragon', 'Dark'
+  ];
+
+  const hiddenPowerType = hiddenPowerTypes[typeCheck];
+  const hiddenPowerPower = Math.floor((check * 40) / 63 + 30);
+  return [hiddenPowerType, hiddenPowerPower]
+}
+
 const calculateStats = (stat, base, iv, ev, level, natureMod = 1, boostStage = 0) => {
   if (base === undefined) return 0;
   if (stat === 'hp') {
@@ -146,6 +166,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
         newStats[stat] = calculateStats(stat, baseStats[stat], blankIVs[stat], blankEVs[stat], level);
       });
 
+      const hidden_power = getHiddenPower(blankIVs)
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
       setPokemon({
         name: selected.name,
@@ -162,7 +183,9 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
         ability: 'None',
         held_item: 0,
         moves: { 0: 0, 1: 0, 2: 0, 3: 0 },
-        status: 'None'
+        status: 'None',
+        hidden_power: hidden_power,
+        friendship: 0
       });
     } else {
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
@@ -175,6 +198,9 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
   const handleIVEVChange = (type, stat, value) => {
     const updated = { ...pokemon };
     updated[type][stat] = parseInt(value) || 0;
+    if(type==='ivs'){
+      updated.hidden_power = getHiddenPower(updated[type])
+    }
     updateStats(updated);
   };
 
@@ -216,6 +242,12 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
   const handleAbilityChange = (e) => {
     const updated = { ...pokemon };
     updated.ability = e.target.value;
+    setPokemon(updated);
+  };
+
+  const handleFriendshipChange = (e) => {
+    const updated = { ...pokemon };
+    updated.friendship = e.target.value;
     setPokemon(updated);
   };
 
@@ -265,6 +297,10 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
             <label>
               Level:
               <input type="number" min="1" max="100" value={pokemon.level} onChange={handleLevelChange} disabled={!selectedPokeId} />
+            </label>
+            <label>
+              Friendship:
+                <input type="number" min="0" max={255} value={pokemon.friendship} onChange={handleFriendshipChange} disabled={!selectedPokeId} />
             </label>
             <label>
               HP:
@@ -373,7 +409,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                   </select>
                   {move && (
                     <div className="move-info">
-                      <strong>{move.name}</strong> — {move.type} | {move.category} | {move.power ?? '—'} Power
+                      <strong>{move.name}</strong> — {move.name==='Hidden Power'?pokemon.hidden_power[0]: move.type} | {move.category} | {(move.name === 'Hidden Power'? pokemon.hidden_power[1]:move.power) ?? '—'} Power
                     </div>
                   )}
                 </div>

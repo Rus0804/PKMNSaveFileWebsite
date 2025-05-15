@@ -1,7 +1,7 @@
 import { type_chart } from '../../data/type_chart.js';
 
 // moves are physical based on types in gen 3
-const physicalTypes = ["Normal", "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel"];
+const physicalTypes = ["normal", "fighting", "flying", "poison", "ground", "rock", "bug", "ghost", "steel"];
 
 export function calculateDamage(attacker, defender, move, modifiers) {
   // Status moves shouldn't go further 
@@ -17,6 +17,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
 
   const level = attacker.level;
   var power = move.power || 0;
+  const move_type = move.name === 'Hidden Power'?attacker.hidden_power[0].toLowerCase() : move.type.toLowerCase()
 
   // Moves based on Hp
   if(['Eruption', 'Water Spout'].includes(move.name)){
@@ -64,9 +65,9 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   else if(move.multiple){
     power *= modifiers.numHits
   }
-  // else if(move.name === 'Hidden Power'){
-  //   const check = attacker.hiddenPower
-  // }
+  else if(move.name === 'Hidden Power'){
+    power = attacker.hidden_power[1]
+  }
   else if(['Psywave', 'Magnitude', 'Present'].includes(move.name)){
     power = modifiers.movePower
   }
@@ -90,15 +91,23 @@ export function calculateDamage(attacker, defender, move, modifiers) {
       power = 120
     }
   }
+  else if(['Return', 'Frustration'].includes(move.name)){
+    if(move.name === 'Return'){
+      power = Math.lower(attacker.friendship/2.5)
+    }
+    else{
+      power = Math.lower((255 - attacker.friendship)/2.5)
+    } 
+  }
 
-  if(modifiers.isMudSport && move.type ==='Electric'){
+  if(modifiers.isMudSport && move_type ==='Electric'){
     power /= 2
   }
-  else if(modifiers.isWaterSport && move.type ==='Fire'){
+  else if(modifiers.isWaterSport && move_type ==='Fire'){
     power /= 2
   }
 
-  const isPhysical = physicalTypes.includes(move.type);
+  const isPhysical = physicalTypes.includes(move_type);
 
   // check which stats to use
   const atkStat = isPhysical ? 'atk' : 'spa';
@@ -136,16 +145,16 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   }
 
   // thick fat halves opp attack rather than half effectiveness
-  if(defender.ability === 'Thick Fat' && ['fire', 'ice'].includes(move.type.toLowerCase())){
+  if(defender.ability === 'Thick Fat' && ['fire', 'ice'].includes(move_type)){
     attack *= 0.5;
   }
 
-  const stab = (attacker.type1.toLowerCase() === move.type.toLowerCase() || attacker.type2.toLowerCase() === move.type.toLowerCase()) ? 1.5 : 1;
+  const stab = (attacker.type1.toLowerCase() === move_type || attacker.type2.toLowerCase() === move_type) ? 1.5 : 1;
 
   const type1 = defender.type1.toLowerCase() || "normal";
   const type2 = defender.type2;
 
-  var effectiveness = (type_chart[move.type.toLowerCase()][type1]) * (type2!=='none' ? (type_chart[move.type.toLowerCase()][type2]) : 1);
+  var effectiveness = (type_chart[move_type][type1]) * (type2!=='none' ? (type_chart[move_type][type2]) : 1);
 
   // abilities that make type immunities
   const immunity_abilities = ['Flash Fire', 'Levitate', 'Volt Absorb', 'Water Absorb']
@@ -156,7 +165,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
       'Flash Fire': 'fire', 'Levitate': 'ground', 
       'Volt Absorb': 'electric', 'Water Absorb': 'water'
     }
-    if(move.type.toLowerCase() === immunity_types[defender.ability]){
+    if(move_type === immunity_types[defender.ability]){
       effectiveness = 0;
     }
   }
@@ -168,12 +177,12 @@ export function calculateDamage(attacker, defender, move, modifiers) {
 
   // Foresight and OdorSleuth remove immunity for ghost
   if([type1.toLowerCase(), type2.toLowerCase()].includes('ghost') && modifiers.isForesight){
-    if(['normal', 'fighting'].includes(move.type.toLowerCase())){
+    if(['normal', 'fighting'].includes(move_type)){
       const new_type_chart = {
         normal:    { normal: 1, fire: 1, water: 1, grass: 1, electric: 1, ice: 1, fighting: 1, poison: 1, ground: 1, flying: 1, psychic: 1, bug: 1, rock: 0.5, ghost: 1, dragon: 1, dark: 1, steel: 0.5 },
         fighting:  { normal: 2, fire: 1, water: 1, grass: 1, electric: 1, ice: 2, fighting: 1, poison: 0.5, ground: 1, flying: 0.5, psychic: 0.5, bug: 0.5, rock: 2, ghost: 1, dragon: 1, dark: 2, steel: 2 },
       }
-      effectiveness = (new_type_chart[move.type.toLowerCase()][type1]) * (type2!=='none' ? (new_type_chart[move.type.toLowerCase()][type2]) : 1);
+      effectiveness = (new_type_chart[move_type][type1]) * (type2!=='none' ? (new_type_chart[move_type][type2]) : 1);
     }
   }
 
@@ -312,7 +321,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
       defense *= 1.5
     }
 
-    if(attacker.held_item === type_booster_items[move.type.toLowerCase()]){
+    if(attacker.held_item === type_booster_items[move_type]){
       power *= 1.1;
     }
 
@@ -322,7 +331,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
     }
 
     // sea incense for some reason
-    if(attacker.held_item === 220 && move.type.toLowerCase() === 'water'){
+    if(attacker.held_item === 220 && move_type === 'water'){
       power *= 1.05;
     }
   }
@@ -331,19 +340,19 @@ export function calculateDamage(attacker, defender, move, modifiers) {
     const type_boost_abilities = ['Blaze', 'Overgrow', 'Torrent', 'Swarm'];
     if(type_boost_abilities.includes(attacker.ability)){
       const types_affected = {'Blaze': 'fire', 'Overgrow': 'grass', 'Torrent': 'water', 'Swarm': 'bug'}
-      if(move.type.toLowerCase() === types_affected[attacker.ability]){
+      if(move_type === types_affected[attacker.ability]){
         power *= 1.5;
       }
     }
   }
 
   var flashfire = 1;
-  if(modifiers.isFlashFire && move.type.toLowerCase()==='fire'){
+  if(modifiers.isFlashFire && move_type ==='fire'){
     flashfire = 1.5;
   }
 
   var charge = 1;
-  if(modifiers.isCharge && move.type.toLowerCase()==='electric'){
+  if(modifiers.isCharge && move_type ==='electric'){
     charge = 1.5;
   }
 
@@ -351,10 +360,10 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   // Abilities that negate weather conditions
   if (!(['Air Lock', 'Cloud Nine'].includes(attacker.ability) || ['Air Lock', 'Cloud Nine'].includes(defender.ability))) {
     if(modifiers.weather === 'Rain'){
-      if(move.type.toLowerCase()==='water'){
+      if(move_type ==='water'){
         weather = 1.5;
       }
-      else if(move.type.toLowerCase()==='fire'){
+      else if(move_type ==='fire'){
         weather = 0.5;
       }
       else if(move.name === 'Weather Ball'){
@@ -362,10 +371,10 @@ export function calculateDamage(attacker, defender, move, modifiers) {
       }
     }
     else if(modifiers.weather === 'Sun'){
-      if(move.type.toLowerCase()==='fire'){
+      if(move_type==='fire'){
         weather = 1.5;
       }
-      else if(move.type.toLowerCase()==='water'){
+      else if(move_type==='water'){
         weather = 0.5;
       }
       else if(move.name === 'Weather Ball'){

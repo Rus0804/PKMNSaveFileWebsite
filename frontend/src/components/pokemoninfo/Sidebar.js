@@ -55,6 +55,13 @@ const Sidebar = ({ pokemon, closeSidebar }) => {
             ))}
           </tbody>
         </table>
+        
+        <div>
+            <p><strong>Hidden Power</strong></p>
+            <p><strong>Type:</strong> {pokemon.hidden_power[0]}</p>
+            <p><strong>Power:</strong> {pokemon.hidden_power[1]}</p>
+        </div>
+        
 
         {/* Moves List */}
         <p><strong>Moves</strong></p>
