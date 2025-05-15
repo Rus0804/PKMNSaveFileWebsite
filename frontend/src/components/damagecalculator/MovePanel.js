@@ -2,7 +2,7 @@ import React from 'react';
 import './MovePanel.css';
 import { move_data } from '../../data/move_data.js';
 
-const MovePanel = ({ attacker, defender, onUseMove, setHits, modifiers, setPower }) => {
+const MovePanel = ({ side, attacker, defender, onUseMove, setHits, modifiers, setPower }) => {
   const handleClick = (slot) => {
     const moveId = attacker.moves[slot];
     const move = move_data[moveId];
@@ -24,7 +24,7 @@ const MovePanel = ({ attacker, defender, onUseMove, setHits, modifiers, setPower
           const moveId = attacker.moves[slot];
           const move = move_data[moveId];
           return (
-            <div className='move'>
+            <div key = {`${side}-${attacker.pokedex_num}-${slot}`} className='move'>
               <button
                 key={slot}
                 className="moveButton"
@@ -89,7 +89,8 @@ const MovePanel = ({ attacker, defender, onUseMove, setHits, modifiers, setPower
                     </select>
                     Power
                 </> 
-              )}
+              )
+              }
             </div>
           );
         })}
