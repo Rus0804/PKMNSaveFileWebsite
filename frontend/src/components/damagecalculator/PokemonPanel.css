@@ -34,6 +34,10 @@
     gap: 10px;
     margin-top: 15px;
   }
+  
+  .level-nature-hp select{
+    width: 100px;
+  }
 
   .types {
     display: flex;
@@ -65,17 +69,6 @@
   
   .move-selectors select {
     margin-bottom: 10px;
-  }
-  
-  .sprite-container {
-    text-align: center;
-    margin: 20px 0;
-  }
-  
-  .sprite-container img {
-    width: 96px;
-    height: 96px;
-    image-rendering: pixelated;
   }
 
   .move-slot {
