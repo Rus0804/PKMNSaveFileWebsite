@@ -67,6 +67,29 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   // else if(move.name === 'Hidden Power'){
   //   const check = attacker.hiddenPower
   // }
+  else if(['Psywave', 'Magnitude', 'Present'].includes(move.name)){
+    power = modifiers.movePower
+  }
+  else if(move.name === 'Low Kick'){
+    if(defender.weight <= 99){
+      power = 20
+    }
+    else if(defender.weight <= 249){
+      power = 40
+    }
+    else if(defender.weight <= 499){
+      power = 60
+    }
+    else if(defender.weight <= 999){
+      power = 80
+    }
+    else if(defender.weight <= 1999){
+      power = 100
+    }
+    else{
+      power = 120
+    }
+  }
 
   if(modifiers.isMudSport && move.type ==='Electric'){
     power /= 2

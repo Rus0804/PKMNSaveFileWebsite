@@ -45,7 +45,8 @@ const DamageCalc = ({ party, pc }) => {
     inWater: false,
     numHits: 1,
     isDefenceCurl: false,
-    isMini: false
+    isMini: false,
+    movePower: 1
   });
 
   const handleMoveUse = (slot, attacker, defender, move) => {
@@ -66,8 +67,8 @@ const DamageCalc = ({ party, pc }) => {
   return (
     <div className="container">
       <div className='panels'>
-        <MovePanel attacker={attacker} defender={defender} onUseMove={handleMoveUse} setHits = {setModifiers} modifers={modifiers}/>
-        <MovePanel attacker={defender} defender={attacker} onUseMove={handleMoveUse} setHits = {setModifiers} modifers={modifiers}/>
+        <MovePanel attacker={attacker} defender={defender} onUseMove={handleMoveUse} setHits = {setModifiers} modifiers={modifiers} setPower={setModifiers}/>
+        <MovePanel attacker={defender} defender={attacker} onUseMove={handleMoveUse} setHits = {setModifiers} modifiers={modifiers} setPower={setModifiers}/>
       </div>
 
       {result && (

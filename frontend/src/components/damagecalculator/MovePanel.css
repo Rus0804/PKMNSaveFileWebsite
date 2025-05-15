@@ -1,11 +1,12 @@
 .panel {
-    text-align: center;
+    text-align: left;
     margin-bottom: 16px;
+    width: 400px;
     display: flex;
   }
   
   .moves {
-    width: 200px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -23,7 +24,7 @@
   }
 
   .move {
-    width: 250px;
+    width: 270px;
   }
 
   .multihit-select {
@@ -37,5 +38,9 @@
   .moveButton:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  .sprite-container{
+    margin-left: 40px;
   }
   

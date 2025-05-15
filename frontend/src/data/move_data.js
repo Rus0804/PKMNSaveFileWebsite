@@ -1419,7 +1419,8 @@ export const move_data = {
     "accuracy": 80,
     "category": "Special",
     "target": "single",
-    "contact": false
+    "contact": false,
+    "varies": true,
   },
   "150": {
     "name": "Splash",
