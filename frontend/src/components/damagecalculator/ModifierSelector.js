@@ -37,6 +37,35 @@ const ModifierSelector = ({ modifiers, setModifiers, pokemon1, pokemon2}) => {
         <label className="fieldCheck">
           <input
             type="checkbox"
+            checked={modifiers.isSeeded}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isSeeded: e.target.checked }))}
+          />
+          Leech Seed
+        </label>
+        <label className="fieldCheck">
+          <input
+            type="checkbox"
+            checked={modifiers.isTrapped}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isTrapped: e.target.checked }))}
+          />
+          Trapped
+        </label>
+        
+        <label className="weather-stockpile-select">
+          Spikes
+          <input type="number" min={0} max={3} value={modifiers.spikes}  onChange={(e) => setModifiers(prev => ({ ...prev, spikes: e.target.value }))}/>
+        </label>
+        {
+          ([pokemon1.status, pokemon2.status].includes('Badly Poisoned')) && (
+            <label className="weather-stockpile-select">
+              Toxic Turns
+              <input type="number" min={0} max={100} value={modifiers.toxicTurn}  onChange={(e) => setModifiers(prev => ({ ...prev, toxicTurn: e.target.value }))}/>
+            </label>
+          )
+        }
+        <label className="fieldCheck">
+          <input
+            type="checkbox"
             checked={modifiers.isCritical}
             onChange={(e) => setModifiers(prev => ({ ...prev, isCritical: e.target.checked }))}
           />
@@ -68,26 +97,6 @@ const ModifierSelector = ({ modifiers, setModifiers, pokemon1, pokemon2}) => {
           />
           Foresight/Odor Sleuth
         </label>
-        {((Object.values(pokemon1.moves).includes(346)) || (Object.values(pokemon2.moves).includes(346)) || modifiers.isDoubleBattle) && 
-        (<label className="fieldCheck">
-          <input
-            type="checkbox"
-            checked={modifiers.isMudSport}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isMudSport: e.target.checked }))}
-          />
-          Mud Sport
-        </label>)
-        }
-        {((Object.values(pokemon1.moves).includes(346)) || (Object.values(pokemon2.moves).includes(346)) || modifiers.isDoubleBattle) && 
-        (<label className="fieldCheck">
-          <input
-            type="checkbox"
-            checked={modifiers.isWaterSport}
-            onChange={(e) => setModifiers(prev => ({ ...prev, isWaterSport: e.target.checked }))}
-          />
-          Water Sport
-        </label>)
-        }
         {((Object.values(pokemon1.moves).includes(91)) || (Object.values(pokemon2.moves).includes(91))) && 
         (<label className="fieldCheck">
           <input
@@ -186,6 +195,26 @@ const ModifierSelector = ({ modifiers, setModifiers, pokemon1, pokemon2}) => {
             }
           </div>
           )
+        }
+        {((Object.values(pokemon1.moves).includes(346)) || (Object.values(pokemon2.moves).includes(346)) || modifiers.isDoubleBattle) && 
+        (<label className="fieldCheck">
+          <input
+            type="checkbox"
+            checked={modifiers.isMudSport}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isMudSport: e.target.checked }))}
+          />
+          Mud Sport
+        </label>)
+        }
+        {((Object.values(pokemon1.moves).includes(346)) || (Object.values(pokemon2.moves).includes(346)) || modifiers.isDoubleBattle) && 
+        (<label className="fieldCheck">
+          <input
+            type="checkbox"
+            checked={modifiers.isWaterSport}
+            onChange={(e) => setModifiers(prev => ({ ...prev, isWaterSport: e.target.checked }))}
+          />
+          Water Sport
+        </label>)
         }
       </div>)
 }

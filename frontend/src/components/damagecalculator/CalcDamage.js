@@ -381,7 +381,6 @@ export function calculateDamage(attacker, defender, move, modifiers) {
         weather = 1.5;
       }
     }
-
   }
 
   var hh = 1;
@@ -398,8 +397,8 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   var doubledmg = 1;
 
   // Weather ball
-  if(move.name === 'Weather Ball' && weather !== 1){
-    var temp_type = modifiers.weather === 'Rain'? 'water':'fire';
+  if(move.name === 'Weather Ball' && modifiers.weather!=='None'){
+    var temp_type = modifiers.weather === 'Rain'? 'water':(modifiers.weather === 'Sun'?'fire':(modifiers.weather === 'Hail'?'ice':'rock'));
     effectiveness = (type_chart[temp_type][type1]) * (type2!=='none' ? (type_chart[temp_type][type2]) : 1);
     doubledmg = 2;
   }
@@ -489,7 +488,7 @@ export function calculateDamage(attacker, defender, move, modifiers) {
       for(i = 0.85; i <= 1; i+=0.01){
         heal.push(Math.floor(finalDamage*i*healFactor))
       }
-    } 
+    }
   }
   else if(['Jump Kick', 'High Jump Kick'].includes(move.name)){
     const recoilFactor = 1/2
@@ -501,11 +500,116 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   if((defender.ability === 'Rough Skin') && (move.contact)){
     if(recoil.length > 0){
       for(i = 0; i < recoil.length; i++){
-        recoil[i] += Math.floor(attacker.currentHP/16)
+        recoil[i] += Math.floor(attacker.stats.hp/16)
       }
     }
     else{
-      recoil = [Math.floor(attacker.currentHP/16)]
+      recoil = [Math.floor(attacker.stats.hp/16)]
+    }
+  }
+
+  if(modifiers.isSeeded && ![type1, type2].includes('grass')){
+    if(heal.length > 0){
+      for(i = 0; i < heal.length; i++){
+        heal[i] += Math.floor(defender.stats.hp/8)
+      }
+    }
+    else if(['Absorb', 'Mega Drain', 'Giga Drain', 'Leech Life', 'Dream Eater'].includes(move.name)){
+      for(i = 0; i < recoil.length; i++){
+        recoil[i] += Math.floor(defender.stats.hp/8)
+      }
+    }
+    else if(defender.ability === 'Liquid Ooze' && recoil.length>0){
+      for(i = 0; i < recoil.length; i++){
+        recoil[i] += Math.floor(defender.stats.hp/8)
+      }
+    }
+    else if(defender.ability === 'Liquid Ooze'){
+      recoil.push(Math.floor(defender.stats.hp/8))
+    }
+    else{
+      heal.push(Math.floor(defender.stats.hp/8))
+    }
+  }
+
+  if(modifiers.isTrapped){
+    if(damageRange.length > 0){
+      for(i = 0; i < damageRange.length; i++){
+        damageRange[i] += Math.floor(defender.stats.hp/16)
+      }
+    }
+    else{
+      damageRange[i] = Math.floor(defender.stats.hp/16) 
+    }
+  }
+
+  if (!([attacker.ability, defender.ability].includes('Air Lock') || [attacker.ability, defender.ability].includes('Cloud Nine'))) {
+    if(modifiers.weather === 'Hail' && ![type1, type2].includes('ice')){
+      if(damageRange.length > 0){
+        for(i = 0; i < damageRange.length; i++){
+          damageRange[i] += Math.floor(defender.stats.hp/16)
+        }
+      }
+      else{
+        damageRange[i] = Math.floor(defender.stats.hp/16) 
+      }
+    }
+    else if(modifiers.weather === 'Sandstorm' && !([type1, type2].includes('rock') || [type1, type2].includes('ground') || [type1, type2].includes('steel'))){
+      if(damageRange.length > 0){
+        for(i = 0; i < damageRange.length; i++){
+          damageRange[i] += Math.floor(defender.stats.hp/16)
+        }
+      }
+      else{
+        damageRange[i] = Math.floor(defender.stats.hp/16) 
+      }
+    }
+  }
+
+  if(defender.status === 'Poisoned'){
+    if(damageRange.length > 0){
+      for(i = 0; i < damageRange.length; i++){
+        damageRange[i] += Math.floor(defender.stats.hp/16)
+      }
+    }
+    else{
+      damageRange[i] = Math.floor(defender.stats.hp/16) 
+    }
+  }
+  else if(defender.status === 'Burned'){
+    if(damageRange.length > 0){
+      for(i = 0; i < damageRange.length; i++){
+        damageRange[i] += Math.floor(defender.stats.hp/8)
+      }
+    }
+    else{
+      damageRange[i] = Math.floor(defender.stats.hp/8) 
+    }
+  }
+  else if(defender.status === 'Badly Poisoned'){
+    const toxicDamage = (modifiers.toxicTurns * defender.stats.hp/16 < 15 * defender.stats.hp/16)? Math.floor(modifiers.toxicTurns * defender.stats.hp/16): Math.floor(15 * defender.stats.hp/16)
+    if(damageRange.length > 0){
+      for(i = 0; i < damageRange.length; i++){
+        damageRange[i] += toxicDamage
+      }
+    }
+    else{
+      damageRange[i] = toxicDamage
+    }
+  }
+
+  if(parseInt(modifiers.spikes)>0 && !(defender.ability === 'Levitate' || [type1, type2].includes('flying'))){
+    const factor = (parseInt(modifiers.spikes) === 1)? 8:(parseInt(modifiers.spikes)===2?6 :4)
+    console.log(factor)
+    if(damageRange.length > 0){
+      for(i = 0; i < damageRange.length; i++){
+        damageRange[i] += Math.floor(defender.stats.hp/factor)
+      }
+    }
+    else{
+      for(i = 0; i < damageRange.length; i++){
+        damageRange[i] += Math.floor(defender.stats.hp/factor)
+      }
     }
   }
 

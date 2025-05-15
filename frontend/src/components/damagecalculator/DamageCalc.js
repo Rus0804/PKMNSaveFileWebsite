@@ -8,6 +8,7 @@ import './DamageCalc.css';
 const blankPokemon = {
   name: "Custom",
   nickname: "Custom",
+  pokedex_num: 0,
   level: 50,
   nature: "Hardy",
   ability: "None",
@@ -18,7 +19,9 @@ const blankPokemon = {
   evs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
   moves: { 0: 0, 1: 0, 2: 0, 3: 0 },
   type1: "normal",
-  type2: "none"
+  type2: "none",
+  friendship: 0,
+  hidden_power: ['none', 30]
 };
 
 const DamageCalc = ({ party, pc }) => {
@@ -28,6 +31,7 @@ const DamageCalc = ({ party, pc }) => {
   const [modifiers, setModifiers] = useState({
     weather: 'None',
     stockpile: 0,
+    spikes: 0,
     isReflect: false,
     isLightScreen: false,
     isCritical: false,
@@ -46,7 +50,10 @@ const DamageCalc = ({ party, pc }) => {
     numHits: 1,
     isDefenceCurl: false,
     isMini: false,
-    movePower: 1
+    isSeeded: false,
+    isTrapped: false,
+    movePower: 1,
+    toxicTurn: 0
   });
 
   const handleMoveUse = (slot, attacker, defender, move) => {
@@ -67,8 +74,8 @@ const DamageCalc = ({ party, pc }) => {
   return (
     <div className="container">
       <div className='panels'>
-        <MovePanel attacker={attacker} defender={defender} onUseMove={handleMoveUse} setHits = {setModifiers} modifiers={modifiers} setPower={setModifiers}/>
-        <MovePanel attacker={defender} defender={attacker} onUseMove={handleMoveUse} setHits = {setModifiers} modifiers={modifiers} setPower={setModifiers}/>
+        <MovePanel side = 'left' attacker={attacker} defender={defender} onUseMove={handleMoveUse} setHits = {setModifiers} modifiers={modifiers} setPower={setModifiers}/>
+        <MovePanel side = 'right' attacker={defender} defender={attacker} onUseMove={handleMoveUse} setHits = {setModifiers} modifiers={modifiers} setPower={setModifiers}/>
       </div>
 
       {result && (

@@ -373,6 +373,7 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                 <option value="Burned">Burned</option>
                 <option value="Paralyzed">Paralyzed</option>
                 <option value="Sleeping">Sleeping</option>
+                <option value="Badly Poisoned">Toxic</option>
               </select>
             </label>
           </div>
