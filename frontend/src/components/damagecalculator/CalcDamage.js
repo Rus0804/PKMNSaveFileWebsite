@@ -93,10 +93,10 @@ export function calculateDamage(attacker, defender, move, modifiers) {
   }
   else if(['Return', 'Frustration'].includes(move.name)){
     if(move.name === 'Return'){
-      power = Math.lower(attacker.friendship/2.5)
+      power = Math.floor(attacker.friendship/2.5)
     }
     else{
-      power = Math.lower((255 - attacker.friendship)/2.5)
+      power = Math.floor((255 - attacker.friendship)/2.5)
     } 
   }
 
