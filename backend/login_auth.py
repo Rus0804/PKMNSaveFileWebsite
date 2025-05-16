@@ -1,5 +1,5 @@
 from fastapi import Header, Request, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from supabase import create_client, Client, ClientOptions
 import requests
 import os
@@ -127,3 +127,22 @@ def reset_password(req: ResetPasswordRequest):
         raise HTTPException(status_code=400, detail="Failed to update password")
 
     return {"message": "Password updated successfully"}
+
+
+class ResetRequest(BaseModel):
+    email: EmailStr
+
+
+async def request_password_reset(payload: ResetRequest, request: Request):
+    origin = request.headers.get("origin")
+    redirect_url = f"{origin}/reset-password"  # frontend route
+
+    response = db.auth.reset_password_email(
+        email=payload.email,
+        options={"redirect_to": redirect_url}
+    )
+
+    if response.get("error"):
+        raise HTTPException(status_code=400, detail=response["error"]["message"])
+
+    return {"message": "Reset link sent"}

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from typing import Dict, Optional
 from parser import parse_save_file
 from encounter import load_encounter_data
-from login_auth import get_user_db, login, LoginRequest, update_save, signup, ResetPasswordRequest, reset_password
+from login_auth import get_user_db, login, LoginRequest, update_save, signup, ResetPasswordRequest, reset_password, ResetRequest, request_password_reset
 
 app = FastAPI()
 
@@ -125,3 +125,7 @@ async def upload_file(request: Request, save_id: Optional[int] = Form(None) , fi
 @app.post("/reset-password")
 def forgot_password(req: ResetPasswordRequest):
     return reset_password(req)
+
+@app.post("/request-password-reset")
+async def set_request_reset(payload: ResetRequest, request: Request):
+    return request_password_reset(payload, request)
