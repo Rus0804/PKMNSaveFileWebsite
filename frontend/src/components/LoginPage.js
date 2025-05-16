@@ -28,8 +28,10 @@ function LoginPage({ onLogin }) {
         const data = await response.json();
 
         if (response.ok) {
-          setInfoMessage('Password reset email sent! Check your inbox.');
-          setIsResetting(false);
+          const check = data.message==='Incorrect Email'
+          if(!check){setInfoMessage(data.message);}
+          else{setError(data.message);}
+          setIsResetting(check);
           setEmail('');
         } else {
           setError(data.detail || 'Error sending reset email.');
