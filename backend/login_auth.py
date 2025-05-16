@@ -9,10 +9,14 @@ import os
 
 # url = os.getenv("SUPABASE_URL")
 # key = os.getenv("SUPABASE_KEY")
+# service = os.getenv("SUPABASE_SERVICE_KEY")
 
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
-db: Client = create_client(url, key)  # Global root client (admin)
+service = os.environ.get("SUPABASE_SERVICE_KEY")
+
+db: Client = create_client(url, key)  
+service_db: Client = create_client(url, service)
 
 class LoginRequest(BaseModel):
     email: str
@@ -49,6 +53,12 @@ def signup(data: LoginRequest):
             "email": data.email,
             "password": data.password
         })
+        if response.user:
+            user_id = response.user.id
+            service_db.table("Profiles").insert({
+                "id": user_id,
+                "email": data.email
+            }).execute()
         return {"message": "User created successfully. Check your email to confirm your account."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Signup failed: {str(e)}")
@@ -134,15 +144,24 @@ class ResetRequest(BaseModel):
 
 
 async def request_password_reset(payload: ResetRequest, request: Request):
+
+    try:
+        response = db.table("Profiles").select("email").eq("email", payload.email).limit(1).execute()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to check email: {str(e)}")
+    
+    if (len(response.data)==0):
+        return {"message": "Incorrect Email"}
+    
     origin = request.headers.get("origin")
-    redirect_url = f"{origin}/reset-password"  # frontend route
+    redirect_url = f"{origin}/reset-password"
 
     response = db.auth.reset_password_email(
         email=payload.email,
         options={"redirect_to": redirect_url}
     )
-
-    if response.get("error"):
-        raise HTTPException(status_code=400, detail=response["error"]["message"])
+    if(response is not None):
+        if response.get("error"):
+            raise HTTPException(status_code=400, detail=response["error"]["message"])
 
     return {"message": "Reset link sent"}

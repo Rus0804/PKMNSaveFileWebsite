@@ -32,6 +32,21 @@ async def set_signup(request: LoginRequest):
 def set_login(request: LoginRequest):
     return login(request)
 
+
+@app.post("/reset-password")
+def forgot_password(req: ResetPasswordRequest):
+    return reset_password(req)
+
+@app.get("/test")
+def test():
+    print("Test route hit")
+    return {"message": "test OK"}
+
+@app.post("/request-password-reset")
+async def set_request_reset(payload: ResetRequest, request: Request):
+    print('hi')
+    return await request_password_reset(payload, request)
+
 @app.get("/saves")
 def get_user_saves(request: Request):
     token = request.headers.get("authorization")
@@ -122,10 +137,8 @@ async def upload_file(request: Request, save_id: Optional[int] = Form(None) , fi
     return JSONResponse(content=result)
 
 
-@app.post("/reset-password")
-def forgot_password(req: ResetPasswordRequest):
-    return reset_password(req)
+# from fastapi.routing import APIRoute
 
-@app.post("/request-password-reset")
-async def set_request_reset(payload: ResetRequest, request: Request):
-    return request_password_reset(payload, request)
+# for route in app.routes:
+#     if isinstance(route, APIRoute):
+#         print(f"Route: {route.path} (methods: {route.methods})")
