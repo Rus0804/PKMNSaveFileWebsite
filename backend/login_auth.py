@@ -121,8 +121,8 @@ def reset_password(req: ResetPasswordRequest):
         }
     )
 
-    print(user_info_res)
-    
+    print(user_info_res, 'hi')
+
     if user_info_res.status_code != 200:
         raise HTTPException(status_code=400, detail="Invalid access token")
 
