@@ -155,7 +155,7 @@ async def request_password_reset(payload: ResetRequest, request: Request):
     
     origin = request.headers.get("origin")
     redirect_url = f"{origin}/reset-password"
-
+    print(redirect_url)
     response = db.auth.reset_password_email(
         email=payload.email,
         options={"redirect_to": redirect_url}
