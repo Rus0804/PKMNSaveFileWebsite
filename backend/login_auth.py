@@ -1,6 +1,7 @@
 from fastapi import Header, Request, HTTPException
 from pydantic import BaseModel
 from supabase import create_client, Client, ClientOptions
+import requests
 import os
 # import dotenv
 
@@ -86,3 +87,43 @@ def update_save(save_id: int, col, data, request: Request):
         return {"status": "success"}
     except Exception as e:
         raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
+
+
+class ResetPasswordRequest(BaseModel):
+    access_token: str
+    new_password: str
+
+
+def reset_password(req: ResetPasswordRequest):
+    # Use Supabase Admin API to update the user password
+    headers = {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json"
+    }
+
+    # Get user info from token
+    user_info_res = requests.get(
+        f"{url}/auth/v1/user",
+        headers={
+            "Authorization": f"Bearer {req.access_token}",
+            "apikey": key
+        }
+    )
+
+    if user_info_res.status_code != 200:
+        raise HTTPException(status_code=400, detail="Invalid access token")
+
+    user_id = user_info_res.json()["id"]
+
+    # Update user password
+    update_res = requests.put(
+        f"{url}/auth/v1/admin/users/{user_id}",
+        headers=headers,
+        json={"password": req.new_password}
+    )
+
+    if update_res.status_code != 200:
+        raise HTTPException(status_code=400, detail="Failed to update password")
+
+    return {"message": "Password updated successfully"}

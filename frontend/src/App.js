@@ -9,7 +9,8 @@ import EncounterViewer from './components/encountertable/Encounters.js';
 import Sidebar from './components/pokemoninfo/Sidebar.js';
 import DamageCalcPanel from './components/damagecalculator/DamageCalc.js';
 import LoginPage from './components/LoginPage.js';
-import HomePage from './components/HomePage.js'
+import HomePage from './components/HomePage.js';
+import ResetPasswordPage from './components/ResetPassword.js';
 
 import './App.css';
 
@@ -77,7 +78,9 @@ function App() {
               navigate('/home');
             }}
           />}
-        />
+        /> 
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        
         <Route
           path="/home"
           element={<HomePage
