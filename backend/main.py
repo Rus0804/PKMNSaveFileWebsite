@@ -124,4 +124,4 @@ async def upload_file(request: Request, save_id: Optional[int] = Form(None) , fi
 
 @app.post("/api/reset-password")
 def forgot_password(req: ResetPasswordRequest):
-    reset_password(req)
+    return reset_password(req)
