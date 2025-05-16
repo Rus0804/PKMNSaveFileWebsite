@@ -146,7 +146,7 @@ class ResetRequest(BaseModel):
 async def request_password_reset(payload: ResetRequest, request: Request):
 
     try:
-        response = db.table("Profiles").select("email").eq("email", payload.email).limit(1).execute()
+        response = db.table("Profiles").select("*").eq("email", payload.email).execute()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to check email: {str(e)}")
     

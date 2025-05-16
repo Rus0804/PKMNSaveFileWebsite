@@ -44,7 +44,6 @@ def test():
 
 @app.post("/request-password-reset")
 async def set_request_reset(payload: ResetRequest, request: Request):
-    print('hi')
     return await request_password_reset(payload, request)
 
 @app.get("/saves")
