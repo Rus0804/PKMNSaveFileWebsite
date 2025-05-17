@@ -10,7 +10,7 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 - Displays key **trainer info** for that added spice
 -  **Encounter table viewer** for the entire region
 -  **Auto-tracks dupes clause** when checking encounters
--  Beautiful, sortable view of your Pokémon with **EVs, IVs, nature, moves**, and more
+-  Beautiful view of your Pokémon with **EVs, IVs, nature, moves**, and more
 -  Assign **badges** to the team that beat a boss
 -  **Tribute page** for fallen Nuzlocke Pokémon
 -  Built-in **Gen 3 damage calculator**, with trainer data baked in
@@ -31,13 +31,11 @@ This site is designed for Nuzlockers and enthusiasts who want an easy bridge bet
 
 ## 🚧 Remaining Tasks
 
-- [ ] "Remember me" login functionality
 - [ ] Save file cap (max 5 per user)
 - [ ] Tribute page
 - [ ] Badge assignment support for trainers and Pokémon
 - [ ] Encounter tracking & area ordering improvements
 - [ ] Bot to keep backend alive (e.g. for free hosting platforms)
-- [ ] Implement all Gen 3 abilities and moves in damage calc
 - [ ] Import remaining trainer data
 
 ---
