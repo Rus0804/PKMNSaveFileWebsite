@@ -56,6 +56,7 @@ function App() {
               localStorage.removeItem('access_token');
               setUser(null);
               setToken(null);
+              setData(null);
               setSelectedSave(null);
               navigate('/');
             }}
@@ -105,6 +106,7 @@ function App() {
                   onUpload={(parsed) => {
                     setSelectedSave({ id: null, save_data: parsed });
                   }}
+                  saveData={data}
                 />
               </div>
               

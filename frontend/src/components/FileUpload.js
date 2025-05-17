@@ -1,17 +1,25 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './FileUpload.css';
 
-function FileUpload({ saveId, token, onUpload }) {
+function FileUpload({ saveId, token, onUpload, saveData }) {
   const [error, setError] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [fileName, setFileName] = useState(null);
   const inputRef = useRef(null);
 
+  // Clear file input and file name when saveData is cleared externally
+  useEffect(() => {
+    if (!saveData) {
+      if (inputRef.current) inputRef.current.value = '';
+      setFileName(null);
+    }
+  }, [saveData]);
+
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const shouldConfirmOverride = saveId || fileName;
+    const shouldConfirmOverride = saveData || fileName;
     if (shouldConfirmOverride) {
       const confirmed = window.confirm(
         'Uploading a new file will override existing data. Continue?'
@@ -52,11 +60,21 @@ function FileUpload({ saveId, token, onUpload }) {
         } else {
           setError('Upload failed.');
         }
+        if (inputRef.current) inputRef.current.value = '';
+        setFileName(null);
       } else {
-        onUpload(data);
+        if (!data || Object.keys(data).length === 0) {
+          setError('No data returned from server.');
+          if (inputRef.current) inputRef.current.value = '';
+          setFileName(null);
+        } else {
+          onUpload(data);
+        }
       }
     } catch (err) {
       setError('Could not connect to server.');
+      if (inputRef.current) inputRef.current.value = '';
+      setFileName(null);
     } finally {
       setIsUploading(false);
     }
@@ -76,11 +94,12 @@ function FileUpload({ saveId, token, onUpload }) {
         onChange={handleFileChange}
         disabled={isUploading}
       />
-      {fileName && !isUploading && <div className="fileName">{fileName}</div>}
+      {fileName && !isUploading && (
+        <div className="fileName">{fileName}</div>
+      )}
       {error && <div className="errorMessage">{error}</div>}
     </div>
   );
 }
-
 
 export default FileUpload;
