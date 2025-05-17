@@ -40,7 +40,10 @@ function FileUpload({ saveId, token, onUpload, saveData }) {
     setFileName(file.name);
 
     const formData = new FormData();
-    if (saveId) formData.append('save_id', saveId);
+    if (saveId) {
+      formData.append('save_id', saveId)
+      formData.append('old_data', saveData)
+    };
     formData.append('file', file);
 
     try {
