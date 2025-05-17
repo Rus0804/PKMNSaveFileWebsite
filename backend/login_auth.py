@@ -107,8 +107,8 @@ class ResetPasswordRequest(BaseModel):
 def reset_password(req: ResetPasswordRequest):
     # Use Supabase Admin API to update the user password
     headers = {
-        "apikey": key,
-        "Authorization": f"Bearer {key}",
+        "apikey": service,
+        "Authorization": f"Bearer {service}",
         "Content-Type": "application/json"
     }
 
@@ -136,7 +136,7 @@ def reset_password(req: ResetPasswordRequest):
 
     if update_res.status_code != 200:
         raise HTTPException(status_code=400, detail="Failed to update password")
-
+    
     return {"message": "Password updated successfully"}
 
 
