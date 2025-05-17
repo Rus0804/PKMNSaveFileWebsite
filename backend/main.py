@@ -130,7 +130,7 @@ async def upload_file(request: Request, save_id: Optional[int] = Form(None) ,  o
         result = {"detail": "SaveFileError"}
 
     if save_id:
-        if(old_data):
+        if not(isinstance(old_data, None)):
             old_data = json.loads(old_data)
             if(result['version']== old_data['version'] and result['trainer']['trainer_id']==old_data['trainer']['trainer_id'] and result['trainer']['secret_id']==old_data['trainer']['secret_id']):
                 old = get_mon_dict(old_data)
