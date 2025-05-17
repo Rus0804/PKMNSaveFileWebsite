@@ -21,4 +21,5 @@ def parse_trainer_info(section):
         "trainer_id": trainer_id,
         "secret_id": secret_id,
         "gender": gender,
+        "badges": [False, False, False, False, False, False, False, False]
     }

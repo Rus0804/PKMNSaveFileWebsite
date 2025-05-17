@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Dict, Optional
-from parser import parse_save_file
+from pokemon_info import get_mon_dict, update_pokemon
+from parser import parse_save_file, update_data
 from encounter import load_encounter_data
 from login_auth import get_user_db, login, LoginRequest, update_save, signup, ResetPasswordRequest, reset_password, ResetRequest, request_password_reset
 import json
@@ -132,7 +133,12 @@ async def upload_file(request: Request, save_id: Optional[int] = Form(None) ,  o
         if(old_data):
             old_data = json.loads(old_data)
             if(result['version']== old_data['version'] and result['trainer']['trainer_id']==old_data['trainer']['trainer_id'] and result['trainer']['secret_id']==old_data['trainer']['secret_id']):
-                print("It's time to update")
+                old = get_mon_dict(old_data)
+                new = get_mon_dict(result)
+                updated_mon_data = update_pokemon(old, new)
+                result['trainer']['badges'] = old_data['trainer']['badges']
+                result = update_data(result, updated_mon_data)
+
         try:   
             col = 'save_data'
             update_save(save_id, col, result, request)

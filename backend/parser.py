@@ -67,3 +67,23 @@ def parse_save_file(data: bytes):
         "pc": pc_data,
         "version": ver
     }
+
+def update_data(new_data, updated_mon_dict):
+    for i in updated_mon_dict.keys():
+        done = False
+        for j in range(len(new_data['party'])):
+            if new_data['party'][j]['personality'] == i:
+                new_data['party'][j] = updated_mon_dict[i]
+                done = True
+                break
+        if done:
+            break
+        for box in range(len(new_data['pc'])):
+            for j in range(len(new_data['pc'][box])):
+                if new_data['pc'][box][j]['personality'] == i:
+                    new_data['party'][box][j] = updated_mon_dict[i]
+                    done = True
+                    break
+            if done:
+                break
+    return new_data

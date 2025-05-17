@@ -140,7 +140,10 @@ def parse_party_pokemon(section, version):
             "stats": decrypted['stats'],
             "shiny": decrypted['shiny'],
             "friendship": decrypted['friendship'],
-            "hidden_power": decrypted['hidden_power']            
+            "hidden_power": decrypted['hidden_power'],
+            "personality": decrypted['personality'],
+            "alive": True,
+            "badges": [False, False, False, False, False, False, False, False]     
         })
     return pokemon_data
 
@@ -184,6 +187,24 @@ def parse_pc_pokemon(buffer):
             "stats": decrypted['stats'],
             "shiny": decrypted['shiny'],
             "friendship": decrypted['friendship'],
-            "hidden_power": decrypted['hidden_power']
+            "hidden_power": decrypted['hidden_power'],
+            "personality": decrypted['personality'],
+            "alive": True,
+            "badges": [False, False, False, False, False, False, False, False] 
         })
     return boxes
+
+def get_mon_dict(data):
+    mon_dict = {mon['personality']:mon for mon in data['party']}
+    for box in (data['pc'].keys()):
+        if len(data['pc'][box]) > 0:
+            for mon in data['pc'][box]:
+                mon_dict[mon['personality']] = mon
+    return mon_dict
+
+def update_pokemon(old_dict, new_dict):
+    for mon in old_dict.keys():
+        if mon in new_dict.keys():
+            new_dict[mon]['badges'] = old_dict[mon]['badges']
+            new_dict[mon]['alive'] = old_dict[mon]['alive']
+    return new_dict
