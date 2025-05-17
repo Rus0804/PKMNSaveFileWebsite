@@ -35,6 +35,7 @@ def set_login(request: LoginRequest):
 
 @app.post("/reset-password")
 def forgot_password(req: ResetPasswordRequest):
+    print('req recieved')
     return reset_password(req)
 
 @app.get("/test")
