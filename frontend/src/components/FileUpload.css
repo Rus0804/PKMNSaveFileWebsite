@@ -21,3 +21,45 @@
     font-size: 0.9rem;
   }
   
+  .uploadWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.customUploadButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.customUploadButton:hover {
+  background-color: #45a049;
+}
+
+.fileInputHidden {
+  display: none;
+}
+
+.errorMessage {
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+.uploadingMessage {
+  color: #555;
+  font-style: italic;
+}
+
+.fileName {
+  color: #333;
+  font-size: 0.95rem;
+  font-style: italic;
+}
