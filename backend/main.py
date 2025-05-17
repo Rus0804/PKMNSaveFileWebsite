@@ -26,6 +26,7 @@ app.add_middleware(
 
 @app.post("/signup")
 async def set_signup(request: LoginRequest):
+    print("New user req")
     return signup(request)
 
 @app.post("/login")
@@ -35,16 +36,16 @@ def set_login(request: LoginRequest):
 
 @app.post("/reset-password")
 def forgot_password(req: ResetPasswordRequest):
-    print('req recieved')
+    print('reset password req recieved')
     return reset_password(req)
 
 @app.get("/test")
 def test():
-    print("Test route hit")
     return {"message": "test OK"}
 
 @app.post("/request-password-reset")
 async def set_request_reset(payload: ResetRequest, request: Request):
+    print("reset password email req")
     return await request_password_reset(payload, request)
 
 @app.get("/saves")

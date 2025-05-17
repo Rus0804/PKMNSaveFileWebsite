@@ -132,7 +132,6 @@ def reset_password(req: ResetPasswordRequest):
         headers=headers,
         json={"password": req.new_password}
     )
-    print(update_res.json(), 'hi')
 
     if update_res.status_code != 200:
         raise HTTPException(status_code=400, detail="Failed to update password")
