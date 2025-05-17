@@ -121,7 +121,7 @@ def reset_password(req: ResetPasswordRequest):
         }
     )
 
-    print(user_info_res, 'hi')
+    print(user_info_res.json())
 
     if user_info_res.status_code != 200:
         raise HTTPException(status_code=400, detail="Invalid access token")
@@ -134,6 +134,7 @@ def reset_password(req: ResetPasswordRequest):
         headers=headers,
         json={"password": req.new_password}
     )
+    print(update_res, 'hi')
 
     if update_res.status_code != 200:
         raise HTTPException(status_code=400, detail="Failed to update password")
