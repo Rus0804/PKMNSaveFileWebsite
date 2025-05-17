@@ -1,4 +1,3 @@
-// components/ResetPasswordPage.js or .tsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -26,6 +25,7 @@ export default function ResetPasswordPage() {
       });
       setMessage('Password reset successful! You can now log in.');
     } catch (err) {
+      console.log(response)
       setMessage(err.response?.data?.detail || 'Failed to reset password.');
     }
   };
