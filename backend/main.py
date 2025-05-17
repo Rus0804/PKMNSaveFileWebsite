@@ -121,16 +121,16 @@ def get_encounters():
     return encounter_data
 
 @app.post("/upload")
-async def upload_file(request: Request, save_id: Optional[int] = Form(None) , file: UploadFile = File(...), old_data: Optional[dict] = Form(None)):
+async def upload_file(request: Request, save_id: Optional[int] = Form(None) ,  old_data: Optional[dict] = Form(None), file: UploadFile = File(...)):
     contents = await file.read()
     result = parse_save_file(contents)
     if result == "SaveFileError":
         result = {"detail": "SaveFileError"}
 
-    if(result['version']== old_data['version'] and result['trainer']['trainer_id']==old_data['trainer']['trainer_id'] and result['trainer']['secret_id']==old_data['trainer']['secret_id']):
-        print("It's time to update")
-
     if save_id:
+        if(old_data):
+            if(result['version']== old_data['version'] and result['trainer']['trainer_id']==old_data['trainer']['trainer_id'] and result['trainer']['secret_id']==old_data['trainer']['secret_id']):
+                print("It's time to update")
         try:   
             col = 'save_data'
             update_save(save_id, col, result, request)
