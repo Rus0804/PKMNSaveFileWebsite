@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 
 import FileUpload from './components/FileUpload.js';
 import TrainerInfo from './components/trainerinfo/TrainerInfo.js';
@@ -16,6 +16,7 @@ import './App.css';
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem('user');
@@ -43,13 +44,11 @@ function App() {
 
       {!user ? (
         <div className="loginButtonWrapper">
-        <button onClick={() => navigate('/login')}>
-          Login
-        </button>
-      </div>
+          <button onClick={() => navigate('/login')}>Login</button>
+        </div>
       ) : (
-        <p>
-          Logged in as {user}
+        <div className="authControls">
+          <p>Logged in as {user}</p>
           <button
             onClick={() => {
               localStorage.removeItem('user');
@@ -63,7 +62,10 @@ function App() {
           >
             Log out
           </button>
-        </p>
+          {location.pathname !== '/home' && (
+            <button onClick={() => navigate('/home')}>Back to Home</button>
+          )}
+        </div>
       )}
 
       <Routes>
@@ -79,27 +81,27 @@ function App() {
               navigate('/home');
             }}
           />}
-        /> 
+        />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        
+
         <Route
           path="/home"
           element={<HomePage
             token={token}
             onSelectSave={(saveRow) => {
               setSelectedSave(saveRow);
-              setData(null); 
-              navigate('/pokemon')
+              setData(null);
+              navigate('/pokemon');
             }}
           />}
         />
 
-        {/* Main App Layout for authenticated users */}
+        {/* Main App Layout */}
         <Route
           path="/*"
           element={
             <>
-              <div className='fileUploadwrapper'>
+              <div className="fileUploadwrapper">
                 <FileUpload
                   saveId={selectedSave?.id || null}
                   token={token}
@@ -109,7 +111,6 @@ function App() {
                   saveData={data}
                 />
               </div>
-              
 
               {data && (
                 <>
@@ -196,7 +197,6 @@ function App() {
             </>
           }
         />
-      
       </Routes>
     </div>
   );
