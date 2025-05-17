@@ -42,7 +42,7 @@ function FileUpload({ saveId, token, onUpload, saveData }) {
     const formData = new FormData();
     if (saveId) {
       formData.append('save_id', saveId)
-      formData.append('old_data', saveData)
+      formData.append('old_data', JSON.stringify(saveData))
     };
     formData.append('file', file);
 

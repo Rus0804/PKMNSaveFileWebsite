@@ -6,6 +6,7 @@ from typing import Dict, Optional
 from parser import parse_save_file
 from encounter import load_encounter_data
 from login_auth import get_user_db, login, LoginRequest, update_save, signup, ResetPasswordRequest, reset_password, ResetRequest, request_password_reset
+import json
 
 app = FastAPI()
 
@@ -121,7 +122,7 @@ def get_encounters():
     return encounter_data
 
 @app.post("/upload")
-async def upload_file(request: Request, save_id: Optional[int] = Form(None) ,  old_data: Optional[dict] = Form(None), file: UploadFile = File(...)):
+async def upload_file(request: Request, save_id: Optional[int] = Form(None) ,  old_data: Optional[str] = Form(None), file: UploadFile = File(...)):
     contents = await file.read()
     result = parse_save_file(contents)
     if result == "SaveFileError":
@@ -129,6 +130,7 @@ async def upload_file(request: Request, save_id: Optional[int] = Form(None) ,  o
 
     if save_id:
         if(old_data):
+            old_data = json.loads(old_data)
             if(result['version']== old_data['version'] and result['trainer']['trainer_id']==old_data['trainer']['trainer_id'] and result['trainer']['secret_id']==old_data['trainer']['secret_id']):
                 print("It's time to update")
         try:   
