@@ -25,7 +25,7 @@ export default function ResetPasswordPage() {
       });
       setMessage('Password reset successful! You can now log in.');
     } catch (err) {
-      console.log(response)
+      console.log(err)
       setMessage(err.response?.data?.detail || 'Failed to reset password.');
     }
   };
