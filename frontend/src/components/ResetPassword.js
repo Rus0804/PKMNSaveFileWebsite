@@ -28,6 +28,9 @@ export default function ResetPasswordPage() {
     }
 
     setLoading(true);
+    console.log(token)
+    console.log(password)
+
     try {
       const response = await fetch('/reset-password', {
         method: 'POST',
@@ -39,7 +42,7 @@ export default function ResetPasswordPage() {
           new_password: password,
         }),
       });
-
+      console.log(response)
       if (!response.ok) {
         const data = await response.json();
         throw new Error(data.detail || 'Failed to reset password.');
