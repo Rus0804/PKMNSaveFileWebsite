@@ -92,6 +92,22 @@ def update_save(save_id: int, col, data, request: Request, change):
             if(change == 'trainer'):
                 old_row.data[0]['save_data'][change]['badges'] = data
                 data = old_row.data[0]['save_data']
+            elif(change == 'pokemon'):
+                done = False
+                old_row = old_row.data[0]['save_data']
+                for mon in range(len(old_row['party'])):
+                    if old_row['party'][mon]['personality'] == data['personality']:
+                        old_row['party'][mon] = data
+                        done = True
+                        break
+                if not done:
+                    for box in old_row['pc'].keys():
+                        for mon in range(len(old_row['pc'][box])):
+                            if old_row['pc'][box][mon]['personality'] == data['personality']:
+                                old_row['pc'][box][mon] = data
+                                done = True
+                                break
+                data = old_row
 
         user_db.from_("Saves").update({
             col: data
