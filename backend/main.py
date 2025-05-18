@@ -91,7 +91,7 @@ class RenameRequest(BaseModel):
 def rename_save(save_id: int, data: RenameRequest, request: Request):
     col = 'filename'
     value = data.filename
-    return update_save(save_id, col, value, request)
+    return update_save(save_id, col, value, request, change = 'name')
 
 class BadgesUpdateRequest(BaseModel):
     badges: list[bool]
