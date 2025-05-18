@@ -21,7 +21,8 @@ const blankPokemon = {
   type1: "normal",
   type2: "none",
   friendship: 0,
-  hidden_power: ['none', 30]
+  hidden_power: ['none', 30],
+  shiny: false
 };
 
 const DamageCalc = ({ party, pc }) => {

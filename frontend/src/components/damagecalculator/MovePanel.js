@@ -15,7 +15,7 @@ const MovePanel = ({ side, attacker, defender, onUseMove, setHits, modifiers, se
     <div className="panel">
       <div className="sprite-container">
             <img
-                src={`/Sprites/Pokemon/BW/${attacker.pokedex_num?attacker.pokedex_num:0}.png`}
+                src={attacker.shiny? `/Sprites/Pokemon/BW/shiny/${attacker.pokedex_num}s.png`:(`/Sprites/Pokemon/BW/${attacker.pokedex_num?attacker.pokedex_num:0}.png`)}
                 alt={attacker.name}
             />
       </div>

@@ -185,7 +185,8 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
         moves: { 0: 0, 1: 0, 2: 0, 3: 0 },
         status: 'None',
         hidden_power: hidden_power,
-        friendship: 0
+        friendship: 0,
+        shiny: false
       });
     } else {
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
@@ -349,13 +350,14 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
                       <input type="number" min="0" max="252" value={pokemon.evs[stat]} onChange={(e) => handleIVEVChange('evs', stat, e.target.value)} disabled={!selectedPokeId}/>
                     </td>
                     <td>
-                      <select value={boosts[stat]} onChange={(e) => handleBoostChange(stat, e.target.value)} disabled={!selectedPokeId}>
+                      { (stat!=='hp') &&
+                      (<select value={boosts[stat]} onChange={(e) => handleBoostChange(stat, e.target.value)} disabled={!selectedPokeId}>
                         {Array.from({ length: 13 }, (_, i) => i - 6).map(stage => (
                           <option key={stage} value={stage}>
                             {stage >= 0 ? `+${stage}` : `${stage}`}
                           </option>
                         ))}
-                      </select>
+                      </select>)}
                     </td>
                     <td>{pokemon.stats[stat]}</td>
                   </tr>
