@@ -63,8 +63,6 @@ def signup(data: LoginRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Signup failed: {str(e)}")
 
-
-
 def get_user_id_from_token(authorization: str = Header(...)) -> str:
     if not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Invalid Authorization header")
@@ -77,7 +75,6 @@ def get_user_id_from_token(authorization: str = Header(...)) -> str:
     except Exception as e:
         raise HTTPException(status_code=401, detail=f"Unauthorized: {str(e)}")
 
-# Supabase client with RLS impersonation
 def get_user_db(token: str) -> Client:
     opts = ClientOptions(headers=  {"Authorization": f"Bearer {token}"})
     return create_client(url, key, options=opts)
@@ -92,9 +89,6 @@ def update_save(save_id: int, col, data, request: Request, change):
     try:
         if(col == 'save_data' and change != 'all'):
             old_row = user_db.from_("Saves").select(col).eq("id",save_id).execute()
-            print("old_data: ", old_row)
-            print("indexed: ", old_row.data[0])
-            print("only column: ", old_row.data[0]['save_data'])
             if(change == 'trainer'):
                 old_row.data[0]['save_data'][change]['badges'] = data
                 data = old_row.data[0]['save_data']
@@ -103,7 +97,7 @@ def update_save(save_id: int, col, data, request: Request, change):
             col: data
         }).eq("id", save_id).execute()
 
-        return {"status": "success"}
+        return {"status": "success", "updated_data":data}
     except Exception as e:
         raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
 
