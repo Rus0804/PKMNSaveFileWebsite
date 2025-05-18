@@ -17,6 +17,7 @@ const Sidebar = ({ pokemon, closeSidebar, saveId, token }) => {
   };
 
   const handleAliveToggle = async () => {
+    if(!isAlive){return}
     const confirmChange = window.confirm(
       `Are you sure you want to mark this Pokémon as ${isAlive ? 'dead' : 'alive'}?\n\nThis change is permanent.`
     );
