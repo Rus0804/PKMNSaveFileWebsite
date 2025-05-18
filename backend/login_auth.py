@@ -90,7 +90,7 @@ def update_save(save_id: int, col, data, request: Request, change):
     token = token[7:]
     user_db = get_user_db(token)
     try:
-        if(col == 'save_data'):
+        if(col == 'save_data' and change != 'all'):
             old_row = user_db.from_("Saves").select(col).eq("id",save_id).execute()
             if(change == 'trainer'):
                 old_row[change]['badges'] = data

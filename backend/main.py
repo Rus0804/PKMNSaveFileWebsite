@@ -150,7 +150,7 @@ async def upload_file(request: Request, save_id: Optional[int] = Form(None) ,  o
 
         try:   
             col = 'save_data'
-            update_save(save_id, col, result, request)
+            update_save(save_id, col, result, request, change='all')
         except Exception as e:
             print("error: ",e)
             raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
