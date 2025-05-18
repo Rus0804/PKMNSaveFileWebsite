@@ -96,12 +96,22 @@ def rename_save(save_id: int, data: RenameRequest, request: Request):
 class BadgesUpdateRequest(BaseModel):
     badges: list[bool]
 
+class MonUpdateRequest(BaseModel):
+    pokemon: str
+
 @app.patch("/saves/{save_id}/badges")
 def update_badges(save_id: int, data: BadgesUpdateRequest, request: Request):
     col = 'save_data'
     value = data.badges
     print(save_id, "badges: ", value)
     return update_save(save_id, col, value, request, change='trainer')
+
+@app.patch("/saves/{save_id}/pokemon")
+def update_badges(save_id: int, data: MonUpdateRequest, request: Request):
+    col = 'save_data'
+    value = json.loads(data.pokemon)
+    print(save_id, "badges: ", value)
+    return update_save(save_id, col, value, request, change='pokemon')
     
 @app.delete("/saves/{save_id}")
 def delete_save(save_id: int, request: Request):
