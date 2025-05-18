@@ -52,7 +52,7 @@
   
   .stat-table th,
   .stat-table td {
-    border: 1px solid #ccc;
+    border: 1px solid #a3a3a3;
     padding: 0.25rem 0.5rem;
     text-align: center;
   }
@@ -106,4 +106,8 @@
   color: #721c24;
 }
 
+.pokemon-name-status{
+  display: flex;
+  justify-content: center;
+}
   

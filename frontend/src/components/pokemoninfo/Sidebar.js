@@ -54,19 +54,22 @@ const Sidebar = ({ pokemon, closeSidebar, saveId, token }) => {
   return (
     <div className="global-sidebar open">
       <button className="close-button" onClick={handleClose}>×</button>
-
+      <br></br>
       <div className="sidebar-header">
-        <h2>{pokemon.nickname || pokemon.name}</h2>
+        <div className='pokemon-name-status'>
+          <h2>{pokemon.nickname || pokemon.name}</h2>
+          {/* Toggle Alive/Dead Button */}
+          <button className={`alive-toggle ${isAlive ? 'alive' : 'dead'}`} onClick={handleAliveToggle}>
+            {isAlive ? '🟢 Alive' : '⚰️ Dead'}
+          </button>
+        </div>
         <img
           src={pokemon.shiny ? `/Sprites/Pokemon/BW/shiny/${pokemon.pokedex_num}s.png` : `/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
           alt={pokemon.nickname || pokemon.name}
           className="sidebar-sprite"
         />
 
-        {/* Toggle Alive/Dead Button */}
-        <button className={`alive-toggle ${isAlive ? 'alive' : 'dead'}`} onClick={handleAliveToggle}>
-          {isAlive ? '🟢 Alive' : '⚰️ Dead'}
-        </button>
+        
       </div>
 
       <div className="scrollable-content">
