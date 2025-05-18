@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
 
 const Sidebar = ({ pokemon, closeSidebar, saveId, token }) => {
   const [isAlive, setIsAlive] = useState(pokemon.alive);
+
+  useEffect(() => {
+    if (pokemon) {
+      setIsAlive(pokemon.alive);
+    }
+  }, [pokemon]);
 
   const handleClose = () => {
     closeSidebar();
