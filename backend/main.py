@@ -107,7 +107,7 @@ def update_badges(save_id: int, data: BadgesUpdateRequest, request: Request):
     return update_save(save_id, col, value, request, change='trainer')
 
 @app.patch("/saves/{save_id}/pokemon")
-def update_badges(save_id: int, data: MonUpdateRequest, request: Request):
+def update_pokemon(save_id: int, data: MonUpdateRequest, request: Request):
     col = 'save_data'
     value = json.loads(data.pokemon)
     print(save_id, "badges: ", value)

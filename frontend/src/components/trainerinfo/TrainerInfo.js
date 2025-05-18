@@ -35,11 +35,8 @@ function TrainerInfo({ trainer, money, version, saveId, token }) {
         throw new Error('Failed to update badges');
       }
 
-      const result = await response.json();
-      console.log('Badges updated:', result);
       setStatus('Badges updated successfully');
     } catch (err) {
-      console.error(err);
       setEarnedBadges(prevBadges); // Revert UI
       setStatus('Error saving badges');
     } finally {
