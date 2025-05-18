@@ -3,12 +3,14 @@ import './Sidebar.css';
 import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
 
-const Sidebar = ({ pokemon, closeSidebar, saveId, token }) => {
+const Sidebar = ({ pokemon, closeSidebar, version, saveId, token }) => {
   const [isAlive, setIsAlive] = useState(pokemon.alive);
+  const [badges, setBadges] = useState(pokemon.badges || []);
 
   useEffect(() => {
     if (pokemon) {
       setIsAlive(pokemon.alive);
+      setBadges(pokemon.badges || []);
     }
   }, [pokemon]);
 
@@ -17,7 +19,8 @@ const Sidebar = ({ pokemon, closeSidebar, saveId, token }) => {
   };
 
   const handleAliveToggle = async () => {
-    if(!isAlive){return}
+    if (!isAlive) return;
+
     const confirmChange = window.confirm(
       `Are you sure you want to mark this Pokémon as ${isAlive ? 'dead' : 'alive'}?\n\nThis change is permanent.`
     );
@@ -42,8 +45,37 @@ const Sidebar = ({ pokemon, closeSidebar, saveId, token }) => {
       }
     } catch (err) {
       console.error('Error updating alive status:', err);
-      // Revert UI
-      setIsAlive(!updatedAlive);
+      setIsAlive(!updatedAlive); // revert UI on error
+    }
+  };
+
+  const toggleBadge = async (badgeIndex) => {
+    const updatedBadges = [...badges];
+    updatedBadges[badgeIndex] = !updatedBadges[badgeIndex];
+
+    // Optimistic UI update
+    setBadges(updatedBadges);
+    pokemon.badges = updatedBadges;
+    
+    try {
+      const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/pokemon`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pokemon }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update badge status');
+      }
+    } catch (err) {
+      console.error('Error updating badge status:', err);
+      // Revert on error
+      updatedBadges[badgeIndex] = !updatedBadges[badgeIndex];
+      setBadges([...updatedBadges]);
+      pokemon.badges = updatedBadges;
     }
   };
 
@@ -54,30 +86,51 @@ const Sidebar = ({ pokemon, closeSidebar, saveId, token }) => {
   return (
     <div className="global-sidebar open">
       <button className="close-button" onClick={handleClose}>×</button>
-      <br></br>
+      <br />
       <div className="sidebar-header">
         <div className='pokemon-name-status'>
           <h2>{pokemon.nickname || pokemon.name}</h2>
-          {/* Toggle Alive/Dead Button */}
-          <button className={`alive-toggle ${isAlive ? 'alive' : 'dead'}`} onClick={handleAliveToggle}>
+          <button
+            className={`alive-toggle ${isAlive ? 'alive' : 'dead'}`}
+            onClick={handleAliveToggle}
+          >
             {isAlive ? '🟢 Alive' : '⚰️ Dead'}
           </button>
         </div>
         <img
-          src={pokemon.shiny ? `/Sprites/Pokemon/BW/shiny/${pokemon.pokedex_num}s.png` : `/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
+          src={pokemon.shiny
+            ? `/Sprites/Pokemon/BW/shiny/${pokemon.pokedex_num}s.png`
+            : `/Sprites/Pokemon/BW/${pokemon.pokedex_num}.png`}
           alt={pokemon.nickname || pokemon.name}
           className="sidebar-sprite"
         />
-
-        
       </div>
 
       <div className="scrollable-content">
+        {badges.length > 0 && (
+          <div className="badges-section">
+            <p><strong>Badges Contributed To:</strong></p>
+            <div className="badges-container">
+              {badges.map((contributed, index) => (
+                <img
+                  key={index}
+                  src={`/Sprites/Badges/${version}-${index + 1}.png`}
+                  alt={`Badge ${index + 1}`}
+                  className={`badge-icon ${contributed ? 'active' : 'inactive'}`}
+                  onClick={() => toggleBadge(index)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="sidebar-info">
           <p><strong>Level:</strong> {pokemon.level}</p>
           <p><strong>Nature:</strong> {pokemon.nature}</p>
           <p><strong>Ability:</strong> {pokemon.ability}</p>
-          <p><strong>Held Item:</strong> {pokemon.held_item === 0 ? 'None' : item_data.find(item => item.id === pokemon.held_item).name}</p>
+          <p><strong>Held Item:</strong> {pokemon.held_item === 0
+            ? 'None'
+            : item_data.find(item => item.id === pokemon.held_item)?.name || 'Unknown'}</p>
         </div>
 
         <table className="stat-table">

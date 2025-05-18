@@ -2,7 +2,7 @@ import React from 'react';
 import './PartyList.css';
 import { item_data } from '../../data/item_data.js';
 
-function PartyList({ party, onCardClick }) {
+function PartyList({ party, onCardClick, version }) {
   // Ensure exactly 6 slots in the party
   const filledParty = [...party];
   while (filledParty.length < 6) {
@@ -30,6 +30,20 @@ function PartyList({ party, onCardClick }) {
                     e.target.src = '/sprites/gen5/0.png'; 
                   }}
                 />
+                <div className="badges-container">
+                  {pokemon.badges.map((badge, index) => {
+                    
+                    if(badge) return (
+                    <img
+                      key={index}
+                      src={`/Sprites/Badges/${version}-${index + 1}.png`}
+                      alt={`${badge} Badge`}
+                      className="badge-icon-party"
+                    />
+                    )
+                    else{return (<></>)}
+                  })}
+                </div>
                 <h3>{pokemon.nickname || pokemon.name}</h3>
                 <p><strong>Level:</strong> {pokemon.level}</p>
                 <p><strong>Nature:</strong> {pokemon.nature}</p>

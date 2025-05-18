@@ -49,3 +49,15 @@ h3 {
 .pokemon-card p {
   margin: 2px 0; /* Reduce vertical spacing between lines */
 }
+
+.badge-icon-party {
+  width: 20px;
+  height: 20px;
+  margin: 4px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.badge-icon-party:hover {
+  opacity: 0.8;
+}
