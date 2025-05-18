@@ -96,6 +96,8 @@ def update_save(save_id: int, col, data, request: Request, change):
             print('hi')
             old_row = user_db.from_("Saves").select(col).eq("id",save_id).execute()
             print("old_data: ", old_row)
+            print("indexed: ", old_row[0])
+            print("only column: ", old_row[0]['save_data'])
             if(change == 'trainer'):
                 old_row[0]['save_data'][change]['badges'] = data
                 data = old_row[0]['save_data']
