@@ -1,20 +1,46 @@
 import React, { useState } from 'react';
 import './TrainerInfo.css';
 
-function TrainerInfo({ trainer, money, version }) {
-  const [earnedBadges, setEarnedBadges] = useState(Array(8).fill(false));
+function TrainerInfo({ trainer, money, version, saveId }) {
+  const { name, gender, trainer_id, secret_id, badges: initialBadges } = trainer;
+  const [earnedBadges, setEarnedBadges] = useState([...initialBadges]);
+  const [loading, setLoading] = useState(false);
 
-  const toggleBadge = (index) => {
-    setEarnedBadges((prev) =>
-      prev.map((earned, i) => (i === index ? !earned : earned))
+  const toggleBadge = async (index) => {
+    const updatedBadges = earnedBadges.map((earned, i) =>
+      i === index ? !earned : earned
     );
+
+    setEarnedBadges(updatedBadges);
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/badges`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ badges: updatedBadges }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to save badges');
+        // Optionally revert UI if it failed
+        setEarnedBadges(earnedBadges);
+      }
+    } catch (err) {
+      console.error('Error updating badges:', err);
+      setEarnedBadges(earnedBadges);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const spriteMap = {
-    "FRLG": { Male: 'red.png', Female: 'leaf.png' },
-    "RSE": { Male: 'Ebrendan.png', Female: 'Emay.png' },
+    FRLG: { Male: 'red.png', Female: 'leaf.png' },
+    RSE: { Male: 'Ebrendan.png', Female: 'Emay.png' },
   };
-  const spriteFile = spriteMap[version]?.[trainer.gender] || 'default.png';
+  const spriteFile = spriteMap[version]?.[gender] || 'default.png';
   const spriteSrc = `/Sprites/Trainers/gen3/${version}/${spriteFile}`;
 
   return (
@@ -23,10 +49,10 @@ function TrainerInfo({ trainer, money, version }) {
       <div className="trainer-card">
         <img src={spriteSrc} alt="Trainer Sprite" className="trainer-sprite" />
         <div className="trainer-details">
-          <p><strong>Name:</strong> {trainer.name}</p>
-          <p><strong>Gender:</strong> {trainer.gender}</p>
-          <p><strong>Trainer ID:</strong> {trainer.trainer_id}</p>
-          <p><strong>Secret ID:</strong> {trainer.secret_id}</p>
+          <p><strong>Name:</strong> {name}</p>
+          <p><strong>Gender:</strong> {gender}</p>
+          <p><strong>Trainer ID:</strong> {trainer_id}</p>
+          <p><strong>Secret ID:</strong> {secret_id}</p>
           <p><strong>Money:</strong> ${money}</p>
         </div>
       </div>
@@ -38,9 +64,9 @@ function TrainerInfo({ trainer, money, version }) {
             key={index}
             src={`/Sprites/Badges/${version}-${index + 1}.png`}
             alt={`Badge ${index + 1}`}
-            className={`badge-icon ${earned ? 'earned' : 'unearned'}`}
-            onClick={() => toggleBadge(index)}
-            title={`Click to ${earned ? 'remove' : 'earn'} badge`}
+            className={`badge-icon ${earned ? 'earned' : 'unearned'} ${loading ? 'disabled' : ''}`}
+            onClick={() => !loading && toggleBadge(index)}
+            title={loading ? 'Saving...' : `Click to ${earned ? 'remove' : 'earn'} badge`}
           />
         ))}
       </div>

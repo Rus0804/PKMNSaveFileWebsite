@@ -92,6 +92,15 @@ def rename_save(save_id: int, data: RenameRequest, request: Request):
     col = 'filename'
     value = data.filename
     return update_save(save_id, col, value, request)
+
+class BadgesUpdateRequest(BaseModel):
+    badges: list[bool]
+
+@app.patch("/saves/{save_id}/badges")
+def update_badges(save_id: int, data: BadgesUpdateRequest, request: Request):
+    col = 'save_data'
+    value = data.badges
+    return update_save(save_id, col, value, request)
     
 @app.delete("/saves/{save_id}")
 def delete_save(save_id: int, request: Request):
