@@ -56,7 +56,7 @@ const Sidebar = ({ pokemon, closeSidebar }) => {
           </tbody>
         </table>
         
-        <div>
+        <div className='hidden-power-info'>
             <p><strong>Hidden Power</strong></p>
             <p><strong>Type:</strong> {pokemon.hidden_power[0]}</p>
             <p><strong>Power:</strong> {pokemon.hidden_power[1]}</p>

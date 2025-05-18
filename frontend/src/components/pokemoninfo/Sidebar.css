@@ -56,6 +56,18 @@
     padding: 0.25rem 0.5rem;
     text-align: center;
   }
+
+  .hidden-power-info p{
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  .hidden-power-info{
+    border-color: #333;
+    border-width: 4px;
+    border-style:groove;
+    margin-top: 40px;
+  }
   
   .moves-list {
     margin-top: 1rem;
@@ -65,11 +77,11 @@
   }
   
   .move-chip {
-    background-color: #e0e0e0;
+    background-color: #cccbcb;
     border-radius: 9999px;
     padding: 0.3rem 0.75rem;
     text-align: center;
-    font-size: 0.875rem;
+    font-size: 0.975rem;
     font-weight: 500;
     color: #333;
   }
