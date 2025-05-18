@@ -30,6 +30,9 @@ function TrainerInfo({ trainer, money, version, saveId, token }) {
           // Optionally revert UI if it failed
           setEarnedBadges(earnedBadges);
         }
+        else{
+          console.log(response)
+        }
       } catch (err) {
         console.error('Error updating badges:', err);
         setEarnedBadges(earnedBadges);
