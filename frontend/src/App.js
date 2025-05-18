@@ -192,7 +192,7 @@ function App() {
               </Routes>
 
               {selectedPokemon && (
-                <Sidebar pokemon={selectedPokemon} closeSidebar={() => setSelectedPokemon(null)} />
+                <Sidebar pokemon={selectedPokemon} closeSidebar={() => setSelectedPokemon(null)} saveId={selectedSave?.id} token = {token} />
               )}
             </>
           }
