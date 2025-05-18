@@ -150,7 +150,7 @@ function App() {
                   path="/trainer"
                   element={
                     data ? (
-                      <TrainerInfo trainer={data.trainer} money={data.money} version={data.version} />
+                      <TrainerInfo trainer={data.trainer} money={data.money} version={data.version} saveId={selectedSave?.id} token={token}/>
                     ) : (
                       <p>Upload a save file first.</p>
                     )

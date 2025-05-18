@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './TrainerInfo.css';
 
-function TrainerInfo({ trainer, money, version, saveId }) {
+function TrainerInfo({ trainer, money, version, saveId, token }) {
   const { name, gender, trainer_id, secret_id, badges: initialBadges } = trainer;
   const [earnedBadges, setEarnedBadges] = useState([...initialBadges]);
   const [loading, setLoading] = useState(false);
@@ -10,30 +10,32 @@ function TrainerInfo({ trainer, money, version, saveId }) {
     const updatedBadges = earnedBadges.map((earned, i) =>
       i === index ? !earned : earned
     );
-
+    
     setEarnedBadges(updatedBadges);
     setLoading(true);
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/badges`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ badges: updatedBadges }),
-      });
+    if(saveId && token){
+      try {
+        const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/badges`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ badges: updatedBadges }),
+        });
 
-      if (!response.ok) {
-        console.error('Failed to save badges');
-        // Optionally revert UI if it failed
+        if (!response.ok) {
+          console.error('Failed to save badges');
+          // Optionally revert UI if it failed
+          setEarnedBadges(earnedBadges);
+        }
+      } catch (err) {
+        console.error('Error updating badges:', err);
         setEarnedBadges(earnedBadges);
       }
-    } catch (err) {
-      console.error('Error updating badges:', err);
-      setEarnedBadges(earnedBadges);
-    } finally {
-      setLoading(false);
-    }
+    }    
+    setLoading(false);
   };
 
   const spriteMap = {

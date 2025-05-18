@@ -83,13 +83,18 @@ def get_user_db(token: str) -> Client:
     return create_client(url, key, options=opts)
 
 
-def update_save(save_id: int, col, data, request: Request):
+def update_save(save_id: int, col, data, request: Request, change):
     token = request.headers.get("authorization")
     if not token or not token.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Missing or invalid token")
     token = token[7:]
     user_db = get_user_db(token)
     try:
+        if(col == 'save_data'):
+            old_row = user_db.from_("Saves").select(col).eq("id",save_id).execute()
+            if(change == 'trainer'):
+                old_row[change]['badges'] = data
+                data = old_row
         user_db.from_("Saves").update({
             col: data
         }).eq("id", save_id).execute()
