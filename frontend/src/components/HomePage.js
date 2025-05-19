@@ -151,14 +151,20 @@ function HomePage({ token, onSelectSave }) {
           ))}
         </ul>
       )}
+      
+      {saves.length >= 5 && !loading && (
+        <p className="limit-reached">Save file limit reached (5).</p>
+      )}
 
       <button
         className="create-button"
         onClick={handleCreateNew}
-        disabled={loading}
+        disabled={loading || saves.length >= 5}
+        title={saves.length >= 5 ? "You can only have up to 5 save files." : ""}
       >
         + Create New Save
       </button>
+
     </div>
   );
 }
