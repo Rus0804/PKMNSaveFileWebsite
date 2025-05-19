@@ -34,7 +34,7 @@ function HomePage({ token, onSelectSave }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        fetchSaves(); // Refresh after creation
+        fetchSaves();
         onSelectSave(data);
       })
       .catch((err) => setError(err.message));

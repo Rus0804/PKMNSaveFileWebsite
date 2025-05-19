@@ -53,9 +53,17 @@ function App() {
   const handleSetSelectedSave = (saveRow) => {
     setSelectedSave(saveRow);
     localStorage.setItem('selected_save', JSON.stringify(saveRow));
-    setData(saveRow.save_data);
-    setGameFamily(saveRow.save_data.version);
-    setGame(saveRow.save_data.version === "FRLG" ? "firered" : "emerald");
+    
+    if(saveRow.save_data){
+      setData(saveRow.save_data);
+      setGameFamily(saveRow.save_data.version);
+      setGame(saveRow.save_data.version === "FRLG" ? "firered" : "emerald");
+    }
+    else{
+      setData(null);
+      setGameFamily(null);
+      setGame(null);
+    }
   };
 
   return (
