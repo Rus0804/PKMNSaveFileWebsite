@@ -1,77 +1,96 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "./HomePage.css";
 
+const API_URL = process.env.REACT_APP_PROD;
+
 function HomePage({ token, onSelectSave }) {
   const [saves, setSaves] = useState([]);
   const [error, setError] = useState("");
-  const fetchSaves = useCallback(() => {
-    fetch(`${process.env.REACT_APP_PROD}/saves`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.detail || "Error fetching saves");
-        }
-        return res.json();
-      })
-      .then((data) => setSaves(data))
-      .catch((err) => setError(err.message));
+  const [loading, setLoading] = useState(true);
+
+  const fetchSaves = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/saves`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || "Error fetching saves");
+      }
+      const data = await res.json();
+      setSaves(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, [token]);
 
   useEffect(() => {
     fetchSaves();
   }, [fetchSaves]);
 
-  const handleCreateNew = () => {
-    fetch(process.env.REACT_APP_PROD+"/saves/new", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        fetchSaves();
-        onSelectSave(data);
-      })
-      .catch((err) => setError(err.message));
+  const handleCreateNew = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/saves/new`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      await fetchSaves();
+      onSelectSave(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this save?")) return;
-    fetch(`${process.env.REACT_APP_PROD}/saves/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to delete save");
-        fetchSaves(); // Refresh after deletion
-      })
-      .catch((err) => setError(err.message));
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/saves/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to delete save");
+      await fetchSaves();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRename = (id) => {
+  const handleRename = async (id) => {
     const newName = window.prompt("Enter new filename:");
     if (!newName) return;
-    fetch(`${process.env.REACT_APP_PROD}/saves/${id}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ filename: newName }),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to rename save");
-        return res.json();
-      })
-      .then(() => fetchSaves()) 
-      .catch((err) => setError(err.message));
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/saves/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filename: newName }),
+      });
+      if (!res.ok) throw new Error("Failed to rename save");
+      await fetchSaves();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLoad = (save) => {
@@ -84,9 +103,16 @@ function HomePage({ token, onSelectSave }) {
         <h2>Your Save Files</h2>
       </div>
 
-      {error && <p className="error-message">{error}</p>}
+      {error && (
+        <div className="error-banner">
+          <p>{error}</p>
+          <button className="dismiss-error" onClick={() => setError("")}>×</button>
+        </div>
+      )}
 
-      {saves.length === 0 ? (
+      {loading ? (
+        <p className="loading">Loading saves...</p>
+      ) : saves.length === 0 ? (
         <p className="no-saves">No saves found. Create one below!</p>
       ) : (
         <ul className="save-list">
@@ -99,13 +125,25 @@ function HomePage({ token, onSelectSave }) {
                 </div>
               </div>
               <div className="action-buttons">
-                <button className="load-button" onClick={() => handleLoad(save)}>
+                <button
+                  className="load-button"
+                  onClick={() => handleLoad(save)}
+                  disabled={loading}
+                >
                   Load
                 </button>
-                <button className="rename-button" onClick={() => handleRename(save.id)}>
+                <button
+                  className="rename-button"
+                  onClick={() => handleRename(save.id)}
+                  disabled={loading}
+                >
                   Rename
                 </button>
-                <button className="delete-button" onClick={() => handleDelete(save.id)}>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDelete(save.id)}
+                  disabled={loading}
+                >
                   Delete
                 </button>
               </div>
@@ -114,7 +152,11 @@ function HomePage({ token, onSelectSave }) {
         </ul>
       )}
 
-      <button className="create-button" onClick={handleCreateNew}>
+      <button
+        className="create-button"
+        onClick={handleCreateNew}
+        disabled={loading}
+      >
         + Create New Save
       </button>
     </div>
