@@ -176,6 +176,7 @@ function App() {
                         version={data.version}
                         saveId={selectedSave?.id}
                         token={token}
+                        setData={setData}
                       />
                     ) : (
                       <p>Upload a save file first.</p>
@@ -236,6 +237,7 @@ function App() {
                   version={data.version}
                   saveId={selectedSave?.id}
                   token={token}
+                  setData={setData}
                 />
               )}
             </>

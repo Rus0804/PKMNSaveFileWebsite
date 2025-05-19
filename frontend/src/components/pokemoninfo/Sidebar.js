@@ -1,18 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Sidebar.css';
 import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
 
-const Sidebar = ({ pokemon, closeSidebar, version, saveId, token }) => {
+const Sidebar = ({ pokemon, closeSidebar, version, saveId, token, setData }) => {
   const [isAlive, setIsAlive] = useState(pokemon.alive);
   const [badges, setBadges] = useState(pokemon.badges || []);
 
-  useEffect(() => {
-    if (pokemon) {
-      setIsAlive(pokemon.alive);
-      setBadges(pokemon.badges || []);
+  const updatePokemonInSave = (updatedPokemon) => {
+    const stored = localStorage.getItem('selected_save');
+    const saveData = stored ? JSON.parse(stored) : null;
+
+    if (!saveData) return;
+
+    const { party, pc } = saveData.save_data;
+
+    const updatedParty = party.map(mon =>
+      mon.personality === updatedPokemon.personality ? updatedPokemon : mon
+    );
+
+    const updatedPC = {};
+    for (const [boxName, box] of Object.entries(pc)) {
+      updatedPC[boxName] = box.map(mon =>
+        mon.personality === updatedPokemon.personality ? updatedPokemon : mon
+      );
     }
-  }, [pokemon]);
+
+    const updatedSaveData = {
+      ...saveData.save_data,
+      party: updatedParty,
+      pc: updatedPC,
+    };
+
+    const updatedSave = {
+      ...saveData,
+      save_data: updatedSaveData,
+    };
+
+    localStorage.setItem('selected_save', JSON.stringify(updatedSave));
+    setData(updatedSaveData);
+  };
+
 
   const handleClose = () => {
     closeSidebar();
@@ -27,26 +55,31 @@ const Sidebar = ({ pokemon, closeSidebar, version, saveId, token }) => {
     if (!confirmChange) return;
 
     const updatedAlive = !isAlive;
+    const updatedPokemon = { ...pokemon, alive: updatedAlive };
     setIsAlive(updatedAlive);
-    pokemon.alive = updatedAlive;
+    updatePokemonInSave(updatedPokemon);
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/pokemon`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ pokemon }),
-      });
+    if(saveId && token){
+      try {
+        const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/pokemon`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ pokemon }),
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to update alive status');
+        if (!response.ok) {
+          throw new Error('Failed to update alive status');
+        }
+      } catch (err) {
+        console.error('Error updating alive status:', err);
+        setIsAlive(!updatedAlive); // revert UI on error
       }
-    } catch (err) {
-      console.error('Error updating alive status:', err);
-      setIsAlive(!updatedAlive); // revert UI on error
     }
+
+    
   };
 
   const toggleBadge = async (badgeIndex) => {
@@ -54,29 +87,33 @@ const Sidebar = ({ pokemon, closeSidebar, version, saveId, token }) => {
     updatedBadges[badgeIndex] = !updatedBadges[badgeIndex];
 
     // Optimistic UI update
+    const updatedPokemon = { ...pokemon, badges: updatedBadges };
     setBadges(updatedBadges);
-    pokemon.badges = updatedBadges;
+    updatePokemonInSave(updatedPokemon);
     
-    try {
-      const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/pokemon`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ pokemon }),
-      });
+    if(saveId && token){
+      try {
+        const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/pokemon`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ pokemon }),
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to update badge status');
+        if (!response.ok) {
+          throw new Error('Failed to update badge status');
+        }
+      } catch (err) {
+        console.error('Error updating badge status:', err);
+        // Revert on error
+        updatedBadges[badgeIndex] = !updatedBadges[badgeIndex];
+        setBadges([...updatedBadges]);
+        pokemon.badges = updatedBadges;
       }
-    } catch (err) {
-      console.error('Error updating badge status:', err);
-      // Revert on error
-      updatedBadges[badgeIndex] = !updatedBadges[badgeIndex];
-      setBadges([...updatedBadges]);
-      pokemon.badges = updatedBadges;
     }
+    
   };
 
   if (!pokemon) return null;

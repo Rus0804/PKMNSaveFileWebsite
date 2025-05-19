@@ -1,11 +1,31 @@
 import React, { useState } from 'react';
 import './TrainerInfo.css';
 
-function TrainerInfo({ trainer, money, version, saveId, token }) {
+function TrainerInfo({ trainer, money, version, saveId, token, setData }) {
   const { name, gender, trainer_id, secret_id, badges: initialBadges } = trainer;
   const [earnedBadges, setEarnedBadges] = useState([...initialBadges]);
   const [loadingIndex, setLoadingIndex] = useState(null);
   const [status, setStatus] = useState(null);
+
+  const updateTrainerInSave = (updatedTrainer) => {
+    const stored = localStorage.getItem('selected_save');
+    const saveData = stored ? JSON.parse(stored) : null;
+
+    if (!saveData) return;
+    
+    const updatedSaveData = {
+      ...saveData.save_data,
+      trainer: updatedTrainer
+    };
+
+    const updatedSave = {
+      ...saveData,
+      save_data: updatedSaveData,
+    };
+
+    localStorage.setItem('selected_save', JSON.stringify(updatedSave));
+    setData(updatedSaveData);
+  };
 
   const toggleBadge = async (index) => {
     if (loadingIndex !== null) return; // Prevent multiple simultaneous requests
@@ -14,34 +34,42 @@ function TrainerInfo({ trainer, money, version, saveId, token }) {
     const updatedBadges = earnedBadges.map((earned, i) =>
       i === index ? !earned : earned
     );
+
+    setLoadingIndex(index)
     if(saveId && token){
-      trainer.badges = updatedBadges
+        
+      try {
+        const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/badges`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ badges: updatedBadges }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to update badges');
+        }
+
+        setStatus('Badges updated successfully');
+      } catch (err) {
+        setEarnedBadges(prevBadges); // Revert UI
+        setStatus('Error saving badges');
+      }
     }
+    else{
+      console.log(loadingIndex, index)
+      setStatus('Badges updated successfully');
+    }
+    
     setEarnedBadges(updatedBadges);
-    setLoadingIndex(index);
+    setLoadingIndex(null);
     setStatus(null);
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_PROD}/saves/${saveId}/badges`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ badges: updatedBadges }),
-      });
+    const updatedTrainer = { ...trainer, badges: updatedBadges };
+    updateTrainerInSave(updatedTrainer);
 
-      if (!response.ok) {
-        throw new Error('Failed to update badges');
-      }
-
-      setStatus('Badges updated successfully');
-    } catch (err) {
-      setEarnedBadges(prevBadges); // Revert UI
-      setStatus('Error saving badges');
-    } finally {
-      setLoadingIndex(null);
-    }
   };
 
   const spriteMap = {

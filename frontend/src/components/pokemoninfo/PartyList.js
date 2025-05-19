@@ -16,7 +16,7 @@ function PartyList({ party, onCardClick, version }) {
         {filledParty.map((pokemon, index) => (
           <div
             className="pokemon-card"
-            key={index}
+            key={`pokemon-${index}`}
             onClick={() => pokemon && onCardClick(pokemon)} 
             style={{ cursor: pokemon ? 'pointer' : 'default' }}
           >
@@ -35,13 +35,13 @@ function PartyList({ party, onCardClick, version }) {
                     
                     if(badge) return (
                     <img
-                      key={index}
+                      key={`badge-${index}`}
                       src={`/Sprites/Badges/${version}-${index + 1}.png`}
                       alt={`${badge} Badge`}
                       className="badge-icon-party"
                     />
                     )
-                    else{return (<></>)}
+                    else{return null}
                   })}
                 </div>
                 <h3>{pokemon.nickname || pokemon.name}</h3>
@@ -51,7 +51,7 @@ function PartyList({ party, onCardClick, version }) {
                 <p><strong>Held Item:</strong> {pokemon.held_item === 0 ? 'None' : item_data.find(item => item.id === pokemon.held_item).name}</p>
               </>
             ) : (
-              <div className="empty-slot">Empty</div>
+              <div className="empty-slot"></div>
             )}
           </div>
         ))}
