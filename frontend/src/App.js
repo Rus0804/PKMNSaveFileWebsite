@@ -230,7 +230,7 @@ function App() {
                   path="/damage"
                   element={
                     data ? (
-                      <DamageCalcPanel party={data.party} pc={data.pc} />
+                      <DamageCalcPanel party={data.party} pc={data.pc} version={data.version} />
                     ) : (
                       <p>Upload a save file first.</p>
                     )

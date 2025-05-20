@@ -25,7 +25,7 @@ const blankPokemon = {
   shiny: false
 };
 
-const DamageCalc = ({ party, pc }) => {
+const DamageCalc = ({ party, pc, version }) => {
   const [attacker, setAttacker] = useState(blankPokemon);
   const [defender, setDefender] = useState(blankPokemon);
   const [result, setResult] = useState(null);
@@ -121,12 +121,14 @@ const DamageCalc = ({ party, pc }) => {
           setPokemon={setAttacker}
           party={party}
           pcBoxes={pc}
+          version={version}
         />
         <PokemonPanel
           pokemon={defender}
           setPokemon={setDefender}
           party={party}
           pcBoxes={pc}
+          version={version}
         />
       </div>
     </div>

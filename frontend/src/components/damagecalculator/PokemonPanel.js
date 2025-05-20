@@ -3,6 +3,7 @@ import { pokemon_data } from '../../data/pokemon_data.js';
 import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
 import { ability_data } from '../../data/ability_data.js';
+import { frlg_trainer_data } from '../../data/frlg_trainer_teams.js';
 import './PokemonPanel.css';
 
 const statNames = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
@@ -72,9 +73,10 @@ const getBoostMultiplier = (stage) => {
   return 2 / (2 - stage);
 };
 
-const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
+const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
   const [source, setSource] = useState('Any');
   const [pokeList, setPokeList] = useState([]);
+  const [selectedTrainer, setTrainer] = useState('None');
   const [selectedPokeId, setSelectedPokeId] = useState(null);
   const [boosts, setBoosts] = useState(Object.fromEntries(statNames.map(stat => [stat, 0])));
   const [specialCondition, setSpecialCondition] = useState('None');
@@ -119,6 +121,14 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
       ));
     },[]);
 
+    const trainerOptions = useMemo(() => { 
+    return Object.entries(frlg_trainer_data).map(([trainer, monList]) => (
+        <option key={trainer} value={trainer}>
+          {trainer}
+        </option>
+      ));
+    },[]);
+
   useEffect(() => {
     if (source === 'Any') {
       const anyList = Object.entries(pokemon_data).map(([id, data]) => ({
@@ -133,6 +143,12 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
     } else if (source === 'Box') {
       const flatBox = Object.values(pcBoxes).reduce((acc, box) => acc.concat(Object.values(box)), []);
       setPokeList(flatBox.map(p => ({ ...p, source: 'Box' })));
+    } else if (source === 'Trainers') {
+      const trainerList = Object.entries(frlg_trainer_data).map(([name, data]) => ({
+        name: name,
+        source: 'Trainers'
+      }));
+      setPokeList(trainerList);
     }
   }, [source, party, pcBoxes]);
 
@@ -188,7 +204,51 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
         friendship: 0,
         shiny: false
       });
-    } else {
+    } 
+    else if (source === 'Trainers'){
+      var pokedex_num = 0
+      var base_stats = {}
+      for (const id in pokemon_data) {
+        if(selected.name === pokemon_data[id].name){
+            pokedex_num = parseInt(id);
+            base_stats = pokemon_data[id];
+            break;
+        }
+      }
+
+      const baseStats = base_stats;
+      
+      console.log(baseStats)
+      
+      const newStats = {};
+      statNames.forEach(stat => {
+        newStats[stat] = calculateStats(stat, baseStats[stat], selected.IVS[stat], selected.EVS[stat], selected.Level);
+      });
+
+      const hidden_power = getHiddenPower(selected.IVS)
+      setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
+      setPokemon({
+        name: selected.name,
+        pokedex_num: pokedex_num,
+        currentHP: newStats.hp,
+        stats: newStats,
+        ivs: selected.IVS,
+        evs: selected.EVS,
+        type1: base_stats.type[0],
+        type2: base_stats.type[1],
+        level: selected.Level,
+        nature: selected.Nature,
+        ability: selected.Ability,
+        held_item: 0,
+        moves: { 0: parseInt(selected.Attack_1) || 0, 1: parseInt(selected.Attack_2) || 0, 2: parseInt(selected.Attack_3) || 0, 3: parseInt(selected.Attack_4) || 0},
+        status: 'None',
+        hidden_power: hidden_power,
+        friendship: 0,
+        shiny: false
+      });
+      console.log(selected.Attack_1)
+    }
+    else {
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
       updateStats(selected);
       selected.currentHP = selected.stats.hp;
@@ -269,6 +329,12 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
     setPokemon(updated);
   }
 
+  const handleTrainerChange = (e) => {
+    setTrainer(e.target.value);
+    console.log(frlg_trainer_data[e.target.value])
+    setPokeList(frlg_trainer_data[e.target.value].map(p => ({ ...p, source: 'Trainers' })))
+  }
+
   return (
     <div className="pokemon-panel">
       <label>
@@ -277,8 +343,18 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes }) => {
           <option value="Any">Any</option>
           <option value="Party">Party</option>
           <option value="Box">Box</option>
+          {(version === 'FRLG') && (<option value="Trainers">Trainers</option>)}
         </select>
       </label>
+
+      {(source === 'Trainers') &&
+      (<label>
+        Select Trainer:
+        <select onChange={handleTrainerChange} value={selectedTrainer}>
+          <option value="">--Select--</option>
+          {trainerOptions}
+        </select>
+      </label>)}
 
       <label>
         Select Pokémon:
