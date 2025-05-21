@@ -4,6 +4,7 @@ import { move_data } from '../../data/move_data.js';
 import { item_data } from '../../data/item_data.js';
 import { ability_data } from '../../data/ability_data.js';
 import { frlg_trainer_data } from '../../data/frlg_trainer_teams.js';
+import { frlg_trainer_mons } from '../../data/frlg_trainer_pokemon.js';
 import './PokemonPanel.css';
 
 const statNames = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
@@ -144,11 +145,12 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
       const flatBox = Object.values(pcBoxes).reduce((acc, box) => acc.concat(Object.values(box)), []);
       setPokeList(flatBox.map(p => ({ ...p, source: 'Box' })));
     } else if (source === 'Trainers') {
-      const trainerList = Object.entries(frlg_trainer_data).map(([name, data]) => ({
+      const trainerMonsList = Object.entries(frlg_trainer_mons).map(([name, data]) => ({
         name: name,
-        source: 'Trainers'
+        data: data,
+        source: 'TrainerMons'
       }));
-      setPokeList(trainerList);
+      setPokeList(trainerMonsList);
     }
   }, [source, party, pcBoxes]);
 
@@ -169,7 +171,6 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
     const index = e.target.value;
     const selected = pokeList[index];
     setSelectedPokeId(index);
-
     if (source === 'Any') {
       const blankIVs = Object.fromEntries(statNames.map(stat => [stat, 31]));
       const blankEVs = Object.fromEntries(statNames.map(stat => [stat, 0]));
@@ -208,8 +209,9 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
     else if (source === 'Trainers'){
       var pokedex_num = 0
       var base_stats = {}
+      const monName = selected.source === 'TrainerMons'? selected.data.name : selected.name;
       for (const id in pokemon_data) {
-        if(selected.name === pokemon_data[id].name){
+        if(monName === pokemon_data[id].name){
             pokedex_num = parseInt(id);
             base_stats = pokemon_data[id];
             break;
@@ -217,36 +219,63 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
       }
 
       const baseStats = base_stats;
-      
-      console.log(baseStats)
-      
-      const newStats = {};
-      statNames.forEach(stat => {
-        newStats[stat] = calculateStats(stat, baseStats[stat], selected.IVS[stat], selected.EVS[stat], selected.Level);
-      });
-
-      const hidden_power = getHiddenPower(selected.IVS)
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
-      setPokemon({
-        name: selected.name,
-        pokedex_num: pokedex_num,
-        currentHP: newStats.hp,
-        stats: newStats,
-        ivs: selected.IVS,
-        evs: selected.EVS,
-        type1: base_stats.type[0],
-        type2: base_stats.type[1],
-        level: selected.Level,
-        nature: selected.Nature,
-        ability: selected.Ability,
-        held_item: 0,
-        moves: { 0: parseInt(selected.Attack_1) || 0, 1: parseInt(selected.Attack_2) || 0, 2: parseInt(selected.Attack_3) || 0, 3: parseInt(selected.Attack_4) || 0},
-        status: 'None',
-        hidden_power: hidden_power,
-        friendship: 0,
-        shiny: false
-      });
-      console.log(selected.Attack_1)
+
+      const newStats = {};
+
+      if(selected.source === 'Trainers'){
+        statNames.forEach(stat => {
+          newStats[stat] = calculateStats(stat, baseStats[stat], selected.IVS[stat], selected.EVS[stat], selected.Level);
+        });
+
+        const hidden_power = getHiddenPower(selected.IVS)
+        setPokemon({
+          name: selected.name,
+          pokedex_num: pokedex_num,
+          currentHP: newStats.hp,
+          stats: newStats,
+          ivs: selected.IVS,
+          evs: selected.EVS,
+          type1: base_stats.type[0],
+          type2: base_stats.type[1],
+          level: selected.Level,
+          nature: selected.Nature,
+          ability: selected.Ability,
+          held_item: 0,
+          moves: { 0: parseInt(selected.Attack_1) || 0, 1: parseInt(selected.Attack_2) || 0, 2: parseInt(selected.Attack_3) || 0, 3: parseInt(selected.Attack_4) || 0},
+          status: 'None',
+          hidden_power: hidden_power,
+          friendship: 0,
+          shiny: false
+        });
+      }
+      else{
+        statNames.forEach(stat => {
+          newStats[stat] = calculateStats(stat, baseStats[stat], selected.data.IVS[stat], selected.data.EVS[stat], selected.data.Level);
+        });
+        const hidden_power = getHiddenPower(selected.data.IVS)
+        
+        setPokemon({
+          name: selected.name,
+          pokedex_num: pokedex_num,
+          currentHP: newStats.hp,
+          stats: newStats,
+          ivs: selected.data.IVS,
+          evs: selected.data.EVS,
+          type1: base_stats.type[0],
+          type2: base_stats.type[1],
+          level: selected.data.Level,
+          nature: selected.data.Nature,
+          ability: selected.data.Ability,
+          held_item: 0,
+          moves: { 0: parseInt(selected.data.Attack_1) || 0, 1: parseInt(selected.data.Attack_2) || 0, 2: parseInt(selected.data.Attack_3) || 0, 3: parseInt(selected.data.Attack_4) || 0},
+          status: 'None',
+          hidden_power: hidden_power,
+          friendship: 0,
+          shiny: false
+        });
+      }
+      
     }
     else {
       setBoosts(Object.fromEntries(statNames.map(stat => [stat, 0])));
@@ -331,7 +360,6 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
 
   const handleTrainerChange = (e) => {
     setTrainer(e.target.value);
-    console.log(frlg_trainer_data[e.target.value])
     setPokeList(frlg_trainer_data[e.target.value].map(p => ({ ...p, source: 'Trainers' })))
   }
 
