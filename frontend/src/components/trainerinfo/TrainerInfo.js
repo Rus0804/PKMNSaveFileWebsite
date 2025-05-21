@@ -59,7 +59,6 @@ function TrainerInfo({ trainer, money, version, saveId, token, setData }) {
       }
     }
     else{
-      console.log(loadingIndex, index)
       setStatus('Badges updated successfully');
     }
     
