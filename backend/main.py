@@ -13,7 +13,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",  # Development frontend
-    "https://pokemongen3saves.netlify.app"  # Production frontend
+    "https://pokesavegen3.netlify.app"  # Production frontend
 ]
 
 # Enable CORS for frontend connection
