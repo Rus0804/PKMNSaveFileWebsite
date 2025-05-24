@@ -61,7 +61,7 @@ def signup(data: LoginRequest):
             }).execute()
         return {"message": "User created successfully. Check your email to confirm your account."}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Signup failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=e)
 
 def get_user_id_from_token(authorization: str = Header(...)) -> str:
     if not authorization.startswith("Bearer "):
