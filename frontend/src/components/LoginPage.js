@@ -55,7 +55,6 @@ function LoginPage({ onLogin }) {
       });
 
       const data = await response.json();
-      console.log(data)
       if (response.ok) {
         if (isSignup) {
           setInfoMessage(
@@ -70,12 +69,13 @@ function LoginPage({ onLogin }) {
           onLogin(data);
         }
       } else {
-        const fixedDetail = data.detail.replace(/'/g, '"');
-        const err = JSON.parse(fixedDetail);
+        var err = data.message;
+        if (err === 'duplicate key value violates unique constraint'){
+          err = 'Email already has an account'
+        }
         setError(err || 'Something went wrong');
       }
     } catch (err) {
-      console.log(err)
       setError('Network error. Please try again later.');
     }
   };
