@@ -1,4 +1,5 @@
 from fastapi import Header, Request, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, EmailStr
 from supabase import create_client, Client, ClientOptions
 import requests
@@ -61,6 +62,10 @@ def signup(data: LoginRequest):
             }).execute()
         return {"message": "User created successfully. Check your email to confirm your account."}
     except Exception as e:
+        return JSONResponse(
+            status_code=400,
+            content={"message": "duplicate key value violates unique constraint"}
+        )
         raise HTTPException(status_code=500, detail=str(e))
 
 def get_user_id_from_token(authorization: str = Header(...)) -> str:

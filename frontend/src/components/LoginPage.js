@@ -70,9 +70,12 @@ function LoginPage({ onLogin }) {
           onLogin(data);
         }
       } else {
-        setError(data.detail || 'Something went wrong');
+        const fixedDetail = data.detail.replace(/'/g, '"');
+        const err = JSON.parse(fixedDetail);
+        setError(err || 'Something went wrong');
       }
     } catch (err) {
+      console.log(err)
       setError('Network error. Please try again later.');
     }
   };
