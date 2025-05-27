@@ -43,9 +43,12 @@ function HomePage({ token, onSelectSave }) {
         },
       });
       const data = await res.json();
-      await fetchSaves();
-      if(res.ok){
+      if(res.ok){   
+        await fetchSaves();
         onSelectSave(data);
+      }
+      else{
+        throw new Error(data.detail || "Error");
       }
     } catch (err) {
       setError(err.message);
