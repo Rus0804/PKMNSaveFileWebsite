@@ -54,6 +54,7 @@ async def set_request_reset(payload: ResetRequest, request: Request):
 def get_user_saves(request: Request):
     token = request.headers.get("authorization")
     if not token or not token.startswith("Bearer "):
+        print('hi')
         raise HTTPException(status_code=401, detail="Missing or invalid token")
     token = token[7:]
     user_db = get_user_db(token)

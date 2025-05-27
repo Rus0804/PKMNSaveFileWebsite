@@ -21,8 +21,9 @@ function HomePage({ token, onSelectSave }) {
         throw new Error(err.detail || "Error fetching saves");
       }
       const data = await res.json();
-      setSaves(data);
+      setSaves(data);    
     } catch (err) {
+      console.log(err)
       setError(err.message);
     } finally {
       setLoading(false);
