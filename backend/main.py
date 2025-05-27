@@ -54,7 +54,6 @@ async def set_request_reset(payload: ResetRequest, request: Request):
 def get_user_saves(request: Request):
     token = request.headers.get("authorization")
     if not token or not token.startswith("Bearer "):
-        print('hi')
         raise HTTPException(status_code=401, detail="Missing or invalid token")
     token = token[7:]
     user_db = get_user_db(token)
@@ -64,7 +63,9 @@ def get_user_saves(request: Request):
         return response.data
     except Exception as e:
         print("Error fetching saves:", e)
-        raise HTTPException(status_code=500, detail="Supabase error")
+        if (e.message == 'JWT expired'):
+            raise HTTPException(status_code=401, detail="User Session Timed Out")
+        raise HTTPException(status_code=500, detail="Uknown Supabase error")
 
 @app.post("/saves/new")
 def create_new_save(request: Request):
