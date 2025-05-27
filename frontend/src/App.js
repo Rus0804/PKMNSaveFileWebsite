@@ -72,7 +72,11 @@ function App() {
 
       {!user ? (
         <div className="loginButtonWrapper">
-          <button onClick={() => navigate('/login')}>Login</button>
+          {location.pathname === '/login' ? (
+            <button onClick={() => navigate('/')}>Back</button>
+          ) : (
+            <button onClick={() => navigate('/login')}>Login</button>
+          )}
         </div>
       ) : (
         <div className="authControls">
