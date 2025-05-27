@@ -23,7 +23,6 @@ function HomePage({ token, onSelectSave }) {
       const data = await res.json();
       setSaves(data);    
     } catch (err) {
-      console.log(err)
       setError(err.message);
     } finally {
       setLoading(false);
@@ -45,7 +44,9 @@ function HomePage({ token, onSelectSave }) {
       });
       const data = await res.json();
       await fetchSaves();
-      onSelectSave(data);
+      if(res.ok){
+        onSelectSave(data);
+      }
     } catch (err) {
       setError(err.message);
     } finally {

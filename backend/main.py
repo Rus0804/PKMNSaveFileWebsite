@@ -84,6 +84,8 @@ def create_new_save(request: Request):
         return {"id": new_save["id"], "filename": new_save["filename"]}
     except Exception as e:
         print("Exception:", e)
+        if (e.message == 'JWT expired'):
+            raise HTTPException(status_code=401, detail="User Session Timed Out")
         raise HTTPException(status_code=500, detail=f"Failed to create save: {str(e)}")
 
 class RenameRequest(BaseModel):
