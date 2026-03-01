@@ -69,7 +69,7 @@ function LoginPage({ onLogin }) {
           onLogin(data);
         }
       } else {
-        var err = data.message;
+        var err = data.detail;
         if (err === 'duplicate key value violates unique constraint'){
           err = 'Email already has an account'
         }

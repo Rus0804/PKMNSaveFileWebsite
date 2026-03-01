@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request, Form
+from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -9,7 +10,15 @@ from encounter import load_encounter_data
 from login_auth import get_user_db, login, LoginRequest, update_save, signup, ResetPasswordRequest, reset_password, ResetRequest, request_password_reset
 import json
 
-app = FastAPI()
+encounter_data: Dict[str, Dict[str, Dict[str, list]]] = {}
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global encounter_data
+    encounter_data = load_encounter_data(encounter_data)
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:3000",  # Development frontend
@@ -26,6 +35,10 @@ app.add_middleware(
 )
 
 
+@app.get("/test")
+def test():
+    return {"message": "test OK"}
+
 @app.post("/signup")
 async def set_signup(request: LoginRequest):
     print("New user req")
@@ -40,10 +53,6 @@ def set_login(request: LoginRequest):
 def forgot_password(req: ResetPasswordRequest):
     print('reset password req recieved')
     return reset_password(req)
-
-@app.get("/test")
-def test():
-    return {"message": "test OK"}
 
 @app.post("/request-password-reset")
 async def set_request_reset(payload: ResetRequest, request: Request):
@@ -133,14 +142,6 @@ def delete_save(save_id: int, request: Request):
         print("Deletion error:", e)
         raise HTTPException(status_code=500, detail="Supabase error: " + str(e))
     
-
-encounter_data: Dict[str, Dict[str, Dict[str, list]]] = {}
-
-@app.on_event('startup')
-def startup_event():
-    global encounter_data
-    encounter_data = load_encounter_data(encounter_data)
-
 @app.get("/encounters")
 def get_encounters():
     global encounter_data

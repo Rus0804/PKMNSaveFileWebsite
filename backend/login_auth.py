@@ -60,11 +60,11 @@ def signup(data: LoginRequest):
                 "id": user_id,
                 "email": data.email
             }).execute()
-        return {"message": "User created successfully. Check your email to confirm your account."}
+        return {"detail": "User created successfully. Check your email to confirm your account."}
     except Exception as e:
         return JSONResponse(
             status_code=400,
-            content={"message": "duplicate key value violates unique constraint"}
+            content={"detail": "duplicate key value violates unique constraint"}
         )
         raise HTTPException(status_code=500, detail=str(e))
 
