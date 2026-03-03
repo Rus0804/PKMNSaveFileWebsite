@@ -8,7 +8,7 @@ class ResetPasswordRequest(BaseModel):
     new_password: str
 
 class LoginRequest(BaseModel):
-    email: str
+    email: EmailStr
     password: str
 
 class ResetRequest(BaseModel):
