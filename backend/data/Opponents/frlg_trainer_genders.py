@@ -13,7 +13,7 @@ genders_frlg = {
     "Hiker": MALE,
     "Rival": MALE,
     "Picknicker": FEMALE,
-    "Swimmer": {"Luis": MALE, "Richard": MALE, "Reece": MALE, "Tony": MALE, "David": MALE, "Douglas": MALE, "Matthew": MALE, "Axle": MALE, "Barry": MALE, "Dean": MALE, "Darrin": MALE, "Spencer": MALE, "Jack": MALE, "Jerome": MALE, "Roland": MALE, "Tiffany": FEMALE, "Nora": FEMALE, "Melissa": FEMALE, "Anya": FEMALE, "Alice": FEMALE, "Connie": FEMALE, "Shirley": FEMALE, "Amara": FEMALE, "Maria": FEMALE, "Abigail": FEMALE, "Finn": MALE, "Garrett": MALE, "Tisha": FEMALE, "Toby": MALE, "Mymo": MALE, "Nicole": FEMALE, "Samir": MALE, "Denise": FEMALE},
+    "Swimmer": {"Luis": MALE, "Richard": MALE, "Reece": MALE, "Tony": MALE, "David": MALE, "Douglas": MALE, "Matthew": MALE, "Axle": MALE, "Barry": MALE, "Dean": MALE, "Darrin": MALE, "Spencer": MALE, "Jack": MALE, "Jerome": MALE, "Roland": MALE, "Tiffany": FEMALE, "Nora": FEMALE, "Melissa": FEMALE, "Anya": FEMALE, "Alice": FEMALE, "Connie": FEMALE, "Shirley": FEMALE, "Amara": FEMALE, "Maria": FEMALE, "Abigail": FEMALE, "Finn": MALE, "Garret": MALE, "Tisha": FEMALE, "Toby": MALE, "Mymo": MALE, "Nicole": FEMALE, "Samir": MALE, "Denise": FEMALE},
     "Leader Misty": FEMALE,
     "Gamer": MALE,
     "Engineer": MALE,
