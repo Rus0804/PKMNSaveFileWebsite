@@ -1,4 +1,9 @@
-def load_charmap(filepath):
+import json
+
+def load_charmap(filepath: str) -> tuple[dict, dict]:
+    """
+    Loading the structured Character Mapping to get a decoder and encoder to hex and back
+    """
     decode_map = {}
     encode_map = {}
 
@@ -31,7 +36,14 @@ def load_charmap(filepath):
                     encode_map[char] = byte
                 except ValueError:
                     continue  # Skip invalid hex values
+    with open("data/TextMaps/text_decoder.json", "w") as f:
+        json.dump(decode_map, f)
+
+    with open("data/TextMaps/text_encoder.json", "w") as f:
+        json.dump(encode_map, f)
 
     return decode_map, encode_map
 
-d_map, e_map = load_charmap('charmap.txt')
+d_map, e_map = load_charmap('.\data\TextMaps\charmap.txt')
+
+
