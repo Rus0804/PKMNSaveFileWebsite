@@ -23,7 +23,14 @@ const EncounterViewer = ({ game, party, pc }) => {
   useEffect(() => {
     const fetchEncounters = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_PROD}/encounters`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_PROD}/encounters`,
+            {
+              params: {
+                ver: game
+              }
+          }
+        );
         setEncounters(response.data);
       } catch (error) {
         console.error("Failed to fetch encounters:", error);
