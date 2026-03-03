@@ -5,6 +5,7 @@ import FileUpload from './components/FileUpload.js';
 import TrainerInfo from './components/trainerinfo/TrainerInfo.js';
 import PartyList from './components/pokemoninfo/PartyList.js';
 import PCBoxes from './components/pokemoninfo/PCBoxes.js';
+import Graveyard from './components/pokemoninfo/Graveyard.js';
 import EncounterViewer from './components/encountertable/Encounters.js';
 import Sidebar from './components/pokemoninfo/Sidebar.js';
 import DamageCalcPanel from './components/damagecalculator/DamageCalc.js';
@@ -151,6 +152,7 @@ function App() {
                     <Link to="/pokemon">Pokémon Info</Link>
                     <Link to="/damage">Damage Calc</Link>
                     <Link to="/encounters">Encounters</Link>
+                    <Link to="/graveyard">Pokémon Graveyard</Link>
                   </nav>
 
                   <div className="versionSelect">
@@ -211,6 +213,20 @@ function App() {
                           version={data.version}
                         />
                       </>
+                    ) : (
+                      <p>Upload a save file first.</p>
+                    )
+                  }
+                />
+                <Route
+                  path="/graveyard"
+                  element={
+                    data ? (
+                      <Graveyard
+                        party={data.party}
+                        boxes={data.pc}
+                        onCardClick={setSelectedPokemon}
+                      />
                     ) : (
                       <p>Upload a save file first.</p>
                     )
