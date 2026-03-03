@@ -1,15 +1,14 @@
 import pandas as pd
-from backend.data.Pokemon.move_data import move_data
-from backend.data.Opponents.frlg_trainer_genders import genders_frlg
-from backend.data.Opponents.frlg_trainer_ivs import *
+from data.Pokemon.move_data import move_data
+from data.Opponents.frlg_trainer_genders import genders_frlg
+from data.Opponents.frlg_trainer_ivs import *
 import ast
 import json
-from backend.get_data.text_decode import d_map
 
 ## Read source sheet
 def set_data(sheet_req):
     datasheets = pd.read_excel(
-        "data/Pokemon Gen 3 Trainers DataSheet.xlsx",
+        "./data/Opponents/Pokemon Gen 3 Trainers DataSheet.xlsx",
         sheet_name=[
             "Emerald Swampert",
             "FRLG Charizard",
@@ -173,7 +172,7 @@ def get_natures(trainer_title, name, mon, counter=0):
 
 
 ## Getting pokemon data
-pokemon_info = pd.read_csv("data/pokemon_data_gen3.csv")
+pokemon_info = pd.read_csv("./data/Pokemon/pokemon_data_gen3.csv")
 pokemon_info["abilities"] = pokemon_info["abilities"].apply(ast.literal_eval)
 
 
@@ -240,7 +239,7 @@ def get_trainer_teams(trainers_data):
 def main():
     data, sheet_name = set_data(1)
     data = set_trainer_ivs(data)
-    data.to_csv(f'data/{sheet_name}.csv')
+    data.to_csv(f'data/Opponents/{sheet_name}.csv')
 
     trainer_data = pd.read_csv(f'data/{sheet_name}.csv')
 

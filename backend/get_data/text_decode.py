@@ -44,6 +44,6 @@ def load_charmap(filepath: str) -> tuple[dict, dict]:
 
     return decode_map, encode_map
 
-d_map, e_map = load_charmap('.\data\TextMaps\charmap.txt')
+d_map, e_map = load_charmap('data\TextMaps\charmap.txt')
 
 
