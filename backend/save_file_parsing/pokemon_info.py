@@ -1,16 +1,25 @@
 import struct
-from constants import *
-from maps import *
-from get_stats import *
-import math
+from .constants import SUBSTRUCTURE_ORDERS, Natures
+from .maps import *
+from .get_stats import *
+from .parse_utils import decode_gba_string, read_section
 
-def get_substructure_order(personality):
+def get_substructure_order(personality: int) -> list[str]:
+    """
+    Returning order of pokemon data based on personality value
+    """
     return SUBSTRUCTURE_ORDERS[personality % 24]
 
-def correct_species_id(species_id):
+def correct_species_id(species_id: int) -> int:
+    """
+    Correcting species id of pokemon from gen3
+    """
     return Hoen_mon_map[species_id]
 
-def decrypt_pokemon(pkmn_data, pc = False):
+def decrypt_pokemon(pkmn_data: bytes, pc: bool = False) -> dict[str]:
+    """
+    Reading a singular set of data pertaining to one Pokemon
+    """
     personality = struct.unpack('<I', pkmn_data[0x00:0x04])[0]
     ot_id = struct.unpack('<I', pkmn_data[0x04:0x08])[0]
     key = personality ^ ot_id
@@ -38,7 +47,8 @@ def decrypt_pokemon(pkmn_data, pc = False):
     misc = block_map['M']
     attacks = block_map['A']
 
-    pokedex_num = struct.unpack('<H', growth[0x00:0x02])[0]
+    pokedex_num: int = struct.unpack('<H', growth[0x00:0x02])[0]
+
     if pokedex_num> 276:
         pokedex_num = correct_species_id(pokedex_num)
     
@@ -56,7 +66,7 @@ def decrypt_pokemon(pkmn_data, pc = False):
              1:struct.unpack('<H', attacks[0x02:0x04])[0],
              2:struct.unpack('<H', attacks[0x04:0x06])[0],
              3:struct.unpack('<H', attacks[0x06:0x08])[0]
-             }
+            }
 
     check = 0
     stats = ['hp', 'atk', 'def', 'spe', 'spa', 'spd']
@@ -110,7 +120,10 @@ def decrypt_pokemon(pkmn_data, pc = False):
         }
     return pokemon_data
 
-def parse_party_pokemon(section, version):
+def parse_party_pokemon(section: bytes, version: str) -> list[dict[str]]:
+    """
+    Getting the information of all the pokemon currently in the player's party
+    """
     adder = 0
     if version != 'FRLG':
         adder = 0x0200
@@ -147,7 +160,10 @@ def parse_party_pokemon(section, version):
         })
     return pokemon_data
 
-def get_pc_buffer(data, save_offset):
+def get_pc_buffer(data: bytes, save_offset: int) -> bytes:
+    """
+    Getting the bytes that correspond to PC boxes
+    """
     buffer = bytearray()
     for section_id in range(5, 14):
         section = read_section(data, save_offset, section_id)
@@ -157,12 +173,15 @@ def get_pc_buffer(data, save_offset):
             buffer += section[:3968]
     return buffer
 
-def parse_pc_pokemon(buffer):
+def parse_pc_pokemon(pc_buffer: bytes) -> dict[int, list[dict[str]]]:
+    """
+    Reading the data of all the pokemon currently in the PC Boxes
+    """
     boxes = {i+1: [] for i in range(14)}
 
     for i in range(420):
         offset = 0x0004 + (i * 80)
-        entry = buffer[offset:offset + 80]
+        entry = pc_buffer[offset:offset + 80]
         if all(b == 0x00 for b in entry):
             continue
         decrypted = decrypt_pokemon(entry, True)
@@ -194,17 +213,3 @@ def parse_pc_pokemon(buffer):
         })
     return boxes
 
-def get_mon_dict(data):
-    mon_dict = {mon['personality']:mon for mon in data['party']}
-    for box in (data['pc'].keys()):
-        if len(data['pc'][box]) > 0:
-            for mon in data['pc'][box]:
-                mon_dict[mon['personality']] = mon
-    return mon_dict
-
-def update_pokemon(old_dict, new_dict):
-    for mon in old_dict.keys():
-        if mon in new_dict.keys():
-            new_dict[mon]['badges'] = old_dict[mon]['badges']
-            new_dict[mon]['alive'] = old_dict[mon]['alive']
-    return new_dict

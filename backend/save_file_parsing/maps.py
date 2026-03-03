@@ -1,5 +1,3 @@
-from collections import defaultdict
-from constants import *
 import pandas as pd
 import ast
 
@@ -231,7 +229,7 @@ speciesMap = {
   386: {'Name':"Deoxys",'Species':201}
 }
 
-pokemon_info = pd.read_csv('data/pokemon_data_gen3.csv')
+pokemon_info = pd.read_csv('data/Pokemon/pokemon_data_gen3.csv')
 pokemon_info['abilities'] = pokemon_info['abilities'].apply(ast.literal_eval)
 
 Hoen_mon_map = {
@@ -357,11 +355,3 @@ experience_group_levels = {
     "MediumSlow": [int(1.2 * i**3 - 15 * i**2 + 100 * i - 140) for i in range(101)],
     "Slow":       [int(1.25 * i**3) for i in range(101)],
 }
-
-species_to_pokedex = defaultdict(list)
-
-def setup_maps():
-    for pokedex_id, pokemon in speciesMap.items():
-        species_to_pokedex[pokemon['Species']].append(pokedex_id)
-    species_dict = dict(species_to_pokedex)
-    return species_dict

@@ -1,7 +1,10 @@
 import struct
-from constants import decode_gba_string
+from .parse_utils import decode_gba_string
 
-def parse_money(section, version, security_key):
+def parse_money(section: bytes, version: str, security_key: int) -> int:
+    """
+    Get Money from Items Section
+    """
     if version =='FRLG':
         address = 0x0290
     else:
@@ -10,12 +13,18 @@ def parse_money(section, version, security_key):
     return raw_money ^ security_key
 
 
-def parse_trainer_info(section):
+def parse_trainer_info(section: bytes) -> dict[str]:
+    """
+    Reading all the trainer data and returning dictionary of data
+    """
+
     name = decode_gba_string(section[0x0000:0x0007])
+
     gender_byte = section[0x0008]
-    trainer_id, secret_id = struct.unpack('<HH', section[0x000A:0x000E])
     gender = 'Male' if gender_byte == 0 else 'Female'
 
+    trainer_id, secret_id = struct.unpack('<HH', section[0x000A:0x000E])
+    
     return {
         "name": name,
         "trainer_id": trainer_id,

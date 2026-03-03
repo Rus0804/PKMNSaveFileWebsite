@@ -1,9 +1,19 @@
 import struct
-from constants import *
-from maps import *
+from .constants import NATURE_MODIFIERS
+from .maps import *
 
-def get_hidden_stats(ev_data, iv_data, pokedex_num):
-    evs = {'hp': ev_data[0x00], 'atk': ev_data[0x01], 'def': ev_data[0x02], 'spa': ev_data[0x04], 'spd': ev_data[0x05], 'spe': ev_data[0x03]}
+def get_hidden_stats(ev_data: bytes, iv_data: bytes, pokedex_num: int) -> tuple[dict[str, int], dict[str, int], str]:
+    """
+    Getting the actual values of pokemon EVS, IVS and ability
+    """
+    evs = {
+        'hp': ev_data[0x00], 
+        'atk': ev_data[0x01], 
+        'def': ev_data[0x02], 
+        'spa': ev_data[0x04], 
+        'spd': ev_data[0x05], 
+        'spe': ev_data[0x03]
+    }
     iv_word = struct.unpack('<I', iv_data[4:8])[0]  # 4 bytes
 
     ivs = {
@@ -23,14 +33,19 @@ def get_hidden_stats(ev_data, iv_data, pokedex_num):
     return ivs, evs, ability
 
 def get_nature_modifiers(nature: str) -> dict:
+    """
+    Getting the pokemon nature stat modifiers 
+    """
     modifiers = {"atk": 1.0, "def": 1.0, "spa": 1.0, "spd": 1.0, "spe": 1.0}
     if nature.lower() in NATURE_MODIFIERS:
         for stat, factor in NATURE_MODIFIERS[nature.lower()].items():
             modifiers[stat] = factor
     return modifiers
 
-def get_stats(ivs, evs, nature, pokedex_num, level):
-
+def get_stats(ivs: dict[str, int], evs: dict[str, int], nature: str, pokedex_num: int, level: int) -> dict[str, int]:
+    """
+    Calculating final stats from EVS, IVS, Nature, Level and Base Stats
+    """
     species_info = pokemon_info[pokemon_info['pokedex_number']==pokedex_num]
 
     base = {

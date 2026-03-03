@@ -1,10 +1,9 @@
 from fastapi import FastAPI, UploadFile, File, Request, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pokemon_info import get_mon_dict, update_pokemon
-from parser import parse_save_file, update_data
 from request_schema import *
 from typing import Optional
+from save_file_parsing import parse_save_file
 from db_operations import (
         login, 
         update_save, 
@@ -65,6 +64,7 @@ def get_user_saves(request: Request):
 
 @app.post("/saves/new")
 def create_new_save(request: Request):
+    return create_new_save(request)
 
 @app.patch("/saves/{save_id}")
 def rename_save(save_id: int, data: RenameRequest, request: Request):

@@ -1,19 +1,29 @@
 import struct
-from trainer_info import *
-from pokemon_info import *
-from constants import *
+from .trainer_info import *
+from .pokemon_info import *
+from .constants import SAVE_A_OFFSET, SAVE_B_OFFSET, SECTION_ID, SECTION_TEAM_ITEMS, SECTION_TRAINER_INFO
+from .parse_utils import read_section
 
 
-def get_save_index(section_data):
+def get_save_index(section_data: bytes) -> int:
+    """
+    Get save index that determines latest save data
+    """
     return struct.unpack('<I', section_data[0x0C:0x10])[0]
 
-def get_security_key(section, version):
+def get_security_key(section: bytes, version: str) -> int:
+    """
+    Get trainer security key required for various decryptions
+    """
     if version == "FRLG":
         return struct.unpack('<I', section[0x0AF8:0x0AFC])[0]
     else:
         return struct.unpack('<I', section[0x00AC:0x00AC+4])[0]
 
 def detect_gen3_game_version(save_bytes: bytes) -> str:
+    """
+    Detecting game version 'FRLG' or 'RSE'
+    """
     section_0_offset = 0x0000  # section 0 starts at the beginning
     value = struct.unpack('<I', save_bytes[section_0_offset + 0xAC : section_0_offset + 0xAC + 4])[0]
 
@@ -22,7 +32,10 @@ def detect_gen3_game_version(save_bytes: bytes) -> str:
     else:
         return "RSE"
 
-def parse_save_file(data: bytes):    
+def parse_save_file(data: bytes) -> dict[str] | str: 
+    """
+    Main function to read raw save file data
+    """   
     section_13_a = read_section(data, SAVE_A_OFFSET, SECTION_ID)
     section_13_b = read_section(data, SAVE_B_OFFSET, SECTION_ID)
 
@@ -67,23 +80,3 @@ def parse_save_file(data: bytes):
         "pc": pc_data,
         "version": ver
     }
-
-def update_data(new_data, updated_mon_dict):
-    for i in updated_mon_dict.keys():
-        done = False
-        for j in range(len(new_data['party'])):
-            if new_data['party'][j]['personality'] == i:
-                new_data['party'][j] = updated_mon_dict[i]
-                done = True
-                break
-        if done:
-            break
-        for box in range(len(new_data['pc'])):
-            for j in range(len(new_data['pc'][box])):
-                if new_data['pc'][box][j]['personality'] == i:
-                    new_data['party'][box][j] = updated_mon_dict[i]
-                    done = True
-                    break
-            if done:
-                break
-    return new_data
