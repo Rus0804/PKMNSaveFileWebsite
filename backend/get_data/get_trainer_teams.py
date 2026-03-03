@@ -4,9 +4,14 @@ from data.Opponents.frlg_trainer_genders import genders_frlg
 from data.Opponents.frlg_trainer_ivs import *
 import ast
 import json
+import math
+from .text_decode import e_map
 
 ## Read source sheet
-def set_data(sheet_req):
+def set_data(sheet_req: str) -> pd.DataFrame:
+    """
+    Getting the data of the appropriate game
+    """
     datasheets = pd.read_excel(
         "./data/Opponents/Pokemon Gen 3 Trainers DataSheet.xlsx",
         sheet_name=[
@@ -17,14 +22,13 @@ def set_data(sheet_req):
             "RubySapphire Swampert",
         ],
     )
-    sheet_names = list(datasheets.keys())
 
     ## Getting Specific sheet
-    data = datasheets[sheet_names[sheet_req]]
+    data = datasheets[sheet_req]
 
     ## Adding new columns and setting defaults
-    data["IVS"] = [{"hp": 0, "atk": 0, "def": 0, "spa": 0, "spd": 0, "spe": 0}] * len(data)
-    data["EVS"] = [{"hp": 0, "atk": 0, "def": 0, "spa": 0, "spd": 0, "spe": 0}] * len(data)
+    data["IVS"] = [{'hp': 0, 'atk': 0, 'def': 0, 'spa': 0, 'spd': 0, 'spe': 0}] * len(data)
+    data["EVS"] = [{'hp': 0, 'atk': 0, 'def': 0, 'spa': 0, 'spd': 0, 'spe': 0}]* len(data)
     data["Nature"] = ["Hardy"] * len(data)
 
     # Removing unneccessary data
@@ -49,19 +53,25 @@ def set_data(sheet_req):
             data.loc[i, "Opponent"] = data["Opponent"][i - 1]
 
     
-    return data, sheet_names[sheet_req]
+    return data
 
 
 
 ## Setting ivs for trainers from modifier
 
-def get_ivs(iv_mod):
+def get_ivs(iv_mod: int) -> dict[str, int]:
+    """
+    Calculating ivs based on IV modifier of trainer
+    """
     iv = int(iv_mod * 31 / 255)
     return {"hp": iv, "atk": iv, "def": iv, "spa": iv, "spd": iv, "spe": iv}
 
 
 ## Accountign for multiple mons in party
-def set_trainer_ivs(data):
+def set_trainer_ivs(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Iterating through all trainers and setting appropriate IVs
+    """
     count = 0
     for index, row in data.iterrows():
         if index != 0:
@@ -73,21 +83,21 @@ def set_trainer_ivs(data):
             if i == str(row["Opponent"]):
                 data.loc[index, ("IVS", "EVS")] = (
                     get_ivs(exceptions_frlg[i]),
-                    {"hp": 0, "atk": 0, "def": 0, "spa": 0, "spd": 0, "spe": 0},
+                    {'hp': 0, 'atk': 0, 'def': 0, 'spa': 0, 'spd': 0, 'spe': 0},
                 )
                 break
         for i in list(standard_frlg.keys()):
             if i == str(row["Opponent"])[: len(i)]:
                 data.loc[index, ("IVS", "EVS")] = (
                     get_ivs(standard_frlg[i]),
-                    {"hp": 0, "atk": 0, "def": 0, "spa": 0, "spd": 0, "spe": 0},
+                    {'hp': 0, 'atk': 0, 'def': 0, 'spa': 0, 'spd': 0, 'spe': 0},
                 )
                 break
         for i in list(ace_frlg.keys()):
             if i == str(row["Opponent"])[: len(i)]:
                 data.loc[index, ("IVS", "EVS")] = (
                     get_ivs(ace_frlg[i][count]),
-                    {"hp": 0, "atk": 0, "def": 0, "spa": 0, "spd": 0, "spe": 0},
+                    {'hp': 0, 'atk': 0, 'def': 0, 'spa': 0, 'spd': 0, 'spe': 0},
                 )
                 break
     return data
@@ -95,7 +105,11 @@ def set_trainer_ivs(data):
 
 
 ## Getting Names for trainers for nature/ability calc
-def get_trainer_name(trainer_title):
+def get_trainer_name(trainer_title: str) -> str:
+    """
+    Getting trainer name from trainer title for nature and ability calculation
+    """
+
     if "Rival" in trainer_title or "Champ" in trainer_title:
         return "TERRY"
     elif "Grunt" in trainer_title:
@@ -150,7 +164,10 @@ natures = [
 ]
 
 ## Get natures using names and party counter
-def get_natures(trainer_title, name, mon, counter=0):
+def get_natures(trainer_title: str, name: str, mon_name: str, counter: int = 0) -> tuple[int, str, int]:
+    """
+    Calculating natures and ability from name, trainer gender and team
+    """
     for i in genders_frlg.keys():
         if i in trainer_title:
             if isinstance(genders_frlg[i], int):
@@ -159,9 +176,9 @@ def get_natures(trainer_title, name, mon, counter=0):
                 additive = genders_frlg[i][name.title()]
 
     for char in name:
-        counter += d_map[char]
-    for char in mon:
-        counter += d_map[char]
+        counter += e_map[char]
+    for char in mon_name:
+        counter += e_map[char]
 
     counter *= 256
     counter += additive
@@ -175,17 +192,27 @@ def get_natures(trainer_title, name, mon, counter=0):
 pokemon_info = pd.read_csv("./data/Pokemon/pokemon_data_gen3.csv")
 pokemon_info["abilities"] = pokemon_info["abilities"].apply(ast.literal_eval)
 
+def clean_value(value):
+    """
+    Utility function to convert nan values to None
+    """
+    if isinstance(value, float) and math.isnan(value):
+        return None
+    return value
 
-## Set as JSON
-def get_trainer_teams(trainers_data):
+def get_trainer_teams(trainers_data: pd.DataFrame) -> dict:
     teams = {}
     n_counter = 0
     prev_name = ""
     outliers = []
     for index, rows in trainers_data.iterrows():
+
         name = get_trainer_name(rows["Opponent"])
+        if not name:
+            continue
         if prev_name != "" and prev_name != rows["Opponent"]:
             n_counter = 0
+            
         n_counter, nature, ability_flag = get_natures(
             rows["Opponent"], name, rows["Pokémon"].upper(), n_counter
         )
@@ -212,19 +239,24 @@ def get_trainer_teams(trainers_data):
                 outliers.append(rows[col])
 
         # print(name, rows['Pokémon'].upper(), nature)
-        poke_info = dict(rows.drop(["Opponent", "Route"]))
-        poke_info["IVS"] = json.loads(poke_info["IVS"])
-        poke_info["EVS"] = json.loads(poke_info["EVS"])
-        poke_info["Nature"] = nature
-        poke_info["Ability"] = all_abilities[ability_flag]
-
+        poke_info = {
+            "name": mon,
+            "Level": int(rows["Level"]) if not math.isnan(rows["Level"]) else None,
+            "Attack_1": clean_value(rows.get("Attack 1")),
+            "Attack_2": clean_value(rows.get("Attack 2")),
+            "Attack_3": clean_value(rows.get("Attack 3")),
+            "Attack_4": clean_value(rows.get("Attack 4")),
+            "IVS": ast.literal_eval(rows["IVS"]),
+            "EVS": ast.literal_eval(rows["EVS"]),
+            "Nature": nature,
+            "Ability": all_abilities[ability_flag],
+        }
         if rows["Opponent"] not in teams.keys():
             teams[rows["Opponent"]] = [poke_info]
 
         elif rows["Opponent"] in teams.keys():
             teams[rows["Opponent"]].append(poke_info)
 
-    print(outliers)
     return teams
 
 
@@ -237,11 +269,25 @@ def get_trainer_teams(trainers_data):
 
 
 def main():
-    data, sheet_name = set_data(1)
+
+    sheet_names=[
+            "Emerald Swampert",
+            "FRLG Charizard",
+            "FRLG Blastoise",
+            "FRLG Venusaur",
+            "RubySapphire Swampert",
+        ]
+    
+    sheet_name = sheet_names[1]
+    data = set_data(sheet_name)
     data = set_trainer_ivs(data)
     data.to_csv(f'data/Opponents/{sheet_name}.csv')
 
-    trainer_data = pd.read_csv(f'data/{sheet_name}.csv')
+    trainer_data = pd.read_csv(f'data/Opponents/{sheet_name}.csv')
+    trainer_teams = get_trainer_teams(trainer_data)
+
+    with open(f"data/Opponents/{sheet_name}_teams.json", "w") as f:
+        json.dump(trainer_teams, f)
 
 
 main()
