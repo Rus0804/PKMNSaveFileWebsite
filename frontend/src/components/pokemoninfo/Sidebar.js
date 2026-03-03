@@ -59,7 +59,7 @@ const Sidebar = ({ pokemon, closeSidebar, version, saveId, token, setData }) => 
     if (!confirmChange) return;
 
     const updatedAlive = !isAlive;
-    const updatedPokemon = { ...pokemon, alive: updatedAlive };
+    const updatedPokemon = { ...pokemon, alive: !isAlive };
     setIsAlive(updatedAlive);
     updatePokemonInSave(updatedPokemon);
 
@@ -71,7 +71,7 @@ const Sidebar = ({ pokemon, closeSidebar, version, saveId, token, setData }) => 
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ pokemon }),
+          body: JSON.stringify({ pokemon: updatedPokemon }),
         });
 
         if (!response.ok) {
