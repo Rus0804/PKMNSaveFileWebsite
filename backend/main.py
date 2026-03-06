@@ -92,7 +92,7 @@ def delete_save(save_id: int, request: Request):
     
 @app.get("/encounters")
 def get_encounters(ver:str):
-    with open(f"data/Encounters/{ver}_encounters.json", "r") as f:
+    with open(f"data/Encounters/{ver}.json", "r") as f:
         encounter_data = json.load(f)
     return encounter_data
 
