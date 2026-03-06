@@ -1,23 +1,23 @@
 import os
-import dotenv
 from supabase import create_client, Client, ClientOptions
 from fastapi import Header, HTTPException
+# import dotenv
 
 # FOR DEV
-dotenv.load_dotenv()
+# dotenv.load_dotenv()
 
 class SupabaseSecrets:
     """
     Class with all Supabase Objects
     """
-    url: str = os.getenv("SUPABASE_URL")
-    key: str = os.getenv("SUPABASE_KEY")
-    service: str = os.getenv("SUPABASE_SERVICE_KEY")
+    # url: str = os.getenv("SUPABASE_URL")
+    # key: str = os.getenv("SUPABASE_KEY")
+    # service: str = os.getenv("SUPABASE_SERVICE_KEY")
 
     # FOR PROD
-    # url = os.environ.get("SUPABASE_URL")
-    # key = os.environ.get("SUPABASE_KEY")
-    # service = os.environ.get("SUPABASE_SERVICE_KEY")
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_KEY")
+    service = os.environ.get("SUPABASE_SERVICE_KEY")
 
     db: Client = create_client(url, key)  
     service_db: Client = create_client(url, service)
