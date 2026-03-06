@@ -40,7 +40,7 @@ const EncounterViewer = ({ game, party, pc }) => {
     };
 
     fetchEncounters();
-  }, []);
+  });
 
   // Get species IDs for Pokémon in party and PC
   const allSpeciesIdsInParty = party.map(p => p.species_id);  // species_id for each Pokémon
