@@ -1,11 +1,44 @@
 import pandas as pd
 from data.Pokemon.move_data import move_data
-from data.Opponents.frlg_trainer_genders import genders_frlg
-from data.Opponents.frlg_trainer_ivs import *
+from data.Opponents.trainer_genders import genders_frlg
+from data.Opponents.trainer_ivs import *
 import ast
 import json
 import math
 from .text_decode import e_map
+
+def format_opponent(row, grunt_name):
+    if row["Opponent"] == grunt_name:
+        route = str(row["Route"]) if pd.notna(row["Route"]) else ""
+        location = str(row["Location on Route"]) if pd.notna(row["Location on Route"]) else ""
+        count = int(row["Grunt_Count"])
+
+        if location:
+            return f"{grunt_name} {count} - {route} ({location})"
+        else:
+            return f"{grunt_name} {count} - {route}"
+    return row["Opponent"]
+
+def correct_grunt_names(data: pd.DataFrame, grunt_name):
+    # Create mask for Team Rocket Grunt
+    mask = data["Opponent"] == grunt_name
+
+    # Create running count for grunts
+    data.loc[mask, "Grunt_Count"] = (
+        data.loc[mask]
+        .groupby("Opponent")
+        .cumcount() + 1
+    )
+    data["Opponent"] = data.apply(format_opponent, axis=1, args=(grunt_name,))
+    data.drop(
+        [
+            "Grunt_Count"
+        ],
+        inplace=True,
+        axis=1
+    )
+
+    return data
 
 ## Read source sheet
 def set_data(sheet_req: str) -> pd.DataFrame:
@@ -25,6 +58,21 @@ def set_data(sheet_req: str) -> pd.DataFrame:
 
     ## Getting Specific sheet
     data = datasheets[sheet_req]
+
+    if "FRLG" in sheet_req:
+        grunt_name = "Team Rocket Grunt"
+        data = correct_grunt_names(data, grunt_name)
+
+    elif "Sapphire" in sheet_req:
+        grunt_name = "Team Aqua Grunt"
+        data = correct_grunt_names(data, grunt_name)
+
+    elif "Emerald" in sheet_req:
+        grunt_name = "Team Aqua Grunt"
+        data = correct_grunt_names(data, grunt_name)
+
+        grunt_name = "Team Magma Grunt"
+        data = correct_grunt_names(data, grunt_name)
 
     ## Adding new columns and setting defaults
     data["IVS"] = [{'hp': 0, 'atk': 0, 'def': 0, 'spa': 0, 'spd': 0, 'spe': 0}] * len(data)
@@ -51,7 +99,6 @@ def set_data(sheet_req: str) -> pd.DataFrame:
     for i in range(len(data["Opponent"])):
         if pd.isna(data["Opponent"][i]):
             data.loc[i, "Opponent"] = data["Opponent"][i - 1]
-
     
     return data
 
