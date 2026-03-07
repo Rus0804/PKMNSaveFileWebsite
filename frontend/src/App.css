@@ -40,64 +40,11 @@ select:focus {
   outline: none;
 }
 
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-nav a {
-  text-decoration: none;
-  color: #1565c0;
-  font-weight: 600;
-  padding: 0.4rem 0.75rem;
-  border-radius: 6px;
-  transition: background-color 0.2s;
-}
-
-nav a:hover {
-  background-color: #e3f2fd;
-}
-
 p {
   text-align: center;
   font-size: 1.1rem;
   color: #777;
   margin-top: 2rem;
-}
-
-/* Responsive tweaks */
-@media (max-width: 600px) {
-  .App {
-    padding: 1rem;
-  }
-
-  nav {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  nav a {
-    margin-bottom: 0.5rem;
-  }
-}
-
-/* App.module.css */
-
-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-title {
-  text-align: center;
-  color: #c62828;
-  margin-bottom: 2rem;
 }
 
 button {
@@ -112,84 +59,90 @@ button {
   transition: background-color 0.2s;
 }
 
+button:hover {
+  background-color: #0d47a1;
+}
+
 .loginButtonWrapper {
   text-align: right;
   margin-top: 0.5rem;
 }
 
-
-button:hover {
-  background-color: #0d47a1;
-}
-
-.fileUploadwrapper{
-  display: flex;
-  justify-content: center; /* horizontal */
-}
-.versionSelect {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.versionSelect label {
-  font-weight: 600;
-}
-
-.versionSelect select {
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  background-color: #f4f4f4;
-  transition: border 0.2s;
-}
-
-.versionSelect select:focus {
-  border-color: #c62828;
-  outline: none;
-}
-
-.nav {
+.fileUploadwrapper {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+}
+
+.mainPanel {
   margin-top: 1rem;
 }
 
-.nav a {
+.globalMenuButton {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  margin-left: 0;
+  z-index: 1001;
+}
+
+.menuBackdrop {
+  position: fixed;
+  inset: 0;
+  margin-left: 0;
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 999;
+}
+
+.sideDrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  padding: 4.5rem 1rem 1rem;
+  box-sizing: border-box;
+  background: #f9f9f9;
+  border-right: 1px solid #ddd;
+  box-shadow: 2px 0 14px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  z-index: 1000;
+}
+
+.sideDrawer.open {
+  transform: translateX(0);
+}
+
+.sideDrawer a {
   text-decoration: none;
   color: #1565c0;
   font-weight: 600;
-  padding: 0.4rem 0.75rem;
+  padding: 0.5rem 0.65rem;
   border-radius: 6px;
   transition: background-color 0.2s;
 }
 
-.nav a:hover {
+.sideDrawer a:hover {
   background-color: #e3f2fd;
 }
 
-.message {
-  text-align: center;
-  font-size: 1.1rem;
-  color: #777;
-  margin-top: 2rem;
+.sideDrawer a.active {
+  background-color: #1565c0;
+  color: white;
 }
 
 /* Responsive tweaks */
-@media (max-width: 600px) {
-  .container {
+@media (max-width: 800px) {
+  .App {
     padding: 1rem;
+    margin-top: 3.5rem;
   }
 
-  .nav {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav a {
-    margin-bottom: 0.5rem;
+  .sideDrawer {
+    width: 220px;
   }
 }

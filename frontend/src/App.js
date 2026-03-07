@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 import FileUpload from './components/FileUpload.js';
 import TrainerInfo from './components/trainerinfo/TrainerInfo.js';
@@ -12,6 +12,8 @@ import DamageCalcPanel from './components/damagecalculator/DamageCalc.js';
 import LoginPage from './components/LoginPage.js';
 import HomePage from './components/HomePage.js';
 import ResetPasswordPage from './components/ResetPassword.js';
+import SettingsPage from './components/Settings.js';
+import MapsPage from './components/mapspage/MapsPage.js';
 
 import './App.css';
 
@@ -50,6 +52,7 @@ function App() {
   });
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleSetSelectedSave = (saveRow) => {
     setSelectedSave(saveRow);
@@ -68,211 +71,196 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Pokémon GBA Save Viewer</h1>
-
-      {!user ? (
-        <div className="loginButtonWrapper">
-          {location.pathname === '/login' ? (
-            <button onClick={() => navigate('/')}>Back</button>
-          ) : (
-            <button onClick={() => navigate('/login')}>Login</button>
-          )}
-        </div>
-      ) : (
-        <div className="authControls">
-          <p>Logged in as {user}</p>
-          <button
-            onClick={() => {
-              localStorage.removeItem('user');
-              localStorage.removeItem('access_token');
-              localStorage.removeItem('selected_save');
-              setUser(null);
-              setToken(null);
-              setData(null);
-              setSelectedSave(null);
-              navigate('/');
-            }}
-          >
-            Log out
-          </button>
-          {location.pathname !== '/home' && (
-            <button onClick={() => navigate('/home')}>Back to Home</button>
-          )}
-        </div>
+    <>
+      {!['/login', '/reset-password', '/home'].includes(location.pathname) && (
+      <button
+        type="button"
+        className="globalMenuButton"
+        onClick={() => setIsMenuOpen((current) => !current)}
+      >
+        {isMenuOpen ? '✕ Close' : '☰ Menu'}
+      </button>
+      )}
+      {!['/login', '/reset-password', '/home'].includes(location.pathname) && isMenuOpen && (
+        <button
+          type="button"
+          aria-label="Close menu overlay"
+          className="menuBackdrop"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+      {!['/login', '/reset-password', '/home'].includes(location.pathname) && (
+      <nav className={`sideDrawer ${isMenuOpen ? 'open' : 'closed'}`}>
+        <NavLink to="/trainer" onClick={() => setIsMenuOpen(false)}>Trainer Info</NavLink>
+        <NavLink to="/pokemon" onClick={() => setIsMenuOpen(false)}>Pokémon Info</NavLink>
+        <NavLink to="/damage" onClick={() => setIsMenuOpen(false)}>Damage Calc</NavLink>
+        <NavLink to="/encounters" onClick={() => setIsMenuOpen(false)}>Encounters</NavLink>
+        <NavLink to="/maps" onClick={() => setIsMenuOpen(false)}>Maps</NavLink>
+        <NavLink to="/graveyard" onClick={() => setIsMenuOpen(false)}>Pokémon Graveyard</NavLink>
+        <NavLink to="/settings" onClick={() => setIsMenuOpen(false)}>Settings</NavLink>
+      </nav>
       )}
 
-      <Routes>
-        {/* Login and Home Page */}
-        <Route
-          path="/login"
-          element={<LoginPage
-            onLogin={(userObj) => {
-              localStorage.setItem('user', JSON.stringify(userObj.user));
-              localStorage.setItem('access_token', userObj.access_token);
-              setUser(userObj.user);
-              setToken(userObj.access_token);
-              navigate('/home');
-            }}
-          />}
-        />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <div className="App">
+        <h1>Pokémon GBA Save Viewer</h1>
+        {!user ? (
+          <div className="loginButtonWrapper">
+            {location.pathname === '/login' ? (
+              <button onClick={() => navigate('/')}>Back</button>
+            ) : (
+              <button onClick={() => navigate('/login')}>Login</button>
+            )}
+          </div>
+        ) : (
+          <div className="authControls">
+            <p>Logged in as {user}</p>
+            <button
+              onClick={() => {
+                localStorage.removeItem('user');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('selected_save');
+                setUser(null);
+                setToken(null);
+                setData(null);
+                setSelectedSave(null);
+                navigate('/');
+              }}
+            >
+              Log out
+            </button>
+            {location.pathname !== '/home' && (
+              <button onClick={() => navigate('/home')}>Back to Home</button>
+            )}
+          </div>
+        )}
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <LoginPage
+                onLogin={(userObj) => {
+                  localStorage.setItem('user', JSON.stringify(userObj.user));
+                  localStorage.setItem('access_token', userObj.access_token);
+                  setUser(userObj.user);
+                  setToken(userObj.access_token);
+                  navigate('/home');
+                }}
+              />
+            }
+          />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route
+            path="/home"
+            element={
+              <HomePage
+                token={token}
+                onSelectSave={(saveRow) => {
+                  handleSetSelectedSave(saveRow);
+                  navigate('/pokemon');
+                }}
+              />
+            }
+          />
 
-        <Route
-          path="/home"
-          element={<HomePage
-            token={token}
-            onSelectSave={(saveRow) => {
-              handleSetSelectedSave(saveRow);
-              navigate('/pokemon');
-            }}
-          />}
-        />
+          <Route
+            path="/*"
+            element={
+              <>
+                <div className="fileUploadwrapper">
+                  <FileUpload
+                    saveId={selectedSave?.id || null}
+                    token={token}
+                    onUpload={(parsed) => {
+                      handleSetSelectedSave({ id: null, save_data: parsed });
+                    }}
+                    saveData={data}
+                  />
+                </div>
 
-        {/* Main App Layout */}
-        <Route
-          path="/*"
-          element={
-            <>
-              <div className="fileUploadwrapper">
-                <FileUpload
-                  saveId={selectedSave?.id || null}
-                  token={token}
-                  onUpload={(parsed) => {
-                    handleSetSelectedSave({ id: null, save_data: parsed });
-                  }}
-                  saveData={data}
-                />
-              </div>
-
-              {data && (
-                <>
-                  <nav>
-                    <Link to="/trainer">Trainer Info</Link>
-                    <Link to="/pokemon">Pokémon Info</Link>
-                    <Link to="/damage">Damage Calc</Link>
-                    <Link to="/encounters">Encounters</Link>
-                    <Link to="/graveyard">Pokémon Graveyard</Link>
-                  </nav>
-
-                  <div className="versionSelect">
-                    <label htmlFor="version-select">Game Version:</label>
-                    <select
-                      id="version-select"
-                      value={game}
-                      onChange={(e) => setGame(e.target.value)}
-                    >
-                      {gameFamily === "FRLG" ? (
-                        <>
-                          <option value="firered">FireRed</option>
-                          <option value="leafgreen">LeafGreen</option>
-                        </>
-                      ) : (
-                        <>
-                          <option value="ruby">Ruby</option>
-                          <option value="sapphire">Sapphire</option>
-                          <option value="emerald">Emerald</option>
-                        </>
-                      )}
-                    </select>
-                  </div>
-                </>
-              )}
-
-              <Routes>
-                <Route
-                  path="/trainer"
-                  element={
-                    data ? (
-                      <TrainerInfo
-                        trainer={data.trainer}
-                        money={data.money}
-                        version={data.version}
-                        saveId={selectedSave?.id}
-                        token={token}
-                        setData={setData}
-                      />
-                    ) : (
-                      <p>Upload a save file first.</p>
-                    )
-                  }
-                />
-                <Route
-                  path="/pokemon"
-                  element={
-                    data ? (
-                      <>
-                        <PartyList
-                          party={data.party}
-                          onCardClick={setSelectedPokemon}
+                <div className="mainPanel">
+                  <Routes>
+                    <Route
+                      path="/trainer"
+                      element={data ? (
+                        <TrainerInfo
+                          trainer={data.trainer}
+                          money={data.money}
                           version={data.version}
+                          saveId={selectedSave?.id}
+                          token={token}
+                          setData={setData}
                         />
-                        <PCBoxes
+                      ) : <p>Upload a save file first.</p>}
+                    />
+                    <Route
+                      path="/pokemon"
+                      element={data ? (
+                        <>
+                          <PartyList
+                            party={data.party}
+                            onCardClick={setSelectedPokemon}
+                            version={data.version}
+                          />
+                          <PCBoxes
+                            boxes={data.pc}
+                            onCardClick={setSelectedPokemon}
+                            version={data.version}
+                          />
+                        </>
+                      ) : <p>Upload a save file first.</p>}
+                    />
+                    <Route
+                      path="/graveyard"
+                      element={data ? (
+                        <Graveyard
+                          party={data.party}
                           boxes={data.pc}
                           onCardClick={setSelectedPokemon}
-                          version={data.version}
                         />
-                      </>
-                    ) : (
-                      <p>Upload a save file first.</p>
-                    )
-                  }
-                />
-                <Route
-                  path="/graveyard"
-                  element={
-                    data ? (
-                      <Graveyard
-                        party={data.party}
-                        boxes={data.pc}
-                        onCardClick={setSelectedPokemon}
-                      />
-                    ) : (
-                      <p>Upload a save file first.</p>
-                    )
-                  }
-                />
-                <Route
-                  path="/encounters"
-                  element={
-                    data ? (
-                      <EncounterViewer
-                        game={game}
-                        party={data.party}
-                        pc={data.pc}
-                      />
-                    ) : (
-                      <p>Upload a save file first.</p>
-                    )
-                  }
-                />
-                <Route
-                  path="/damage"
-                  element={
-                    data ? (
-                      <DamageCalcPanel party={data.party} pc={data.pc} version={data.version} />
-                    ) : (
-                      <p>Upload a save file first.</p>
-                    )
-                  }
-                />
-              </Routes>
-
-              {selectedPokemon && (
-                <Sidebar
-                  pokemon={selectedPokemon}
-                  closeSidebar={() => setSelectedPokemon(null)}
-                  version={data.version}
-                  saveId={selectedSave?.id}
-                  token={token}
-                  setData={setData}
-                />
-              )}
-            </>
-          }
-        />
-      </Routes>
-    </div>
+                        ) : <p>Upload a save file first.</p>}
+                    />
+                    <Route
+                      path="/encounters"
+                      element={data ? <EncounterViewer game={game} party={data.party} pc={data.pc} /> : <p>Upload a save file first.</p>}
+                    />
+                    <Route
+                      path="/damage"
+                      element={data ? <DamageCalcPanel party={data.party} pc={data.pc} version={data.version} /> : <p>Upload a save file first.</p>}
+                    />
+                    <Route
+                      path="/maps"
+                      element={data ? <MapsPage game={game} saveVersion={data.version} /> : <p>Upload a save file first.</p>}
+                    />
+                    <Route
+                      path="/settings"
+                      element={data ? (
+                        <SettingsPage
+                          saveVersion={data.version}
+                          gameFamily={gameFamily}
+                          game={game}
+                          onGameChange={setGame}
+                        />
+                      ) : <p>Upload a save file first.</p>}
+                    />
+                    <Route path="*" element={<p>{data ? 'Select a menu item from the left menu.' : 'Upload a save file first.'}</p>} />
+                  </Routes>
+                </div>
+                {selectedPokemon && data && (
+                  <Sidebar
+                    pokemon={selectedPokemon}
+                    closeSidebar={() => setSelectedPokemon(null)}
+                    version={data.version}
+                    saveId={selectedSave?.id}
+                    token={token}
+                    setData={setData}
+                  />
+                )}
+              </>
+            }
+          />
+        </Routes>
+      </div>
+    </>
   );
 }
 

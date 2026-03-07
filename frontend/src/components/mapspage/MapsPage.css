@@ -1,0 +1,28 @@
+.mapsCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  background: #fafafa;
+}
+
+.mapsCard h2 {
+  margin-top: 0;
+}
+
+.mapsCard p {
+  text-align: left;
+  margin: 0.5rem 0;
+  color: #444;
+}
+
+.mapsMeta {
+  margin: 1rem 0;
+}
+
+.mapsPlaceholder {
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #fff;
+  color: #666;
+}
