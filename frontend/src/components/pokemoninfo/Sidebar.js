@@ -103,7 +103,7 @@ const Sidebar = ({ pokemon, closeSidebar, version, saveId, token, setData }) => 
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ pokemon }),
+          body: JSON.stringify({ pokemon: updatedPokemon }),
         });
 
         if (!response.ok) {
