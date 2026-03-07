@@ -1,9 +1,12 @@
 from .constants import NUM_BLOCKS, BLOCK_SIZE
 import json
 
+def keys_to_int(pairs):
+    """Converts the keys in a list of (key, value) pairs to integers where possible."""
+    return {int(k): v for k, v in pairs}
 
 with open("data/TextMaps/text_decoder.json", "r") as f:
-    d_map = json.load(f)
+    d_map = json.load(f, object_pairs_hook=keys_to_int)
 
 
 def read_section(data: bytes, base_offset: int, section_id: int) -> bytes | None:
