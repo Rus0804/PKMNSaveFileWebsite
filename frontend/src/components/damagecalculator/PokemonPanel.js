@@ -74,8 +74,24 @@ const getBoostMultiplier = (stage) => {
   return 2 / (2 - stage);
 };
 
-const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
-  const [source, setSource] = useState('Any');
+const findTrainerName = (candidate) => {
+  if (!candidate) {
+    return '';
+  }
+
+  const normalize = (value) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const normalizedCandidate = normalize(candidate);
+  const trainerNames = Object.keys(frlg_trainer_data);
+
+  const exactMatch = trainerNames.find((trainerName) => normalize(trainerName) === normalizedCandidate);
+  if (exactMatch) {
+    return exactMatch;
+  }
+
+  return trainerNames.find((trainerName) => normalize(trainerName).includes(normalizedCandidate)) || '';
+};
+
+const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version, preselectedTrainer }) => {  const [source, setSource] = useState('Any');
   const [pokeList, setPokeList] = useState([]);
   const [selectedTrainer, setTrainer] = useState('None');
   const [selectedPokeId, setSelectedPokeId] = useState(null);
@@ -145,15 +161,34 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
       const flatBox = Object.values(pcBoxes).reduce((acc, box) => acc.concat(Object.values(box)), []);
       setPokeList(flatBox.map(p => ({ ...p, source: 'Box' })));
     } else if (source === 'Trainers') {
-      const trainerMonsList = Object.entries(frlg_trainer_mons).map(([name, data]) => ({
-        name: name,
-        data: data,
-        source: 'TrainerMons'
-      }));
-      setPokeList(trainerMonsList);
+      if (selectedTrainer && selectedTrainer !== 'None' && frlg_trainer_data[selectedTrainer]) {
+        setPokeList(frlg_trainer_data[selectedTrainer].map((p) => ({ ...p, source: 'Trainers' })));
+      } else {
+        const trainerMonsList = Object.entries(frlg_trainer_mons).map(([name, data]) => ({
+          name: name,
+          data: data,
+          source: 'TrainerMons'
+        }));
+        setPokeList(trainerMonsList);
+      }
     }
-  }, [source, party, pcBoxes]);
+  }, [source, party, pcBoxes, selectedTrainer]);
 
+  useEffect(() => {
+    if (!preselectedTrainer) {
+      return;
+    }
+
+    const mappedTrainer = findTrainerName(preselectedTrainer);
+    if (!mappedTrainer || !frlg_trainer_data[mappedTrainer]) {
+      return;
+    }
+
+    setSource('Trainers');
+    setTrainer(mappedTrainer);
+    setPokeList(frlg_trainer_data[mappedTrainer].map((p) => ({ ...p, source: 'Trainers' })));
+  }, [preselectedTrainer, version]);
+  
   const updateStats = (updated, boosts={'hp':0,'atk':0,'def':0,'spa':0,'spd':0,'spe':0}) => {
     const baseStats = pokemon_data[updated.pokedex_num];
     const newStats = {};
@@ -361,6 +396,15 @@ const PokemonPanel = ({ pokemon, setPokemon, party, pcBoxes, version }) => {
   const handleTrainerChange = (e) => {
     setTrainer(e.target.value);
     setPokeList(frlg_trainer_data[e.target.value].map(p => ({ ...p, source: 'Trainers' })))
+    const trainerName = e.target.value;
+    setTrainer(trainerName);
+    setSelectedPokeId(null);
+
+    if (!trainerName || !frlg_trainer_data[trainerName]) {
+      return;
+    }
+
+    setPokeList(frlg_trainer_data[trainerName].map((p) => ({ ...p, source: 'Trainers' })));
   }
 
   return (

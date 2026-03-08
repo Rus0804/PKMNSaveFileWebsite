@@ -26,3 +26,87 @@
   background: #fff;
   color: #666;
 }
+
+.areaMapCard {
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.75rem;
+}
+
+.singleMapCard {
+  max-width: 980px;
+}
+
+.areaMapCard h3 {
+  margin: 0;
+  text-align: left;
+}
+
+.areaMapCard header p {
+  margin: 0.25rem 0 0.75rem;
+  color: #666;
+}
+
+.mapImageWrap {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background: #f0f3f9;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.mapImage {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.mapHotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.hotspotDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ff3a3000;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.hotspotLabel {
+  background: rgba(0, 0, 0, 0.507);
+  color: #fff;
+  font-size: 0.5rem;
+  line-height: 1.1;
+  padding: 0.2rem 0.35rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.mapHotspot:hover .hotspotDot {
+  background-color: orangered;
+  transform: scale(1.15);
+}
+
+.mapHotspot:hover .hotspotLabel {
+  transform: scale(1.15);
+}
+
+.mapHotspot:focus,
+.mapHotspot:active,
+.mapHotspot:hover {
+  background: transparent;
+  outline: none;
+}

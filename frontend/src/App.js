@@ -51,6 +51,8 @@ function App() {
     return version === "FRLG" ? "firered" : "emerald";
   });
 
+  const [selectedMapTrainer, setSelectedMapTrainer] = useState('');
+
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -225,11 +227,11 @@ function App() {
                     />
                     <Route
                       path="/damage"
-                      element={data ? <DamageCalcPanel party={data.party} pc={data.pc} version={data.version} /> : <p>Upload a save file first.</p>}
+                      element={data ? <DamageCalcPanel party={data.party} pc={data.pc} version={data.version} rightPanelTrainer={selectedMapTrainer} /> : <p>Upload a save file first.</p>}
                     />
                     <Route
                       path="/maps"
-                      element={data ? <MapsPage game={game} saveVersion={data.version} /> : <p>Upload a save file first.</p>}
+                      element={data ? <MapsPage game={game} saveVersion={data.version} onTrainerSelect={setSelectedMapTrainer} /> : <p>Upload a save file first.</p>}
                     />
                     <Route
                       path="/settings"
