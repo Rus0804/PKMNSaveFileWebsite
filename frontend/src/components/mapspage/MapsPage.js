@@ -1,69 +1,89 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import { frlgMaps } from '../../data/map_hotspots';
 import './MapsPage.css';
-
-const frlgMap = {
-  id: 'viridian-forest',
-  title: 'Viridian Forest',
-  subtitle: 'FRLG trainer map',
-  image: '\\mapData\\ViridianForest.jpg',
-  hotspots: [
-    { trainer: 'Bug Catcher Doug', top: '43.7%', left: '86.2%' },
-    { trainer: 'Bug Catcher Rick', top: '66.7%', left: '86.2%' },
-    { trainer: 'Bug Catcher Charlie', top: '8.8%', left: '29%' },
-    { trainer: 'Bug Catcher Anthony', top: '10%', left: '78.7%' },
-    { trainer: 'Bug Catcher Sammy', top: '33.3%', left: '12%' }
-  ]
-};
 
 function MapsPage({ game, saveVersion, onTrainerSelect }) {
   const navigate = useNavigate();
+  const [activeMapId, setActiveMapId] = useState('pallet-town');
+  const [mapMessage, setMapMessage] = useState('Use hotspots to navigate connected areas or pick up visible items.');
 
-  const handleTrainerClick = (trainerName) => {
-    if (onTrainerSelect) {
-      onTrainerSelect(trainerName);
+  const activeMap = useMemo(
+    () => frlgMaps.find((mapEntry) => mapEntry.id === activeMapId) || frlgMaps[0],
+    [activeMapId]
+  );
+
+  const handleHotspotClick = (spot) => {
+    if (spot.type === 'trainer') {
+      if (onTrainerSelect) {
+        if(spot.label==='22 Rival'){
+          onTrainerSelect('22 Rival 2(Bulbasaur)');
+        }
+        else{
+          onTrainerSelect(spot.label);
+        }
+        
+      }
+      navigate('/damage');
+      return;
     }
-    navigate('/damage');
+
+    if (spot.type === 'navigation' && spot.targetMapId) {
+      setActiveMapId(spot.targetMapId);
+      setMapMessage(`Moved to ${frlgMaps.find((mapEntry) => mapEntry.id === spot.targetMapId)?.title || 'next area'}.`);
+      return;
+    }
+
+    if (spot.type === 'item') {
+      setMapMessage(`Picked up ${spot.label}.`);
+    }
   };
 
- return (
+  const getHotspotClassName = (type) => {
+    if (type === 'navigation') return 'mapHotspot mapHotspotNavigation';
+    if (type === 'item') return 'mapHotspot mapHotspotItem';
+    return 'mapHotspot mapHotspotTrainer';
+  };
+
+  return (
     <section className="mapsCard">
       <h2>Maps</h2>
-      <p>Click a trainer marker on the map image to set the right-side trainer in Damage Calc.</p>
 
       <div className="mapsMeta">
         <p>Current game profile: {game}</p>
         <p>Loaded save family: {saveVersion}</p>
+        <p>Current area: {activeMap.title}</p>
+        <p>{mapMessage}</p>
       </div>
 
       {saveVersion === 'FRLG' ? (
-        <article key={frlgMap.id} className="areaMapCard singleMapCard">
+        <article key={activeMap.id} className="areaMapCard singleMapCard">
           <header>
-            <h3>{frlgMap.title}</h3>
-            <p>{frlgMap.subtitle}</p>
+            <h3>{activeMap.title}</h3>
+            <p>{activeMap.subtitle}</p>
           </header>
 
-          <div className="mapImageWrap" aria-label={`${frlgMap.title} trainer map`}>
+          <div className="mapImageWrap" aria-label={`${activeMap.title} trainer map`}>
             <img
-              src={frlgMap.image}
-              alt={`${frlgMap.title} map`}
+              src={activeMap.image}
+              alt={`${activeMap.title} map`}
               className="mapImage"
               onError={(e) => {
                 e.currentTarget.src = '/logo192.png';
               }}
             />
 
-            {frlgMap.hotspots.map((spot) => (
+            {activeMap.hotspots.map((spot) => (
               <button
-                key={spot.trainer}
+                key={`${spot.type}-${spot.label}-${spot.top}-${spot.left}`}
                 type="button"
-                className="mapHotspot"
+                className={getHotspotClassName(spot.type)}
                 style={{ top: spot.top, left: spot.left }}
-                title={`Set ${spot.trainer} in damage calc`}
-                onClick={() => handleTrainerClick(spot.trainer)}
+                title={spot.label}
+                onClick={() => handleHotspotClick(spot)}
               >
                 <span className="hotspotDot" aria-hidden="true" />
-                <span className="hotspotLabel">{spot.trainer}</span>
+                <span className="hotspotLabel">{spot.label}</span>
               </button>
             ))}
           </div>

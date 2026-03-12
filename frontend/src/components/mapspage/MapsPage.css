@@ -51,7 +51,6 @@
 .mapImageWrap {
   position: relative;
   border-radius: 8px;
-  overflow: hidden;
   border: 1px solid #ccc;
   background: #f0f3f9;
   width: fit-content;
@@ -81,8 +80,19 @@
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: #ff3a3000;
   box-shadow: 0 0 0 2px #fff;
+}
+
+.mapHotspotTrainer .hotspotDot {
+  background: #2b64ff00;
+}
+
+.mapHotspotNavigation .hotspotDot {
+  background: #2e8b56;
+}
+
+.mapHotspotItem .hotspotDot {
+  background: #ff8c0000;
 }
 
 .hotspotLabel {
@@ -95,8 +105,13 @@
   white-space: nowrap;
 }
 
-.mapHotspot:hover .hotspotDot {
+.mapHotspotTrainer:hover .hotspotDot {
   background-color: orangered;
+  transform: scale(1.15);
+}
+
+.mapHotspotItem:hover .hotspotDot {
+  background-color: rgb(108, 115, 211);
   transform: scale(1.15);
 }
 
